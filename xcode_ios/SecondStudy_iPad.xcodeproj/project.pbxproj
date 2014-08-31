@@ -1,0 +1,626 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		00748058165D41390024B57A /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 00748057165D41390024B57A /* assets */; };
+		0087D25512CD809F002CD69F /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0087D25412CD809F002CD69F /* CoreText.framework */; };
+		00A66A361965AC8800B17EB3 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00A66A351965AC8800B17EB3 /* Accelerate.framework */; };
+		00CFDF6B1138442D0091E310 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00CFDF6A1138442D0091E310 /* CoreGraphics.framework */; };
+		106B0529B5B24580984B3931 /* OscTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A6516F4542F4CB4BA73A1C1 /* OscTypes.cpp */; };
+		1C021B15F5844BDFB6A35B6C /* OscMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0565C0C10038438FA8893A33 /* OscMessage.cpp */; };
+		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		28FD15000DC6FC520079059D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD14FF0DC6FC520079059D /* OpenGLES.framework */; };
+		28FD15080DC6FC5B0079059D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD15070DC6FC5B0079059D /* QuartzCore.framework */; };
+		2C82F31CA12F409BBC0AB5E5 /* CinderApp_ios.png in Resources */ = {isa = PBXBuildFile; fileRef = EC1AF76D027B4FDDBB04B2DC /* CinderApp_ios.png */; };
+		51FF1A4A00274662A2293CCE /* OscOutboundPacketStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1866BAE086C242BCBFA800A5 /* OscOutboundPacketStream.cpp */; };
+		5879EBB179CE47C4B4BEC054 /* SecondStudy_iPadApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2BFAE858FFFD4FF7BA6DD411 /* SecondStudy_iPadApp.cpp */; };
+		78A6E337B0DC49EB86567E6B /* OscReceivedElements.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D9F2084FB75744E28C0F8AA0 /* OscReceivedElements.cpp */; };
+		797D7158219C42CDA17E8054 /* IpEndpointName.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 144113E09CD74CD8ADD7FDD7 /* IpEndpointName.cpp */; };
+		8A4DEE70F0144AFCBE57B78A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 994D2A5C02B54079AD35FF77 /* Default-568h@2x.png */; };
+		A366399819B3454600472CE4 /* MeasureWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A366399719B3454600472CE4 /* MeasureWidget.cpp */; };
+		A36639B619B3912B00472CE4 /* ConnectionGesture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A36639B019B3912B00472CE4 /* ConnectionGesture.cpp */; };
+		A36639B719B3912B00472CE4 /* DisconnectionGesture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A36639B119B3912B00472CE4 /* DisconnectionGesture.cpp */; };
+		A36639B819B3912B00472CE4 /* LongTapGesture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A36639B219B3912B00472CE4 /* LongTapGesture.cpp */; };
+		A36639B919B3912B00472CE4 /* MusicStrokeGesture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A36639B319B3912B00472CE4 /* MusicStrokeGesture.cpp */; };
+		A36639BA19B3912B00472CE4 /* PinchGesture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A36639B419B3912B00472CE4 /* PinchGesture.cpp */; };
+		A36639BB19B3912B00472CE4 /* TapGesture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A36639B519B3912B00472CE4 /* TapGesture.cpp */; };
+		A36639C219B3913800472CE4 /* ConnectionGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A36639BC19B3913800472CE4 /* ConnectionGestureRecognizer.cpp */; };
+		A36639C319B3913800472CE4 /* DisconnectionGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A36639BD19B3913800472CE4 /* DisconnectionGestureRecognizer.cpp */; };
+		A36639C419B3913800472CE4 /* LongTapGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A36639BE19B3913800472CE4 /* LongTapGestureRecognizer.cpp */; };
+		A36639C519B3913800472CE4 /* MusicStrokeGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A36639BF19B3913800472CE4 /* MusicStrokeGestureRecognizer.cpp */; };
+		A36639C619B3913800472CE4 /* PinchGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A36639C019B3913800472CE4 /* PinchGestureRecognizer.cpp */; };
+		A36639C719B3913800472CE4 /* TapGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A36639C119B3913800472CE4 /* TapGestureRecognizer.cpp */; };
+		A36639CA19B3914400472CE4 /* TouchPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A36639C819B3914400472CE4 /* TouchPoint.cpp */; };
+		A36639CB19B3914400472CE4 /* TouchTrace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A36639C919B3914400472CE4 /* TouchTrace.cpp */; };
+		A38BD44619AE78F300E7DFA1 /* BoxWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A38BD44419AE78F300E7DFA1 /* BoxWidget.cpp */; };
+		A38BD44719AE78F300E7DFA1 /* Widget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A38BD44519AE78F300E7DFA1 /* Widget.cpp */; };
+		B56BC442DE99454AAF68D97F /* OscListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61FCE8A909524583ABA81A21 /* OscListener.cpp */; };
+		C725DFFE121DAC7F00FA186B /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C727C02B121B400300192073 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		C725E001121DAC8F00FA186B /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C725E000121DAC8F00FA186B /* AVFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		C725E001121DAC8FFFFA18FF /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00CFDF6A1138442D0091FFFF /* ImageIO.framework */; };
+		C727C02E121B400300192073 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C727C02D121B400300192073 /* CoreVideo.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		C7FB19D6124BC0D70045AFD2 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7FB19D5124BC0D70045AFD2 /* AudioToolbox.framework */; };
+		D0AC9D4F11D947CDAD843E45 /* OscPrintReceivedElements.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 056A0D22347C4B089A3BBE08 /* OscPrintReceivedElements.cpp */; };
+		D43DF7E64D084E028C561764 /* OscSender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B44BE5C15EBF43DE9FF72674 /* OscSender.cpp */; };
+		D5DFD8ECAB0A47E3A3B6627E /* OscBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC5515B881604F9EB4CD5B92 /* OscBundle.cpp */; };
+		DDDDE001121DAC8FFFFADDDD /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDDDDF6A1138442D0091DDDD /* MobileCoreServices.framework */; };
+		F0856D1CC5CF48ACB51328E0 /* UdpSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0B44619A328343F7A9215C22 /* UdpSocket.cpp */; };
+		F1E90E0ECDBC49E78975935F /* NetworkingUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 90AF2D4D668F45E19FBA7D7F /* NetworkingUtils.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		00692BCF14FF149000D0A05E /* SecondStudy_iPad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SecondStudy_iPad.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		00748057165D41390024B57A /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../assets; sourceTree = "<group>"; };
+		0087D25412CD809F002CD69F /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		00A66A351965AC8800B17EB3 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		00CFDF6A1138442D0091E310 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		00CFDF6A1138442D0091FFFF /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		0565C0C10038438FA8893A33 /* OscMessage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = OscMessage.cpp; path = ../blocks/OSC/src/OscMessage.cpp; sourceTree = "<group>"; };
+		056A0D22347C4B089A3BBE08 /* OscPrintReceivedElements.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = OscPrintReceivedElements.cpp; path = ../blocks/OSC/src/osc/OscPrintReceivedElements.cpp; sourceTree = "<group>"; };
+		0B44619A328343F7A9215C22 /* UdpSocket.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = UdpSocket.cpp; path = ../blocks/OSC/src/ip/posix/UdpSocket.cpp; sourceTree = "<group>"; };
+		0C6EA6682B2C4B69B3562399 /* Resources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Resources.h; path = ../include/Resources.h; sourceTree = "<group>"; };
+		113FF164716D468D819574C0 /* UdpSocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UdpSocket.h; path = ../blocks/OSC/src/ip/UdpSocket.h; sourceTree = "<group>"; };
+		144113E09CD74CD8ADD7FDD7 /* IpEndpointName.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = IpEndpointName.cpp; path = ../blocks/OSC/src/ip/IpEndpointName.cpp; sourceTree = "<group>"; };
+		151FA627826E4F49B95C9BF4 /* OscArg.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OscArg.h; path = ../blocks/OSC/src/OscArg.h; sourceTree = "<group>"; };
+		1866BAE086C242BCBFA800A5 /* OscOutboundPacketStream.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = OscOutboundPacketStream.cpp; path = ../blocks/OSC/src/osc/OscOutboundPacketStream.cpp; sourceTree = "<group>"; };
+		1A6516F4542F4CB4BA73A1C1 /* OscTypes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = OscTypes.cpp; path = ../blocks/OSC/src/osc/OscTypes.cpp; sourceTree = "<group>"; };
+		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		28FD14FF0DC6FC520079059D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		28FD15070DC6FC5B0079059D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		2BFAE858FFFD4FF7BA6DD411 /* SecondStudy_iPadApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = SecondStudy_iPadApp.cpp; path = ../src/SecondStudy_iPadApp.cpp; sourceTree = "<group>"; };
+		53AFEE678B284F99B8616A4A /* IpEndpointName.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IpEndpointName.h; path = ../blocks/OSC/src/ip/IpEndpointName.h; sourceTree = "<group>"; };
+		5538F138773E45D79828C787 /* OscSender.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OscSender.h; path = ../blocks/OSC/src/OscSender.h; sourceTree = "<group>"; };
+		61FCE8A909524583ABA81A21 /* OscListener.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = OscListener.cpp; path = ../blocks/OSC/src/OscListener.cpp; sourceTree = "<group>"; };
+		6795DF93FAEA46BCBF969B82 /* OscOutboundPacketStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OscOutboundPacketStream.h; path = ../blocks/OSC/src/osc/OscOutboundPacketStream.h; sourceTree = "<group>"; };
+		72860C25CD154F75BA8C9AC7 /* OscTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OscTypes.h; path = ../blocks/OSC/src/osc/OscTypes.h; sourceTree = "<group>"; };
+		7A730BF341D441C7AE909D14 /* OscPacketListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OscPacketListener.h; path = ../blocks/OSC/src/osc/OscPacketListener.h; sourceTree = "<group>"; };
+		90AF2D4D668F45E19FBA7D7F /* NetworkingUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = NetworkingUtils.cpp; path = ../blocks/OSC/src/ip/posix/NetworkingUtils.cpp; sourceTree = "<group>"; };
+		95BE93A4112E49A584AA182D /* TimerListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TimerListener.h; path = ../blocks/OSC/src/ip/TimerListener.h; sourceTree = "<group>"; };
+		9668C4AA523F4571A5FCEED5 /* MessageMappingOscPacketListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MessageMappingOscPacketListener.h; path = ../blocks/OSC/src/osc/MessageMappingOscPacketListener.h; sourceTree = "<group>"; };
+		994D2A5C02B54079AD35FF77 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		A366399619B3453C00472CE4 /* MeasureWidget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MeasureWidget.h; path = ../include/MeasureWidget.h; sourceTree = "<group>"; };
+		A366399719B3454600472CE4 /* MeasureWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeasureWidget.cpp; path = ../src/MeasureWidget.cpp; sourceTree = "<group>"; };
+		A366399919B3908B00472CE4 /* SecondStudyApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SecondStudyApp.h; path = ../include/SecondStudyApp.h; sourceTree = "<group>"; };
+		A366399A19B3909600472CE4 /* SecondStudyApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SecondStudyApp.cpp; path = ../src/SecondStudyApp.cpp; sourceTree = "<group>"; };
+		A366399F19B390DD00472CE4 /* ConnectionGesture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ConnectionGesture.h; path = ../include/ConnectionGesture.h; sourceTree = "<group>"; };
+		A36639A019B390DD00472CE4 /* DisconnectionGesture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DisconnectionGesture.h; path = ../include/DisconnectionGesture.h; sourceTree = "<group>"; };
+		A36639A119B390DD00472CE4 /* Gesture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Gesture.h; path = ../include/Gesture.h; sourceTree = "<group>"; };
+		A36639A219B390DD00472CE4 /* LongTapGesture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LongTapGesture.h; path = ../include/LongTapGesture.h; sourceTree = "<group>"; };
+		A36639A319B390DD00472CE4 /* MusicStrokeGesture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MusicStrokeGesture.h; path = ../include/MusicStrokeGesture.h; sourceTree = "<group>"; };
+		A36639A419B390DD00472CE4 /* PinchGesture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PinchGesture.h; path = ../include/PinchGesture.h; sourceTree = "<group>"; };
+		A36639A519B390DD00472CE4 /* TapGesture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TapGesture.h; path = ../include/TapGesture.h; sourceTree = "<group>"; };
+		A36639A619B390ED00472CE4 /* TouchPoint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TouchPoint.h; path = ../include/TouchPoint.h; sourceTree = "<group>"; };
+		A36639A719B390ED00472CE4 /* TouchTrace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TouchTrace.h; path = ../include/TouchTrace.h; sourceTree = "<group>"; };
+		A36639A819B390F700472CE4 /* Logger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Logger.h; path = ../include/Logger.h; sourceTree = "<group>"; };
+		A36639A919B3910900472CE4 /* ConnectionGestureRecognizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ConnectionGestureRecognizer.h; path = ../include/ConnectionGestureRecognizer.h; sourceTree = "<group>"; };
+		A36639AA19B3910900472CE4 /* DisconnectionGestureRecognizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DisconnectionGestureRecognizer.h; path = ../include/DisconnectionGestureRecognizer.h; sourceTree = "<group>"; };
+		A36639AB19B3910900472CE4 /* GestureRecognizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GestureRecognizer.h; path = ../include/GestureRecognizer.h; sourceTree = "<group>"; };
+		A36639AC19B3910900472CE4 /* LongTapGestureRecognizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LongTapGestureRecognizer.h; path = ../include/LongTapGestureRecognizer.h; sourceTree = "<group>"; };
+		A36639AD19B3910900472CE4 /* MusicStrokeGestureRecognizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MusicStrokeGestureRecognizer.h; path = ../include/MusicStrokeGestureRecognizer.h; sourceTree = "<group>"; };
+		A36639AE19B3910900472CE4 /* PinchGestureRecognizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PinchGestureRecognizer.h; path = ../include/PinchGestureRecognizer.h; sourceTree = "<group>"; };
+		A36639AF19B3910900472CE4 /* TapGestureRecognizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TapGestureRecognizer.h; path = ../include/TapGestureRecognizer.h; sourceTree = "<group>"; };
+		A36639B019B3912B00472CE4 /* ConnectionGesture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConnectionGesture.cpp; path = ../src/ConnectionGesture.cpp; sourceTree = "<group>"; };
+		A36639B119B3912B00472CE4 /* DisconnectionGesture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DisconnectionGesture.cpp; path = ../src/DisconnectionGesture.cpp; sourceTree = "<group>"; };
+		A36639B219B3912B00472CE4 /* LongTapGesture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LongTapGesture.cpp; path = ../src/LongTapGesture.cpp; sourceTree = "<group>"; };
+		A36639B319B3912B00472CE4 /* MusicStrokeGesture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MusicStrokeGesture.cpp; path = ../src/MusicStrokeGesture.cpp; sourceTree = "<group>"; };
+		A36639B419B3912B00472CE4 /* PinchGesture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PinchGesture.cpp; path = ../src/PinchGesture.cpp; sourceTree = "<group>"; };
+		A36639B519B3912B00472CE4 /* TapGesture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TapGesture.cpp; path = ../src/TapGesture.cpp; sourceTree = "<group>"; };
+		A36639BC19B3913800472CE4 /* ConnectionGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ConnectionGestureRecognizer.cpp; path = ../src/ConnectionGestureRecognizer.cpp; sourceTree = "<group>"; };
+		A36639BD19B3913800472CE4 /* DisconnectionGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DisconnectionGestureRecognizer.cpp; path = ../src/DisconnectionGestureRecognizer.cpp; sourceTree = "<group>"; };
+		A36639BE19B3913800472CE4 /* LongTapGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LongTapGestureRecognizer.cpp; path = ../src/LongTapGestureRecognizer.cpp; sourceTree = "<group>"; };
+		A36639BF19B3913800472CE4 /* MusicStrokeGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MusicStrokeGestureRecognizer.cpp; path = ../src/MusicStrokeGestureRecognizer.cpp; sourceTree = "<group>"; };
+		A36639C019B3913800472CE4 /* PinchGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PinchGestureRecognizer.cpp; path = ../src/PinchGestureRecognizer.cpp; sourceTree = "<group>"; };
+		A36639C119B3913800472CE4 /* TapGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TapGestureRecognizer.cpp; path = ../src/TapGestureRecognizer.cpp; sourceTree = "<group>"; };
+		A36639C819B3914400472CE4 /* TouchPoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TouchPoint.cpp; path = ../src/TouchPoint.cpp; sourceTree = "<group>"; };
+		A36639C919B3914400472CE4 /* TouchTrace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TouchTrace.cpp; path = ../src/TouchTrace.cpp; sourceTree = "<group>"; };
+		A38BD44219AE78E900E7DFA1 /* BoxWidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BoxWidget.h; path = ../include/BoxWidget.h; sourceTree = "<group>"; };
+		A38BD44319AE78E900E7DFA1 /* Widget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Widget.h; path = ../include/Widget.h; sourceTree = "<group>"; };
+		A38BD44419AE78F300E7DFA1 /* BoxWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BoxWidget.cpp; path = ../src/BoxWidget.cpp; sourceTree = "<group>"; };
+		A38BD44519AE78F300E7DFA1 /* Widget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Widget.cpp; path = ../src/Widget.cpp; sourceTree = "<group>"; };
+		A38BD44819AE7A0600E7DFA1 /* SecondStudy_iPadApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SecondStudy_iPadApp.h; path = ../include/SecondStudy_iPadApp.h; sourceTree = "<group>"; };
+		A59E10B16CED4EBBA4A6CDD7 /* OscException.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OscException.h; path = ../blocks/OSC/src/osc/OscException.h; sourceTree = "<group>"; };
+		AC5515B881604F9EB4CD5B92 /* OscBundle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = OscBundle.cpp; path = ../blocks/OSC/src/OscBundle.cpp; sourceTree = "<group>"; };
+		B44BE5C15EBF43DE9FF72674 /* OscSender.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = OscSender.cpp; path = ../blocks/OSC/src/OscSender.cpp; sourceTree = "<group>"; };
+		B59C0D635EDF4DB6B609B005 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA0CCA9A69F44A3780F3AC96 /* OscMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OscMessage.h; path = ../blocks/OSC/src/OscMessage.h; sourceTree = "<group>"; };
+		BBFD7F7878D54077A3D7F368 /* OscPrintReceivedElements.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OscPrintReceivedElements.h; path = ../blocks/OSC/src/osc/OscPrintReceivedElements.h; sourceTree = "<group>"; };
+		C6E54E92614844B59382151B /* OscListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OscListener.h; path = ../blocks/OSC/src/OscListener.h; sourceTree = "<group>"; };
+		C725E000121DAC8F00FA186B /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		C727C02B121B400300192073 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		C727C02D121B400300192073 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		C7FB19D5124BC0D70045AFD2 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		CBD108495BCD40A68BC0BBEE /* SecondStudy_iPad_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; path = SecondStudy_iPad_Prefix.pch; sourceTree = "<group>"; };
+		D9F2084FB75744E28C0F8AA0 /* OscReceivedElements.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = OscReceivedElements.cpp; path = ../blocks/OSC/src/osc/OscReceivedElements.cpp; sourceTree = "<group>"; };
+		DDDDDF6A1138442D0091DDDD /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		EB1A039A47A146D9B57829A9 /* OscHostEndianness.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OscHostEndianness.h; path = ../blocks/OSC/src/osc/OscHostEndianness.h; sourceTree = "<group>"; };
+		EB41BE51412543FDA55E7631 /* PacketListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PacketListener.h; path = ../blocks/OSC/src/ip/PacketListener.h; sourceTree = "<group>"; };
+		EC1AF76D027B4FDDBB04B2DC /* CinderApp_ios.png */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; name = CinderApp_ios.png; path = ../resources/CinderApp_ios.png; sourceTree = "<group>"; };
+		EE8D6FAE1F2C41DAABFBFAC6 /* OscReceivedElements.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OscReceivedElements.h; path = ../blocks/OSC/src/osc/OscReceivedElements.h; sourceTree = "<group>"; };
+		FAB222E43D8E451A88A48B66 /* NetworkingUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NetworkingUtils.h; path = ../blocks/OSC/src/ip/NetworkingUtils.h; sourceTree = "<group>"; };
+		FEA737D38B1D402A817628C7 /* OscBundle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OscBundle.h; path = ../blocks/OSC/src/OscBundle.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		00692BCC14FF149000D0A05E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C725E001121DAC8F00FA186B /* AVFoundation.framework in Frameworks */,
+				C725DFFE121DAC7F00FA186B /* CoreMedia.framework in Frameworks */,
+				C725E001121DAC8FFFFA18FF /* ImageIO.framework in Frameworks */,
+				DDDDE001121DAC8FFFFADDDD /* MobileCoreServices.framework in Frameworks */,
+				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
+				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
+				28FD15000DC6FC520079059D /* OpenGLES.framework in Frameworks */,
+				28FD15080DC6FC5B0079059D /* QuartzCore.framework in Frameworks */,
+				00CFDF6B1138442D0091E310 /* CoreGraphics.framework in Frameworks */,
+				C727C02E121B400300192073 /* CoreVideo.framework in Frameworks */,
+				C7FB19D6124BC0D70045AFD2 /* AudioToolbox.framework in Frameworks */,
+				00A66A361965AC8800B17EB3 /* Accelerate.framework in Frameworks */,
+				0087D25512CD809F002CD69F /* CoreText.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		00692BC414FF149000D0A05E = {
+			isa = PBXGroup;
+			children = (
+				99692BD914FF149000DFFFFF /* Blocks */,
+				99692BD914FF149000D0A05F /* Headers */,
+				00692BD914FF149000D0A05E /* Source */,
+				00692BD914FF149000D0FFFF /* Resources */,
+				00692BD214FF149000D0A05E /* Frameworks */,
+				00692BD014FF149000D0A05E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		00692BD014FF149000D0A05E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				00692BCF14FF149000D0A05E /* SecondStudy_iPad.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		00692BD214FF149000D0A05E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C7FB19D5124BC0D70045AFD2 /* AudioToolbox.framework */,
+				00A66A351965AC8800B17EB3 /* Accelerate.framework */,
+				C727C02B121B400300192073 /* CoreMedia.framework */,
+				C727C02D121B400300192073 /* CoreVideo.framework */,
+				28FD15070DC6FC5B0079059D /* QuartzCore.framework */,
+				28FD14FF0DC6FC520079059D /* OpenGLES.framework */,
+				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
+				1D30AB110D05D00D00671497 /* Foundation.framework */,
+				00CFDF6A1138442D0091E310 /* CoreGraphics.framework */,
+				00CFDF6A1138442D0091FFFF /* ImageIO.framework */,
+				DDDDDF6A1138442D0091DDDD /* MobileCoreServices.framework */,
+				C725E000121DAC8F00FA186B /* AVFoundation.framework */,
+				0087D25412CD809F002CD69F /* CoreText.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		00692BD914FF149000D0A05E /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				A366399E19B390C300472CE4 /* GRs */,
+				A366399C19B390A700472CE4 /* Gestures */,
+				A38BD44119AE78DC00E7DFA1 /* Widgets */,
+				2BFAE858FFFD4FF7BA6DD411 /* SecondStudy_iPadApp.cpp */,
+				A366399A19B3909600472CE4 /* SecondStudyApp.cpp */,
+				A36639C819B3914400472CE4 /* TouchPoint.cpp */,
+				A36639C919B3914400472CE4 /* TouchTrace.cpp */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		00692BD914FF149000D0FFFF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				00748057165D41390024B57A /* assets */,
+				EC1AF76D027B4FDDBB04B2DC /* CinderApp_ios.png */,
+				994D2A5C02B54079AD35FF77 /* Default-568h@2x.png */,
+				B59C0D635EDF4DB6B609B005 /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		222521555D474E35B1B9A1C7 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				AC5515B881604F9EB4CD5B92 /* OscBundle.cpp */,
+				61FCE8A909524583ABA81A21 /* OscListener.cpp */,
+				0565C0C10038438FA8893A33 /* OscMessage.cpp */,
+				B44BE5C15EBF43DE9FF72674 /* OscSender.cpp */,
+				5F9BBCC112FF400D958FC326 /* ip */,
+				A46613647D334B219111884C /* osc */,
+				151FA627826E4F49B95C9BF4 /* OscArg.h */,
+				FEA737D38B1D402A817628C7 /* OscBundle.h */,
+				C6E54E92614844B59382151B /* OscListener.h */,
+				BA0CCA9A69F44A3780F3AC96 /* OscMessage.h */,
+				5538F138773E45D79828C787 /* OscSender.h */,
+			);
+			name = src;
+			sourceTree = "<group>";
+		};
+		56B942FF4B9A4454B323FBAC /* posix */ = {
+			isa = PBXGroup;
+			children = (
+				90AF2D4D668F45E19FBA7D7F /* NetworkingUtils.cpp */,
+				0B44619A328343F7A9215C22 /* UdpSocket.cpp */,
+			);
+			name = posix;
+			sourceTree = "<group>";
+		};
+		5F9BBCC112FF400D958FC326 /* ip */ = {
+			isa = PBXGroup;
+			children = (
+				144113E09CD74CD8ADD7FDD7 /* IpEndpointName.cpp */,
+				53AFEE678B284F99B8616A4A /* IpEndpointName.h */,
+				FAB222E43D8E451A88A48B66 /* NetworkingUtils.h */,
+				EB41BE51412543FDA55E7631 /* PacketListener.h */,
+				95BE93A4112E49A584AA182D /* TimerListener.h */,
+				113FF164716D468D819574C0 /* UdpSocket.h */,
+				56B942FF4B9A4454B323FBAC /* posix */,
+			);
+			name = ip;
+			sourceTree = "<group>";
+		};
+		7306EE2A3A1344068ACFA976 /* OSC */ = {
+			isa = PBXGroup;
+			children = (
+				222521555D474E35B1B9A1C7 /* src */,
+			);
+			name = OSC;
+			sourceTree = "<group>";
+		};
+		99692BD914FF149000D0A05F /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				A366399D19B390BB00472CE4 /* GRs */,
+				A366399B19B390A000472CE4 /* Gestures */,
+				A38BD44019AE78C900E7DFA1 /* Widgets */,
+				0C6EA6682B2C4B69B3562399 /* Resources.h */,
+				CBD108495BCD40A68BC0BBEE /* SecondStudy_iPad_Prefix.pch */,
+				A38BD44819AE7A0600E7DFA1 /* SecondStudy_iPadApp.h */,
+				A366399919B3908B00472CE4 /* SecondStudyApp.h */,
+				A36639A619B390ED00472CE4 /* TouchPoint.h */,
+				A36639A719B390ED00472CE4 /* TouchTrace.h */,
+				A36639A819B390F700472CE4 /* Logger.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		99692BD914FF149000DFFFFF /* Blocks */ = {
+			isa = PBXGroup;
+			children = (
+				7306EE2A3A1344068ACFA976 /* OSC */,
+			);
+			name = Blocks;
+			sourceTree = "<group>";
+		};
+		A366399B19B390A000472CE4 /* Gestures */ = {
+			isa = PBXGroup;
+			children = (
+				A366399F19B390DD00472CE4 /* ConnectionGesture.h */,
+				A36639A019B390DD00472CE4 /* DisconnectionGesture.h */,
+				A36639A119B390DD00472CE4 /* Gesture.h */,
+				A36639A219B390DD00472CE4 /* LongTapGesture.h */,
+				A36639A319B390DD00472CE4 /* MusicStrokeGesture.h */,
+				A36639A419B390DD00472CE4 /* PinchGesture.h */,
+				A36639A519B390DD00472CE4 /* TapGesture.h */,
+			);
+			name = Gestures;
+			sourceTree = "<group>";
+		};
+		A366399C19B390A700472CE4 /* Gestures */ = {
+			isa = PBXGroup;
+			children = (
+				A36639B019B3912B00472CE4 /* ConnectionGesture.cpp */,
+				A36639B119B3912B00472CE4 /* DisconnectionGesture.cpp */,
+				A36639B219B3912B00472CE4 /* LongTapGesture.cpp */,
+				A36639B319B3912B00472CE4 /* MusicStrokeGesture.cpp */,
+				A36639B419B3912B00472CE4 /* PinchGesture.cpp */,
+				A36639B519B3912B00472CE4 /* TapGesture.cpp */,
+			);
+			name = Gestures;
+			sourceTree = "<group>";
+		};
+		A366399D19B390BB00472CE4 /* GRs */ = {
+			isa = PBXGroup;
+			children = (
+				A36639A919B3910900472CE4 /* ConnectionGestureRecognizer.h */,
+				A36639AA19B3910900472CE4 /* DisconnectionGestureRecognizer.h */,
+				A36639AB19B3910900472CE4 /* GestureRecognizer.h */,
+				A36639AC19B3910900472CE4 /* LongTapGestureRecognizer.h */,
+				A36639AD19B3910900472CE4 /* MusicStrokeGestureRecognizer.h */,
+				A36639AE19B3910900472CE4 /* PinchGestureRecognizer.h */,
+				A36639AF19B3910900472CE4 /* TapGestureRecognizer.h */,
+			);
+			name = GRs;
+			sourceTree = "<group>";
+		};
+		A366399E19B390C300472CE4 /* GRs */ = {
+			isa = PBXGroup;
+			children = (
+				A36639BC19B3913800472CE4 /* ConnectionGestureRecognizer.cpp */,
+				A36639BD19B3913800472CE4 /* DisconnectionGestureRecognizer.cpp */,
+				A36639BE19B3913800472CE4 /* LongTapGestureRecognizer.cpp */,
+				A36639BF19B3913800472CE4 /* MusicStrokeGestureRecognizer.cpp */,
+				A36639C019B3913800472CE4 /* PinchGestureRecognizer.cpp */,
+				A36639C119B3913800472CE4 /* TapGestureRecognizer.cpp */,
+			);
+			name = GRs;
+			sourceTree = "<group>";
+		};
+		A38BD44019AE78C900E7DFA1 /* Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				A366399619B3453C00472CE4 /* MeasureWidget.h */,
+				A38BD44219AE78E900E7DFA1 /* BoxWidget.h */,
+				A38BD44319AE78E900E7DFA1 /* Widget.h */,
+			);
+			name = Widgets;
+			sourceTree = "<group>";
+		};
+		A38BD44119AE78DC00E7DFA1 /* Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				A366399719B3454600472CE4 /* MeasureWidget.cpp */,
+				A38BD44419AE78F300E7DFA1 /* BoxWidget.cpp */,
+				A38BD44519AE78F300E7DFA1 /* Widget.cpp */,
+			);
+			name = Widgets;
+			sourceTree = "<group>";
+		};
+		A46613647D334B219111884C /* osc */ = {
+			isa = PBXGroup;
+			children = (
+				1866BAE086C242BCBFA800A5 /* OscOutboundPacketStream.cpp */,
+				056A0D22347C4B089A3BBE08 /* OscPrintReceivedElements.cpp */,
+				D9F2084FB75744E28C0F8AA0 /* OscReceivedElements.cpp */,
+				1A6516F4542F4CB4BA73A1C1 /* OscTypes.cpp */,
+				9668C4AA523F4571A5FCEED5 /* MessageMappingOscPacketListener.h */,
+				A59E10B16CED4EBBA4A6CDD7 /* OscException.h */,
+				EB1A039A47A146D9B57829A9 /* OscHostEndianness.h */,
+				6795DF93FAEA46BCBF969B82 /* OscOutboundPacketStream.h */,
+				7A730BF341D441C7AE909D14 /* OscPacketListener.h */,
+				BBFD7F7878D54077A3D7F368 /* OscPrintReceivedElements.h */,
+				EE8D6FAE1F2C41DAABFBFAC6 /* OscReceivedElements.h */,
+				72860C25CD154F75BA8C9AC7 /* OscTypes.h */,
+			);
+			name = osc;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		00692BCE14FF149000D0A05E /* SecondStudy_iPad */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00692BF514FF149000D0A05E /* Build configuration list for PBXNativeTarget "SecondStudy_iPad" */;
+			buildPhases = (
+				00692BCB14FF149000D0A05E /* Sources */,
+				00692BCC14FF149000D0A05E /* Frameworks */,
+				00692BCD14FF149000D0A05E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SecondStudy_iPad;
+			productName = SecondStudy_iPad;
+			productReference = 00692BCF14FF149000D0A05E /* SecondStudy_iPad.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		00692BC614FF149000D0A05E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+			};
+			buildConfigurationList = 00692BC914FF149000D0A05E /* Build configuration list for PBXProject "SecondStudy_iPad" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 00692BC414FF149000D0A05E;
+			productRefGroup = 00692BD014FF149000D0A05E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				00692BCE14FF149000D0A05E /* SecondStudy_iPad */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		00692BCD14FF149000D0A05E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00748058165D41390024B57A /* assets in Resources */,
+				2C82F31CA12F409BBC0AB5E5 /* CinderApp_ios.png in Resources */,
+				8A4DEE70F0144AFCBE57B78A /* Default-568h@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		00692BCB14FF149000D0A05E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5879EBB179CE47C4B4BEC054 /* SecondStudy_iPadApp.cpp in Sources */,
+				A36639C419B3913800472CE4 /* LongTapGestureRecognizer.cpp in Sources */,
+				A38BD44619AE78F300E7DFA1 /* BoxWidget.cpp in Sources */,
+				A36639B719B3912B00472CE4 /* DisconnectionGesture.cpp in Sources */,
+				A36639B819B3912B00472CE4 /* LongTapGesture.cpp in Sources */,
+				D5DFD8ECAB0A47E3A3B6627E /* OscBundle.cpp in Sources */,
+				B56BC442DE99454AAF68D97F /* OscListener.cpp in Sources */,
+				1C021B15F5844BDFB6A35B6C /* OscMessage.cpp in Sources */,
+				A36639B619B3912B00472CE4 /* ConnectionGesture.cpp in Sources */,
+				A36639CB19B3914400472CE4 /* TouchTrace.cpp in Sources */,
+				A36639B919B3912B00472CE4 /* MusicStrokeGesture.cpp in Sources */,
+				A36639C319B3913800472CE4 /* DisconnectionGestureRecognizer.cpp in Sources */,
+				A36639C219B3913800472CE4 /* ConnectionGestureRecognizer.cpp in Sources */,
+				A38BD44719AE78F300E7DFA1 /* Widget.cpp in Sources */,
+				A36639C519B3913800472CE4 /* MusicStrokeGestureRecognizer.cpp in Sources */,
+				A36639BA19B3912B00472CE4 /* PinchGesture.cpp in Sources */,
+				D43DF7E64D084E028C561764 /* OscSender.cpp in Sources */,
+				A36639CA19B3914400472CE4 /* TouchPoint.cpp in Sources */,
+				A36639C719B3913800472CE4 /* TapGestureRecognizer.cpp in Sources */,
+				A36639BB19B3912B00472CE4 /* TapGesture.cpp in Sources */,
+				797D7158219C42CDA17E8054 /* IpEndpointName.cpp in Sources */,
+				A36639C619B3913800472CE4 /* PinchGestureRecognizer.cpp in Sources */,
+				A366399819B3454600472CE4 /* MeasureWidget.cpp in Sources */,
+				51FF1A4A00274662A2293CCE /* OscOutboundPacketStream.cpp in Sources */,
+				D0AC9D4F11D947CDAD843E45 /* OscPrintReceivedElements.cpp in Sources */,
+				78A6E337B0DC49EB86567E6B /* OscReceivedElements.cpp in Sources */,
+				106B0529B5B24580984B3931 /* OscTypes.cpp in Sources */,
+				F1E90E0ECDBC49E78975935F /* NetworkingUtils.cpp in Sources */,
+				F0856D1CC5CF48ACB51328E0 /* UdpSocket.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		00692BF314FF149000D0A05E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CINDER_PATH = ../../cinder_0.8.6_mac;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/boost\"";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" ../include ../blocks/OSC/src";
+			};
+			name = Debug;
+		};
+		00692BF414FF149000D0A05E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CINDER_PATH = ../../cinder_0.8.6_mac;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				DEAD_CODE_STRIPPING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"NDEBUG=1",
+					"$(inherited)",
+				);
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/boost\"";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" ../include ../blocks/OSC/src";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		00692BF614FF149000D0A05E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = SecondStudy_iPad_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				"OTHER_LDFLAGS[sdk=iphoneos*][arch=*]" = (
+					"\"$(CINDER_PATH)/lib/libcinder-iphone_d.a\"",
+					"-lz",
+				);
+				"OTHER_LDFLAGS[sdk=iphonesimulator*][arch=*]" = (
+					"\"$(CINDER_PATH)/lib/libcinder-iphone-sim_d.a\"",
+					"-lz",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		00692BF714FF149000D0A05E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = SecondStudy_iPad_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				"OTHER_LDFLAGS[sdk=iphoneos*][arch=*]" = (
+					"\"$(CINDER_PATH)/lib/libcinder-iphone.a\"",
+					"-lz",
+				);
+				"OTHER_LDFLAGS[sdk=iphonesimulator*][arch=*]" = (
+					"\"$(CINDER_PATH)/lib/libcinder-iphone-sim.a\"",
+					"-lz",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		00692BC914FF149000D0A05E /* Build configuration list for PBXProject "SecondStudy_iPad" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00692BF314FF149000D0A05E /* Debug */,
+				00692BF414FF149000D0A05E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		00692BF514FF149000D0A05E /* Build configuration list for PBXNativeTarget "SecondStudy_iPad" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00692BF614FF149000D0A05E /* Debug */,
+				00692BF714FF149000D0A05E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 00692BC614FF149000D0A05E /* Project object */;
+}
