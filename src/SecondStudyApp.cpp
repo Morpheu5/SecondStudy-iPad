@@ -1,3 +1,5 @@
+#ifdef DoNotCompile
+
 #include "SecondStudyApp.h"
 
 #include "TouchPoint.h"
@@ -669,3 +671,6 @@ int SecondStudy::TheApp::findGroupForTrace(shared_ptr<TouchTrace> trace) {
 }
 
 CINDER_APP_NATIVE( SecondStudy::TheApp, RendererGl(RendererGl::AA_MSAA_4) )
+
+
+#endif

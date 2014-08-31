@@ -2,7 +2,7 @@
 
 #include "TouchPoint.h"
 
-#include "SecondStudyApp.h"
+#include "SecondStudy_iPadApp.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -18,8 +18,12 @@ SecondStudy::TouchTrace::~TouchTrace() {
 	touchPoints.clear();
 }
 
+int SecondStudy::TouchTrace::getId() {
+	return touchPoints.back().getId();
+}
+
 int SecondStudy::TouchTrace::getSessionId() {
-	return touchPoints.back().getSessionId();
+	return touchPoints.back().getId();
 }
 
 Vec2f SecondStudy::TouchTrace::currentPosition() {
@@ -65,11 +69,11 @@ void SecondStudy::TouchTrace::addCursorDown(SecondStudy::TouchPoint p) {
 
 void SecondStudy::TouchTrace::cursorMove(SecondStudy::TouchPoint p) {
 	touchPoints.push_back(p);
-	
-	if(p.getSpeed().length() < 0.025f) {
-		state = State::TOUCH_STILL;
-	} else {
+	UITouch *t = (UITouch *)p.getNative();
+	if(t.phase == UITouchPhaseMoved) {
 		state = State::TOUCH_MOVING;
+	} else if(t.phase == UITouchPhaseStationary) {
+		state = State::TOUCH_STILL;
 	}
 }
 

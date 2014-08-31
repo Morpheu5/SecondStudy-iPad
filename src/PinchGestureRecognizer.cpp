@@ -4,7 +4,7 @@
 #include "TouchTrace.h"
 #include "PinchGesture.h"
 
-#include "SecondStudyApp.h"
+#include "SecondStudy_iPadApp.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -24,12 +24,12 @@ void SecondStudy::PinchGestureRecognizer::processGroup(list<shared_ptr<TouchTrac
 
 		TheApp *theApp = (TheApp *)App::get();
 
-        Vec2f startA = theApp->tuioToWindow(tA->touchPoints.front().getPos());
-		Vec2f prevA = theApp->tuioToWindow(tA->previousPosition());
-		Vec2f currA = theApp->tuioToWindow(tA->currentPosition());
-        Vec2f startB = theApp->tuioToWindow(tB->touchPoints.front().getPos());
-		Vec2f prevB = theApp->tuioToWindow(tB->previousPosition());
-		Vec2f currB = theApp->tuioToWindow(tB->currentPosition());
+        Vec2f startA = tA->touchPoints.front().getPos();
+		Vec2f prevA = tA->previousPosition();
+		Vec2f currA = tA->currentPosition();
+        Vec2f startB = tB->touchPoints.front().getPos();
+		Vec2f prevB = tB->previousPosition();
+		Vec2f currB = tB->currentPosition();
 
 		Vec2f prevPos = (prevA + prevB) / 2.0f;
 		Vec2f currPos = (currA + currB) / 2.0f;

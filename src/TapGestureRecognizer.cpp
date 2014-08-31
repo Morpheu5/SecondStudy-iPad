@@ -4,7 +4,7 @@
 #include "TouchTrace.h"
 #include "TapGesture.h"
 
-#include "SecondStudyApp.h"
+#include "SecondStudy_iPadApp.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -22,8 +22,8 @@ void SecondStudy::TapGestureRecognizer::processGroup(list<shared_ptr<TouchTrace>
 		TouchPoint a = trace->touchPoints.front();
 		TouchPoint b = trace->touchPoints.back();
 
-		Vec2f ap = theApp->tuioToWindow(a.getPos());
-		Vec2f bp = theApp->tuioToWindow(b.getPos());
+		Vec2f ap = a.getPos();
+		Vec2f bp = b.getPos();
 
 		if(ap.distance(bp) < 5.0f && b.timestamp - a.timestamp <= 0.25f) {
 			shared_ptr<TapGesture> tap = make_shared<TapGesture>(bp, trace->widgetId);

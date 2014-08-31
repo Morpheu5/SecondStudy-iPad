@@ -2,8 +2,6 @@
 
 #include <list>
 
-//#include "TouchPoint.h"
-
 using namespace ci;
 using namespace std;
 
@@ -29,6 +27,7 @@ namespace SecondStudy {
 		TouchTrace();
 		~TouchTrace();
 
+		int getId();
 		int getSessionId();
 		Vec2f currentPosition();
 		Vec2f previousPosition();

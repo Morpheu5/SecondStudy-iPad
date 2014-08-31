@@ -1,3 +1,5 @@
+#ifdef DoNotCompile
+
 #pragma once
 
 #include "cinder/app/AppNative.h"
@@ -103,3 +105,5 @@ namespace SecondStudy {
 	};
 
 }
+
+#endif

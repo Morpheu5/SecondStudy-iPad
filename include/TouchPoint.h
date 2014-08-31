@@ -1,19 +1,17 @@
 #pragma once
 
-#include "TuioCursor.h"
+#include "cinder/app/TouchEvent.h"
 
 using namespace ci;
-using namespace ci::tuio;
+using namespace ci::app;
 
 namespace SecondStudy {
 
-	class TouchPoint : public Cursor {
+	class TouchPoint : public TouchEvent::Touch {
 	public:
 		double timestamp;
 	
 		TouchPoint();
-		TouchPoint(const Cursor& c);
-		
-		void setPos(Vec2f p) { mPos = p; }
+		TouchPoint(const TouchEvent::Touch& c);
 	};
 }
