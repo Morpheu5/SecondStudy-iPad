@@ -3,7 +3,7 @@
 #include "TouchPoint.h"
 #include "TouchTrace.h"
 
-#include "SecondStudyApp.h"
+#include "SecondStudy_iPadApp.h"
 
 #include "Logger.h"
 
@@ -52,14 +52,14 @@ SecondStudy::MeasureWidget::MeasureWidget() : Widget() {
 	
 	isPlaying = false;
 	
-	stringstream ss;
-	ss << "MeasureWidget::MeasureWidget (x:" << _position.x << " y:" << _position.y << " angle:" << _angle << " notes:[";
-	for(int n : _midiNotes) {
-		ss << n << ",";
-	}
-	ss.seekp(1, ios_base::end);
-	ss << "])";
-	Logger::instance().log(ss.str());
+//	stringstream ss;
+//	ss << "MeasureWidget::MeasureWidget (x:" << _position.x << " y:" << _position.y << " angle:" << _angle << " notes:[";
+//	for(int n : _midiNotes) {
+//		ss << n << ",";
+//	}
+//	ss.seekp(1, ios_base::end);
+//	ss << "])";
+//	Logger::instance().log(ss.str());
 }
 
 SecondStudy::MeasureWidget::MeasureWidget(Vec2f center, int rows, int columns) : Widget(),
@@ -101,14 +101,14 @@ _measureSize(pair<int, int>(columns, rows)) {
 	
 	isPlaying = false;
 	
-	stringstream ss;
-	ss << "MeasureWidget::MeasureWidget (x:" << _position.x << " y:" << _position.y << " angle:" << _angle << " notes:[";
-	for(auto it = _midiNotes.rbegin(); it != _midiNotes.rend(); ++it) {
-		ss << *it << ",";
-	}
-	ss.seekp(-1, ios_base::end);
-	ss << "])";
-	Logger::instance().log(ss.str());
+//	stringstream ss;
+//	ss << "MeasureWidget::MeasureWidget (x:" << _position.x << " y:" << _position.y << " angle:" << _angle << " notes:[";
+//	for(auto it = _midiNotes.rbegin(); it != _midiNotes.rend(); ++it) {
+//		ss << *it << ",";
+//	}
+//	ss.seekp(-1, ios_base::end);
+//	ss << "])";
+//	Logger::instance().log(ss.str());
 }
 
 void SecondStudy::MeasureWidget::draw() {
@@ -241,10 +241,10 @@ void SecondStudy::MeasureWidget::playNote(int n) {
 	for(int i = 0; i < notes[n].size(); i++) {
 		if(notes[n][i]) {
 			TheApp *theApp = (TheApp *)App::get();
-			osc::Message m;
-			m.setAddress("/playnote");
-			m.addIntArg(_midiNotes[i]);
-			theApp->sender()->sendMessage(m);
+//			osc::Message m;
+//			m.setAddress("/playnote");
+//			m.addIntArg(_midiNotes[i]);
+//			theApp->sender()->sendMessage(m);
 		}
 	}
 }
@@ -252,7 +252,7 @@ void SecondStudy::MeasureWidget::playNote(int n) {
 void SecondStudy::MeasureWidget::finishedPlaying() {
 	isPlaying = false;
 	TheApp *theApp = (TheApp *)App::get();
-	theApp->measureHasFinishedPlaying(_id);
+//	theApp->measureHasFinishedPlaying(_id);
 }
 
 void SecondStudy::MeasureWidget::moveBy(Vec2f v) {
@@ -289,7 +289,7 @@ void SecondStudy::MeasureWidget::processStroke(const TouchTrace &trace) {
 	
 	set<pair<int, int>> noteSet;
 	for(auto& q : trace.touchPoints) {
-		Vec2f p(theApp->tuioToWindow(q.getPos()));
+		Vec2f p(q.getPos());
 		Vec3f tp3 = transform.inverted().transformPoint(Vec3f(p));
 		Vec2f tp(tp3.x, tp3.y);
 		if((_boundingBox * _scale).contains(tp)) {

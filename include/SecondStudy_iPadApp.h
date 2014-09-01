@@ -8,6 +8,8 @@
 namespace SecondStudy {
 	
 	class Widget;
+	class MeasureWidget;
+	
 	class TouchTrace;
 	
 	class ProgressiveGestureRecognizer;
@@ -37,15 +39,27 @@ namespace SecondStudy {
 		
 		shared_ptr<list<shared_ptr<Gesture>>> _gestures;
 		shared_ptr<mutex> _gesturesMutex;
+		
+		list<list<shared_ptr<MeasureWidget>>> _sequences;
+		mutex _sequencesMutex;
 		/* ^^^^^^^^^^^^^^^^^^^^^^^^^^^ */
+		
+		thread _gestureEngine;
+		bool _gestureEngineShouldStop;
+		
+		thread _gestureProcessor;
+		bool _gestureProcessorShouldStop;
 		
 		bool _go;
 		
 	public:
 		void setup();
-		void mouseDown( MouseEvent event );
+		void shutdown();
 		void update();
 		void draw();
+		
+		void gestureEngine();
+		void gestureProcessor();
 		
 		virtual void touchesBegan( TouchEvent event);
 		virtual void touchesMoved( TouchEvent event);
@@ -54,6 +68,13 @@ namespace SecondStudy {
 		int findGroupForTrace(shared_ptr<TouchTrace> trace);
 		
 		int numberOfTraces() { return _traces.size(); }
+		
+		list<shared_ptr<Widget>>& widgets() { return _widgets; }
+		mutex& widgetsMutex() { return _widgetsMutex; }
+		
+		list<list<shared_ptr<MeasureWidget>>>& sequences() { return _sequences; }
+		mutex& sequencesMutex() { return _sequencesMutex; }
+
 	};
 	
 }

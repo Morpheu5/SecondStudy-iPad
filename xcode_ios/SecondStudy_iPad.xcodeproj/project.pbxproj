@@ -39,6 +39,7 @@
 		A36639F719B3C09B00472CE4 /* TapGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A36639F119B3C09B00472CE4 /* TapGestureRecognizer.cpp */; };
 		A38BD44619AE78F300E7DFA1 /* BoxWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A38BD44419AE78F300E7DFA1 /* BoxWidget.cpp */; };
 		A38BD44719AE78F300E7DFA1 /* Widget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A38BD44519AE78F300E7DFA1 /* Widget.cpp */; };
+		A3EB791419B50804007CE045 /* MeasureWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A366399719B3454600472CE4 /* MeasureWidget.cpp */; };
 		B56BC442DE99454AAF68D97F /* OscListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61FCE8A909524583ABA81A21 /* OscListener.cpp */; };
 		C725DFFE121DAC7F00FA186B /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C727C02B121B400300192073 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C725E001121DAC8F00FA186B /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C725E000121DAC8F00FA186B /* AVFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -480,6 +481,7 @@
 				51FF1A4A00274662A2293CCE /* OscOutboundPacketStream.cpp in Sources */,
 				A36639E719B3C09100472CE4 /* DisconnectionGesture.cpp in Sources */,
 				A36639F419B3C09B00472CE4 /* LongTapGestureRecognizer.cpp in Sources */,
+				A3EB791419B50804007CE045 /* MeasureWidget.cpp in Sources */,
 				A36639E619B3C09100472CE4 /* ConnectionGesture.cpp in Sources */,
 				A36639F519B3C09B00472CE4 /* MusicStrokeGestureRecognizer.cpp in Sources */,
 				D0AC9D4F11D947CDAD843E45 /* OscPrintReceivedElements.cpp in Sources */,
