@@ -28,39 +28,39 @@ void SecondStudy::ConnectionGestureRecognizer::processGroup(list<shared_ptr<Touc
 		Vec2f ap = a.getPos();
 		Vec2f bp = b.getPos();
 		
-//		theApp->widgetsMutex().lock();
-//		int fromWid = 0;
-//		for(auto w : theApp->widgets()) {
-//			if(w->id() == trace->widgetId) {
-//				if(dynamic_pointer_cast<MeasureWidget>(w)) {
-//					shared_ptr<MeasureWidget> tmp = dynamic_pointer_cast<MeasureWidget>(w);
-//					if(tmp->hitOutlet(ap)) {
-//						fromWid = tmp->id();
-//						tmp.reset();
-//						break;
-//					}
-//				}
-//			}
-//		}
-//		
-//		int toWid = 0;
-//		for(auto w : theApp->widgets()) {
-//			if(dynamic_pointer_cast<MeasureWidget>(w)) {
-//				shared_ptr<MeasureWidget> tmp = dynamic_pointer_cast<MeasureWidget>(w);
-//				if(tmp->hitInlet(bp)) {
-//					toWid = tmp->id();
-//					tmp.reset();
-//					break;
-//				}
-//			}
-//		}
-//		theApp->widgetsMutex().unlock();
-//		
-//		if(fromWid != 0 && toWid != 0 && fromWid != toWid) {
-//			shared_ptr<ConnectionGesture> g = make_shared<ConnectionGesture>(fromWid, toWid);
-//			_gesturesMutex->lock();
-//			_gestures->push_back(g);
-//			_gesturesMutex->unlock();
-//		}
+		theApp->widgetsMutex().lock();
+		int fromWid = 0;
+		for(auto w : theApp->widgets()) {
+			if(w->id() == trace->widgetId) {
+				if(dynamic_pointer_cast<MeasureWidget>(w)) {
+					shared_ptr<MeasureWidget> tmp = dynamic_pointer_cast<MeasureWidget>(w);
+					if(tmp->hitOutlet(ap)) {
+						fromWid = tmp->id();
+						tmp.reset();
+						break;
+					}
+				}
+			}
+		}
+		
+		int toWid = 0;
+		for(auto w : theApp->widgets()) {
+			if(dynamic_pointer_cast<MeasureWidget>(w)) {
+				shared_ptr<MeasureWidget> tmp = dynamic_pointer_cast<MeasureWidget>(w);
+				if(tmp->hitInlet(bp)) {
+					toWid = tmp->id();
+					tmp.reset();
+					break;
+				}
+			}
+		}
+		theApp->widgetsMutex().unlock();
+		
+		if(fromWid != 0 && toWid != 0 && fromWid != toWid) {
+			shared_ptr<ConnectionGesture> g = make_shared<ConnectionGesture>(fromWid, toWid);
+			_gesturesMutex->lock();
+			_gestures->push_back(g);
+			_gesturesMutex->unlock();
+		}
 	}
 }

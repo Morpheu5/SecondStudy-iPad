@@ -61,6 +61,8 @@ namespace SecondStudy {
 		void gestureEngine();
 		void gestureProcessor();
 		
+		void measureHasFinishedPlaying(int);
+		
 		virtual void touchesBegan( TouchEvent event);
 		virtual void touchesMoved( TouchEvent event);
 		virtual void touchesEnded( TouchEvent event);

@@ -25,26 +25,26 @@ void SecondStudy::MusicStrokeGestureRecognizer::processGroup(list<shared_ptr<Tou
 		TouchPoint a = trace->touchPoints.front();
 		TouchPoint b = trace->touchPoints.back();
 		
-//		Vec2f bp = b.getPos();
-//		
-//		int startWid = trace->widgetId;
-//		int endWid = -1;
-//		theApp->widgetsMutex().lock();
-//		for(auto w : theApp->widgets()) {
-//			if(w->hit(bp)) {
-//				if(dynamic_pointer_cast<MeasureWidget>(w)) {
-//					endWid = w->id();
-//					break;
-//				}
-//			}
-//		}
-//		theApp->widgetsMutex().unlock();
-//		
-//		if(startWid == endWid) {
-//			shared_ptr<MusicStrokeGesture> g = make_shared<MusicStrokeGesture>(TouchTrace(*trace), startWid);
-//			_gesturesMutex->lock();
-//			_gestures->push_back(g);
-//			_gesturesMutex->unlock();
-//		}
+		Vec2f bp = b.getPos();
+		
+		int startWid = trace->widgetId;
+		int endWid = -1;
+		theApp->widgetsMutex().lock();
+		for(auto w : theApp->widgets()) {
+			if(w->hit(bp)) {
+				if(dynamic_pointer_cast<MeasureWidget>(w)) {
+					endWid = w->id();
+					break;
+				}
+			}
+		}
+		theApp->widgetsMutex().unlock();
+		
+		if(startWid == endWid) {
+			shared_ptr<MusicStrokeGesture> g = make_shared<MusicStrokeGesture>(TouchTrace(*trace), startWid);
+			_gesturesMutex->lock();
+			_gestures->push_back(g);
+			_gesturesMutex->unlock();
+		}
 	}
 }

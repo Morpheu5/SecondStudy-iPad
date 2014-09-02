@@ -18,7 +18,6 @@ SecondStudy::LongTapGestureRecognizer::LongTapGestureRecognizer(shared_ptr<list<
 void SecondStudy::LongTapGestureRecognizer::processGroup(list<shared_ptr<TouchTrace>> group) {
 	if(group.size() == 1) {
 		auto trace = group.front();
-		TheApp *theApp = (TheApp *)App::get();
 		TouchPoint a = trace->touchPoints.front();
 		TouchPoint b = trace->touchPoints.back();
 		

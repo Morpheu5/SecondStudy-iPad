@@ -252,7 +252,7 @@ void SecondStudy::MeasureWidget::playNote(int n) {
 void SecondStudy::MeasureWidget::finishedPlaying() {
 	isPlaying = false;
 	TheApp *theApp = (TheApp *)App::get();
-//	theApp->measureHasFinishedPlaying(_id);
+	theApp->measureHasFinishedPlaying(_id);
 }
 
 void SecondStudy::MeasureWidget::moveBy(Vec2f v) {
@@ -285,8 +285,6 @@ void SecondStudy::MeasureWidget::processStroke(const TouchTrace &trace) {
 	transform.translate(Vec3f(_position));
 	transform.rotate(Vec3f(0.0f, 0.0f, _angle));
     
-	TheApp *theApp = (TheApp *)App::get();
-	
 	set<pair<int, int>> noteSet;
 	for(auto& q : trace.touchPoints) {
 		Vec2f p(q.getPos());

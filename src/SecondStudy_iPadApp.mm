@@ -53,7 +53,6 @@ void SecondStudy::TheApp::setup() {
 	
 	_progressiveGRs.push_back(make_shared<PinchGestureRecognizer>(_gestures, _gesturesMutex));
 
-	
 	// At last, fire up the gesture engine...
 	_gestureEngineShouldStop = false;
 	_gestureEngine = thread(bind(&SecondStudy::TheApp::gestureEngine, this));
@@ -65,20 +64,20 @@ void SecondStudy::TheApp::setup() {
 }
 
 void SecondStudy::TheApp::shutdown() {
-//	_gestureEngineShouldStop = true;
-//	_gestureProcessorShouldStop = true;
+	_gestureEngineShouldStop = true;
+	_gestureProcessorShouldStop = true;
 //	Logger::instance().stop();
 //	_loggerThread.join();
-//	_gestureProcessor.join();
-//	_gestureEngine.join();
+	_gestureProcessor.join();
+	_gestureEngine.join();
 }
 
 void SecondStudy::TheApp::update() {
-//	_sequencesMutex.lock();
-//	_sequences.remove_if( [](list<shared_ptr<MeasureWidget>> l) {
-//		return l.empty();
-//	});
-//	_sequencesMutex.unlock();
+	_sequencesMutex.lock();
+	_sequences.remove_if( [](list<shared_ptr<MeasureWidget>> l) {
+		return l.empty();
+	});
+	_sequencesMutex.unlock();
 	
 	_tracesMutex.lock();
 	for(auto t : _traces) {
@@ -134,7 +133,32 @@ void SecondStudy::TheApp::draw() {
 	
 	gl::pushModelView();
 	
-	// TODO: Draw sequences
+	_sequencesMutex.lock();
+	for(auto& s : _sequences) {
+		if(s.size() > 1) {
+			for(auto it = s.begin(); it != prev(s.end()); ++it) {
+				shared_ptr<MeasureWidget> a = *it;
+				shared_ptr<MeasureWidget> b = *(next(it));
+				
+				Matrix44f at;
+				at.translate(Vec3f(a->position()));
+				at.rotate(Vec3f(0.0f, 0.0f, a->angle()));
+				
+				Matrix44f bt;
+				bt.translate(Vec3f(b->position()));
+				bt.rotate(Vec3f(0.0f, 0.0f, b->angle()));
+				
+				Vec3f ap3 = at.transformPoint(Vec3f(a->outletIcon().getCenter()));
+				Vec3f bp3 = bt.transformPoint(Vec3f(b->inletIcon().getCenter()));
+				
+				Vec2f ap(ap3.x, ap3.y);
+				Vec2f bp(bp3.x, bp3.y);
+				
+				gl::drawLine(ap, bp);
+			}
+		}
+	}
+	_sequencesMutex.unlock();
 	
 	_widgetsMutex.lock();
 	for(auto w : _widgets) {
@@ -275,92 +299,92 @@ void SecondStudy::TheApp::gestureProcessor() {
 				}
 			}
 			
-//			if(dynamic_pointer_cast<ConnectionGesture>(unknownGesture)) {
-//				shared_ptr<ConnectionGesture> connection = dynamic_pointer_cast<ConnectionGesture>(unknownGesture);
-//				unsigned long fromWid = connection->fromWid();
-//				unsigned long toWid = connection->toWid();
-//				_sequencesMutex.lock();
-//				
-//				bool doTheSplice = true;
-//				list<list<shared_ptr<MeasureWidget>>>::iterator fsIt;
-//				list<shared_ptr<MeasureWidget>>::iterator fwIt;
-//				[&,this]() {
-//					for(auto sit = _sequences.begin(); sit != _sequences.end(); ++sit) {
-//						for(auto wit = sit->begin(); wit != sit->end(); ++wit) {
-//							if((*wit)->id() == fromWid) {
-//								// check if this precedes the destination in the same sequence
-//								for(auto i(wit); i != sit->begin(); --i) {
-//									if((*i)->id() == toWid) {
-//										doTheSplice = false;
-//										return;
-//									}
-//								}
-//								// cover head case
-//								if(sit->front()->id() == toWid) {
-//									doTheSplice = false;
-//									return;
-//								}
-//								fsIt = sit;
-//								fwIt = wit;
-//								return;
-//							}
-//						}
-//					}
-//				}();
-//				
-//				if(doTheSplice) {
-//					list<list<shared_ptr<MeasureWidget>>>::iterator tsIt;
-//					list<shared_ptr<MeasureWidget>>::iterator twIt;
-//					[&,this]() {
-//						for(auto sit = _sequences.begin(); sit != _sequences.end(); ++sit) {
-//							for(auto wit = sit->begin(); wit != sit->end(); ++wit) {
-//								if((*wit)->id() == toWid) {
-//									tsIt = sit;
-//									twIt = wit;
-//									return;
-//								}
-//							}
-//						}
-//					}();
-//					
-//					tsIt->splice(twIt, *fsIt, fsIt->begin(), next(fwIt));
-//				}
-//				_sequencesMutex.unlock();
-//				
-//				if(doTheSplice) {
+			if(dynamic_pointer_cast<ConnectionGesture>(unknownGesture)) {
+				shared_ptr<ConnectionGesture> connection = dynamic_pointer_cast<ConnectionGesture>(unknownGesture);
+				unsigned long fromWid = connection->fromWid();
+				unsigned long toWid = connection->toWid();
+				_sequencesMutex.lock();
+				
+				bool doTheSplice = true;
+				list<list<shared_ptr<MeasureWidget>>>::iterator fsIt;
+				list<shared_ptr<MeasureWidget>>::iterator fwIt;
+				[&,this]() {
+					for(auto sit = _sequences.begin(); sit != _sequences.end(); ++sit) {
+						for(auto wit = sit->begin(); wit != sit->end(); ++wit) {
+							if((*wit)->id() == fromWid) {
+								// check if this precedes the destination in the same sequence
+								for(auto i(wit); i != sit->begin(); --i) {
+									if((*i)->id() == toWid) {
+										doTheSplice = false;
+										return;
+									}
+								}
+								// cover head case
+								if(sit->front()->id() == toWid) {
+									doTheSplice = false;
+									return;
+								}
+								fsIt = sit;
+								fwIt = wit;
+								return;
+							}
+						}
+					}
+				}();
+				
+				if(doTheSplice) {
+					list<list<shared_ptr<MeasureWidget>>>::iterator tsIt;
+					list<shared_ptr<MeasureWidget>>::iterator twIt;
+					[&,this]() {
+						for(auto sit = _sequences.begin(); sit != _sequences.end(); ++sit) {
+							for(auto wit = sit->begin(); wit != sit->end(); ++wit) {
+								if((*wit)->id() == toWid) {
+									tsIt = sit;
+									twIt = wit;
+									return;
+								}
+							}
+						}
+					}();
+					
+					tsIt->splice(twIt, *fsIt, fsIt->begin(), next(fwIt));
+				}
+				_sequencesMutex.unlock();
+				
+				if(doTheSplice) {
 //					stringstream ss;
 //					ss << "TheApp::gestureProcessor ConnectionGesture (from:" << connection->fromWid() << " to:" << connection->toWid() << ")";
 //					Logger::instance().log(ss.str());
-//				}
-//			}
-//			
-//			if(dynamic_pointer_cast<DisconnectionGesture>(unknownGesture)) {
-//				shared_ptr<DisconnectionGesture> disc = dynamic_pointer_cast<DisconnectionGesture>(unknownGesture);
-//				unsigned long fromWid = disc->fromWid();
-//				unsigned long toWid = disc->toWid();
-//				bool log = false;
-//				_sequencesMutex.lock();
-//				[&,this]() {
-//					for(auto sit = _sequences.begin(); sit != _sequences.end(); ++sit) {
-//						for(auto wit = sit->begin(); wit != sit->end(); ++wit) {
-//							if((*wit)->id() == fromWid && (*next(wit))->id() == toWid) {
-//								list<shared_ptr<MeasureWidget>> newSeq(next(wit), sit->end());
-//								_sequences.push_back(newSeq);
-//								sit->erase(next(wit), sit->end());
-//								log = true;
-//								return;
-//							}
-//						}
-//					}
-//				}();
-//				_sequencesMutex.unlock();
-//				
-//				if(log) {
-////					stringstream ss;
-////					ss << "TheApp::gestureProcessor DisconnectionGesture (from:" << disc->fromWid() << " to:" << disc->toWid() << ")";
-////					Logger::instance().log(ss.str());
-//				}
-//			}
+				}
+			}
+			
+			if(dynamic_pointer_cast<DisconnectionGesture>(unknownGesture)) {
+				shared_ptr<DisconnectionGesture> disc = dynamic_pointer_cast<DisconnectionGesture>(unknownGesture);
+				unsigned long fromWid = disc->fromWid();
+				unsigned long toWid = disc->toWid();
+				bool log = false;
+				_sequencesMutex.lock();
+				[&,this]() {
+					for(auto sit = _sequences.begin(); sit != _sequences.end(); ++sit) {
+						for(auto wit = sit->begin(); wit != sit->end(); ++wit) {
+							if((*wit)->id() == fromWid && (*next(wit))->id() == toWid) {
+								list<shared_ptr<MeasureWidget>> newSeq(next(wit), sit->end());
+								_sequences.push_back(newSeq);
+								sit->erase(next(wit), sit->end());
+								log = true;
+								return;
+							}
+						}
+					}
+				}();
+				_sequencesMutex.unlock();
+				
+				if(log) {
+//					stringstream ss;
+//					ss << "TheApp::gestureProcessor DisconnectionGesture (from:" << disc->fromWid() << " to:" << disc->toWid() << ")";
+//					Logger::instance().log(ss.str());
+				}
+			}
 			
 			if(dynamic_pointer_cast<LongTapGesture>(unknownGesture)) {
 				shared_ptr<LongTapGesture> longtap = dynamic_pointer_cast<LongTapGesture>(unknownGesture);
@@ -374,11 +398,11 @@ void SecondStudy::TheApp::gestureProcessor() {
 					_widgets.push_back(w);
 					_widgetsMutex.unlock();
 					
-//					_sequencesMutex.lock();
-//					list<shared_ptr<MeasureWidget>> s;
-//					s.push_back(w);
-//					_sequences.push_back(s);
-//					_sequencesMutex.unlock();
+					_sequencesMutex.lock();
+					list<shared_ptr<MeasureWidget>> s;
+					s.push_back(w);
+					_sequences.push_back(s);
+					_sequencesMutex.unlock();
 				}
 				
 //				stringstream ss;
@@ -389,6 +413,20 @@ void SecondStudy::TheApp::gestureProcessor() {
 			//console() << "unknownGesture.use_count() == " << unknownGesture.use_count() << endl;
 		}
 	}
+}
+
+void SecondStudy::TheApp::measureHasFinishedPlaying(int id) {
+	_sequencesMutex.lock();
+	for(auto sit = _sequences.begin(); sit != _sequences.end(); ++sit) {
+		for(auto wit = sit->begin(); wit != sit->end(); ++wit) {
+			if((*wit)->id() == id && next(wit) != sit->end()) {
+				(*next(wit))->play();
+			} else if((*wit)->id() == id && next(wit) == sit->end()) {
+				(*sit->begin())->play();
+			}
+		}
+	}
+	_sequencesMutex.unlock();
 }
 
 void SecondStudy::TheApp::touchesBegan(cinder::app::TouchEvent event) {
