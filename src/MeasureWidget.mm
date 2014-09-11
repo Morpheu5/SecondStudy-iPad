@@ -9,6 +9,8 @@
 
 #include <set>
 
+#import "EPSSampler.h"
+
 using namespace ci;
 using namespace ci::app;
 using namespace std;
@@ -231,6 +233,10 @@ void SecondStudy::MeasureWidget::play() {
 void nop() { }
 
 void SecondStudy::MeasureWidget::stop() {
+	TheApp *theApp = (TheApp *)App::get();
+	for(int i = 0; i < _midiNotes.size(); i++) {
+		[theApp->sampler stopPlayingNote:_midiNotes[i]];
+	}
 	app::timeline().clear();
 	app::timeline().apply(&_cursorOffset, Vec2f(0.0f, 0.0f), MEASUREWIDGET_NOTELENGTH, EaseInOutSine());
 	_cue->create(nop);
@@ -238,9 +244,14 @@ void SecondStudy::MeasureWidget::stop() {
 }
 
 void SecondStudy::MeasureWidget::playNote(int n) {
+	TheApp *theApp = (TheApp *)App::get();
+	
 	for(int i = 0; i < notes[n].size(); i++) {
 		if(notes[n][i]) {
-			TheApp *theApp = (TheApp *)App::get();
+			for(int i = 0; i < _midiNotes.size(); i++) {
+				[theApp->sampler stopPlayingNote:_midiNotes[i]];
+			}
+			[theApp->sampler startPlayingNote:_midiNotes[i] withVelocity:1];
 //			osc::Message m;
 //			m.setAddress("/playnote");
 //			m.addIntArg(_midiNotes[i]);

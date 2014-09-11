@@ -3,7 +3,15 @@
 #include "cinder/app/AppCocoaTouch.h"
 #include "cinder/gl/gl.h"
 
+//#import <objc/objc-runtime.h>
+
 #define FPS 60
+
+#ifdef __OBJC__
+@class EPSSampler;
+#else
+typedef struct objc_object EPSSampler;
+#endif
 
 namespace SecondStudy {
 	
@@ -15,7 +23,7 @@ namespace SecondStudy {
 	class ProgressiveGestureRecognizer;
 	class StaticGestureRecognizer;
 	class Gesture;
-	
+
 	using namespace ci;
 	using namespace ci::app;
 	using namespace std;
@@ -51,7 +59,7 @@ namespace SecondStudy {
 		bool _gestureProcessorShouldStop;
 		
 		bool _go;
-		
+
 	public:
 		void setup();
 		void shutdown();
@@ -76,7 +84,8 @@ namespace SecondStudy {
 		
 		list<list<shared_ptr<MeasureWidget>>>& sequences() { return _sequences; }
 		mutex& sequencesMutex() { return _sequencesMutex; }
-
+		
+		EPSSampler *sampler;
 	};
 	
 }

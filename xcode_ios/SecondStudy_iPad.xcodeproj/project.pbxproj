@@ -39,7 +39,9 @@
 		A36639F719B3C09B00472CE4 /* TapGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A36639F119B3C09B00472CE4 /* TapGestureRecognizer.cpp */; };
 		A38BD44619AE78F300E7DFA1 /* BoxWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A38BD44419AE78F300E7DFA1 /* BoxWidget.cpp */; };
 		A38BD44719AE78F300E7DFA1 /* Widget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A38BD44519AE78F300E7DFA1 /* Widget.cpp */; };
-		A3EB791419B50804007CE045 /* MeasureWidget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A366399719B3454600472CE4 /* MeasureWidget.cpp */; };
+		A3C51D5B19C0E23D005AE335 /* EPSSampler.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C51D5A19C0E23D005AE335 /* EPSSampler.m */; };
+		A3C51D5D19C0E363005AE335 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3C51D5C19C0E363005AE335 /* CoreAudio.framework */; };
+		A3EB791419B50804007CE045 /* MeasureWidget.mm in Sources */ = {isa = PBXBuildFile; fileRef = A366399719B3454600472CE4 /* MeasureWidget.mm */; };
 		B56BC442DE99454AAF68D97F /* OscListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61FCE8A909524583ABA81A21 /* OscListener.cpp */; };
 		C725DFFE121DAC7F00FA186B /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C727C02B121B400300192073 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C725E001121DAC8F00FA186B /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C725E000121DAC8F00FA186B /* AVFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -86,7 +88,7 @@
 		9668C4AA523F4571A5FCEED5 /* MessageMappingOscPacketListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MessageMappingOscPacketListener.h; path = ../blocks/OSC/src/osc/MessageMappingOscPacketListener.h; sourceTree = "<group>"; };
 		994D2A5C02B54079AD35FF77 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		A366399619B3453C00472CE4 /* MeasureWidget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MeasureWidget.h; path = ../include/MeasureWidget.h; sourceTree = "<group>"; };
-		A366399719B3454600472CE4 /* MeasureWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeasureWidget.cpp; path = ../src/MeasureWidget.cpp; sourceTree = "<group>"; };
+		A366399719B3454600472CE4 /* MeasureWidget.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MeasureWidget.mm; path = ../src/MeasureWidget.mm; sourceTree = "<group>"; };
 		A366399919B3908B00472CE4 /* SecondStudyApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SecondStudyApp.h; path = ../include/SecondStudyApp.h; sourceTree = "<group>"; };
 		A366399A19B3909600472CE4 /* SecondStudyApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SecondStudyApp.cpp; path = ../src/SecondStudyApp.cpp; sourceTree = "<group>"; };
 		A36639A819B390F700472CE4 /* Logger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Logger.h; path = ../include/Logger.h; sourceTree = "<group>"; };
@@ -125,6 +127,9 @@
 		A38BD44419AE78F300E7DFA1 /* BoxWidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BoxWidget.cpp; path = ../src/BoxWidget.cpp; sourceTree = "<group>"; };
 		A38BD44519AE78F300E7DFA1 /* Widget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Widget.cpp; path = ../src/Widget.cpp; sourceTree = "<group>"; };
 		A38BD44819AE7A0600E7DFA1 /* SecondStudy_iPadApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SecondStudy_iPadApp.h; path = ../include/SecondStudy_iPadApp.h; sourceTree = "<group>"; };
+		A3C51D5919C0E231005AE335 /* EPSSampler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EPSSampler.h; path = ../include/EPSSampler.h; sourceTree = "<group>"; };
+		A3C51D5A19C0E23D005AE335 /* EPSSampler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EPSSampler.m; path = ../src/EPSSampler.m; sourceTree = "<group>"; };
+		A3C51D5C19C0E363005AE335 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		A59E10B16CED4EBBA4A6CDD7 /* OscException.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OscException.h; path = ../blocks/OSC/src/osc/OscException.h; sourceTree = "<group>"; };
 		AC5515B881604F9EB4CD5B92 /* OscBundle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = OscBundle.cpp; path = ../blocks/OSC/src/OscBundle.cpp; sourceTree = "<group>"; };
 		B44BE5C15EBF43DE9FF72674 /* OscSender.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = OscSender.cpp; path = ../blocks/OSC/src/OscSender.cpp; sourceTree = "<group>"; };
@@ -152,6 +157,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A3C51D5D19C0E363005AE335 /* CoreAudio.framework in Frameworks */,
 				C725E001121DAC8F00FA186B /* AVFoundation.framework in Frameworks */,
 				C725DFFE121DAC7F00FA186B /* CoreMedia.framework in Frameworks */,
 				C725E001121DAC8FFFFA18FF /* ImageIO.framework in Frameworks */,
@@ -194,6 +200,7 @@
 		00692BD214FF149000D0A05E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A3C51D5C19C0E363005AE335 /* CoreAudio.framework */,
 				C7FB19D5124BC0D70045AFD2 /* AudioToolbox.framework */,
 				00A66A351965AC8800B17EB3 /* Accelerate.framework */,
 				C727C02B121B400300192073 /* CoreMedia.framework */,
@@ -221,6 +228,7 @@
 				A36639CF19B39EB700472CE4 /* TouchTrace.mm */,
 				2BFAE858FFFD4FF7BA6DD411 /* SecondStudy_iPadApp.mm */,
 				A366399A19B3909600472CE4 /* SecondStudyApp.cpp */,
+				A3C51D5A19C0E23D005AE335 /* EPSSampler.m */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -298,6 +306,7 @@
 				A36639A819B390F700472CE4 /* Logger.h */,
 				CBD108495BCD40A68BC0BBEE /* SecondStudy_iPad_Prefix.pch */,
 				0C6EA6682B2C4B69B3562399 /* Resources.h */,
+				A3C51D5919C0E231005AE335 /* EPSSampler.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -377,7 +386,7 @@
 		A38BD44119AE78DC00E7DFA1 /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
-				A366399719B3454600472CE4 /* MeasureWidget.cpp */,
+				A366399719B3454600472CE4 /* MeasureWidget.mm */,
 				A38BD44419AE78F300E7DFA1 /* BoxWidget.cpp */,
 				A38BD44519AE78F300E7DFA1 /* Widget.cpp */,
 			);
@@ -476,12 +485,13 @@
 				1C021B15F5844BDFB6A35B6C /* OscMessage.cpp in Sources */,
 				A38BD44719AE78F300E7DFA1 /* Widget.cpp in Sources */,
 				D43DF7E64D084E028C561764 /* OscSender.cpp in Sources */,
+				A3C51D5B19C0E23D005AE335 /* EPSSampler.m in Sources */,
 				797D7158219C42CDA17E8054 /* IpEndpointName.cpp in Sources */,
 				A36639EB19B3C09100472CE4 /* TapGesture.cpp in Sources */,
 				51FF1A4A00274662A2293CCE /* OscOutboundPacketStream.cpp in Sources */,
 				A36639E719B3C09100472CE4 /* DisconnectionGesture.cpp in Sources */,
 				A36639F419B3C09B00472CE4 /* LongTapGestureRecognizer.cpp in Sources */,
-				A3EB791419B50804007CE045 /* MeasureWidget.cpp in Sources */,
+				A3EB791419B50804007CE045 /* MeasureWidget.mm in Sources */,
 				A36639E619B3C09100472CE4 /* ConnectionGesture.cpp in Sources */,
 				A36639F519B3C09B00472CE4 /* MusicStrokeGestureRecognizer.cpp in Sources */,
 				D0AC9D4F11D947CDAD843E45 /* OscPrintReceivedElements.cpp in Sources */,

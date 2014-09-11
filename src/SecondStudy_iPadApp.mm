@@ -21,6 +21,8 @@
 #include "DisconnectionGesture.h"
 #include "LongTapGesture.h"
 
+#import "EPSSampler.h"
+
 using namespace std;
 using namespace ci;
 using namespace ci::app;
@@ -34,6 +36,9 @@ void SecondStudy::TheApp::setup() {
 	renderer->setAntiAliasing(0);
 	
 	setFrameRate(FPS);
+	
+	NSURL *presetUrl = [[NSBundle mainBundle] URLForResource:@"assets/Vibraphone" withExtension:@"aupreset"];
+	sampler = [[EPSSampler alloc] initWithPresetURL:presetUrl];
 
 	shared_ptr<MeasureWidget> measure = make_shared<MeasureWidget>(getWindowCenter(), 5, 8);
 	_widgets.push_back(measure);
