@@ -21,39 +21,31 @@ SecondStudy::DisconnectionGestureRecognizer::DisconnectionGestureRecognizer(shar
 void SecondStudy::DisconnectionGestureRecognizer::processGroup(list<shared_ptr<TouchTrace>> group) {
 	if(group.size() == 1) {
 		auto trace = group.front();
-		TheApp *theApp = (TheApp *)App::get();
+		auto theApp = static_cast<TheApp*>(App::get());
 		TouchPoint ap = trace->touchPoints.front();
 		TouchPoint bp = trace->touchPoints.back();
 		
-		Vec2f a = ap.getPos();
-		Vec2f b = bp.getPos();
+		vec2 a = ap.getPos();
+		vec2 b = bp.getPos();
 		
 		theApp->sequencesMutex().lock();
 		
 		for(auto sit = theApp->sequences().begin(); sit != theApp->sequences().end(); ++sit) {
 			if(sit->size() > 1) {
 				for(auto wit = sit->begin(); wit != prev(sit->end()); ++wit) {
-					Vec2f fwpos = (*wit)->position();
+					vec3 fwpos = vec3((*wit)->position(), 0);
 					float fwang = (*wit)->angle();
-					Vec2f twpos = (*next(wit))->position();
+					vec3 twpos = vec3((*next(wit))->position(), 0);
 					float twang = (*next(wit))->angle();
 					
-					Vec3f olpos = Vec3f((*wit)->outletIcon().getCenter());
-					Vec3f ilpos = Vec3f((*next(wit))->inletIcon().getCenter());
+					vec4 olpos = vec4((*wit)->outletIcon().getCenter(), 0, 1);
+					vec4 ilpos = vec4((*next(wit))->inletIcon().getCenter(), 0, 1);
 					
-					Matrix44f fwt;
-					fwt.translate(Vec3f(fwpos));
-					fwt.rotate(Vec3f(0.0f, 0.0f, fwang));
+					mat4 fwt = translate(fwpos) * rotate(fwang, vec3(0,0,1));
+					vec2 c = vec2(fwt * olpos);
 					
-					Vec3f olpost = fwt.transformPoint(olpos);
-					Vec2f c = Vec2f(olpost.x, olpost.y);
-					
-					Matrix44f twt;
-					twt.translate(Vec3f(twpos));
-					twt.rotate(Vec3f(0.0f, 0.0f, twang));
-					
-					Vec3f ilpost = twt.transformPoint(ilpos);
-					Vec2f d = Vec2f(ilpost.x, ilpost.y);
+					mat4 twt = translate(twpos) * rotate(twang, vec3(0,0,1));
+					vec2 d = vec2(twt * ilpos);
 					
 					float A1 = (a.y - b.y) / (a.x - b.x);
 					float A2 = (c.y - d.y) / (c.x - d.x);
@@ -62,7 +54,7 @@ void SecondStudy::DisconnectionGestureRecognizer::processGroup(list<shared_ptr<T
 					
 					if(abs(A1 - A2) > FLT_EPSILON) {
 						float px = (b2 - b1) / (A1 - A2);
-						Vec2f p(px, A1 * px + b1);
+						vec2 p(px, A1 * px + b1);
 						
 						// Now, to see if p is contained within both bounding boxes...
 						Rectf ab(min(a.x, b.x), min(a.y, b.y), max(a.x, b.x), max(a.y, b.y));

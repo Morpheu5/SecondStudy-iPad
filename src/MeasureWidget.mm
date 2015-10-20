@@ -17,7 +17,7 @@ using namespace std;
 
 SecondStudy::MeasureWidget::MeasureWidget() : Widget() {
 	_scale = 1.0f;
-	_position = Vec2f(0.0f, 0.0f);
+	_position = vec2(0.0f, 0.0f);
 	_angle = 0.0f;
     _measureSize = pair<int, int>(5, 8);
 	_noteBox = Rectf(0.0f, 0.0f, 30.0f, 30.0f);
@@ -25,16 +25,16 @@ SecondStudy::MeasureWidget::MeasureWidget() : Widget() {
 	_boundingBox -= _boundingBox.getSize() / 2.0f;
 	
 	_playIcon = Rectf(0.0f, 0.0f, _noteBox.getWidth()-10, _noteBox.getHeight()-10);
-	_playIcon += _boundingBox.getUpperLeft() - Vec2f(0.0f, _noteBox.getHeight());
+	_playIcon += _boundingBox.getUpperLeft() - vec2(0.0f, _noteBox.getHeight());
 	
 	_inletIcon = Rectf(0.0f, 0.0f, _noteBox.getWidth(), _noteBox.getHeight());
-	_inletIcon += Vec2f(-_inletIcon.getWidth()-10.0f, _boundingBox.getCenter().y);
+	_inletIcon += vec2(-_inletIcon.getWidth()-10.0f, _boundingBox.getCenter().y);
 	
 	_outletIcon = Rectf(0.0f, 0.0f, _noteBox.getWidth(), _noteBox.getHeight());
-	_outletIcon += Vec2f(-_boundingBox.getWidth()+10.0f, _boundingBox.getCenter().y);
+	_outletIcon += vec2(-_boundingBox.getWidth()+10.0f, _boundingBox.getCenter().y);
 	
-	_cursorOffset = Vec2f(0.0f, 0.0f);
-	_cursor = Rectf(Vec2f(0.0f, 0.0f), Vec2f(_noteBox.getWidth(), 10.0f));
+	_cursorOffset = vec2(0.0f, 0.0f);
+	_cursor = Rectf(vec2(0.0f, 0.0f), vec2(_noteBox.getWidth(), 10.0f));
 	_cursor += _boundingBox.getLowerLeft();
 	
 	// C major pentatonic
@@ -64,7 +64,7 @@ SecondStudy::MeasureWidget::MeasureWidget() : Widget() {
 //	Logger::instance().log(ss.str());
 }
 
-SecondStudy::MeasureWidget::MeasureWidget(Vec2f center, int rows, int columns) : Widget(),
+SecondStudy::MeasureWidget::MeasureWidget(vec2 center, int rows, int columns) : Widget(),
 _measureSize(pair<int, int>(columns, rows)) {
 	
     _scale = 1.0f;
@@ -75,16 +75,16 @@ _measureSize(pair<int, int>(columns, rows)) {
 	_boundingBox -= _boundingBox.getSize() / 2.0f;
 	
 	_playIcon = Rectf(0.0f, 0.0f, _noteBox.getWidth(), _noteBox.getHeight());
-	_playIcon += _boundingBox.getUpperLeft() - Vec2f(0.0f, _noteBox.getHeight() + 10.0f);
+	_playIcon += _boundingBox.getUpperLeft() - vec2(0.0f, _noteBox.getHeight() + 10.0f);
 	
 	_inletIcon = Rectf(0.0f, 0.0f, _noteBox.getWidth(), _noteBox.getHeight());
-	_inletIcon += Vec2f(_boundingBox.getUpperLeft().x - _inletIcon.getWidth() - 10.0f, -_inletIcon.getWidth()/2.0f);
+	_inletIcon += vec2(_boundingBox.getUpperLeft().x - _inletIcon.getWidth() - 10.0f, -_inletIcon.getWidth()/2.0f);
 
 	_outletIcon = Rectf(0.0f, 0.0f, _noteBox.getWidth(), _noteBox.getHeight());
-	_outletIcon += Vec2f(_boundingBox.getUpperRight().x + 10.0f, -_outletIcon.getWidth()/2.0f);
+	_outletIcon += vec2(_boundingBox.getUpperRight().x + 10.0f, -_outletIcon.getWidth()/2.0f);
 	
-	_cursorOffset = Vec2f(0.0f, 0.0f);
-	_cursor = Rectf(Vec2f(0.0f, 0.0f), Vec2f(_noteBox.getWidth(), 5.0f));
+	_cursorOffset = vec2(0.0f, 0.0f);
+	_cursor = Rectf(vec2(0.0f, 0.0f), vec2(_noteBox.getWidth(), 5.0f));
 	_cursor += _boundingBox.getLowerLeft();
 
 	// C major pentatonic
@@ -116,22 +116,19 @@ _measureSize(pair<int, int>(columns, rows)) {
 void SecondStudy::MeasureWidget::draw() {
 	gl::pushModelView();
     
-	Matrix44f transform;
-	transform.translate(Vec3f(_position));
-	transform.rotate(Vec3f(0.0f, 0.0f, _angle));
-    
-	gl::multModelView(transform);
+	mat4 transform = translate(vec3(_position, 0)) * rotate(_angle, vec3(0,0,1));
+	gl::multModelMatrix(transform);
 	
 	gl::lineWidth(_scale);
 	gl::color(1.0f, 1.0f, 1.0f, 0.25f);
 	gl::drawSolidRect(_boundingBox);
 
-	int cols = notes.size();
-	int rows = notes[0].size();
-	Vec2f origin = _boundingBox.getUpperLeft();
+	unsigned long cols = notes.size();
+	unsigned long rows = notes[0].size();
+	vec2 origin = _boundingBox.getUpperLeft();
 	for(int col = 0; col < cols; col++) {
 		for(int row = 0; row < rows; row++) {
-			Rectf box = _noteBox + origin + Vec2f(col, row) * _noteBox.getSize();
+			Rectf box = _noteBox + origin + vec2(col, row) * _noteBox.getSize();
 			if(notes[col][row]) {
 				gl::color(1.0f, 1.0f, 1.0f, 0.5f);
 			} else {
@@ -145,10 +142,10 @@ void SecondStudy::MeasureWidget::draw() {
 	
 	if(isPlaying) {
 		gl::color(1.0f, 0.5f, 0.0f, 0.5f);
-		gl::drawSolidRect(Rectf(_playIcon.getUpperLeft() + Vec2f(7.5f, 7.5f), _playIcon.getLowerRight() - Vec2f(7.5f, 7.5f)));
+		gl::drawSolidRect(Rectf(_playIcon.getUpperLeft() + vec2(7.5f, 7.5f), _playIcon.getLowerRight() - vec2(7.5f, 7.5f)));
 	} else {
 		gl::color(0.0f, 1.0f, 0.0f, 0.5f);
-		gl::drawSolidTriangle(_playIcon.getUpperLeft() + Vec2f(10.0f, 7.5f), _playIcon.getLowerLeft() + Vec2f(10.0f, -7.5f), _playIcon.getCenter() + Vec2f(10.0f, 0.0f));
+		gl::drawSolidTriangle(_playIcon.getUpperLeft() + vec2(10.0f, 7.5f), _playIcon.getLowerLeft() + vec2(10.0f, -7.5f), _playIcon.getCenter() + vec2(10.0f, 0.0f));
 	}
 	gl::drawSolidRect(_playIcon);
 
@@ -165,46 +162,31 @@ void SecondStudy::MeasureWidget::draw() {
 	gl::color(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
-bool SecondStudy::MeasureWidget::hit(Vec2f p) {
-	Matrix44f transform;
-	transform.translate(Vec3f(_position));
-	transform.rotate(Vec3f(0.0f, 0.0f, _angle));
-    
-	Vec3f tp3 = transform.inverted().transformPoint(Vec3f(p));
-	Vec2f tp(tp3.x, tp3.y);
+bool SecondStudy::MeasureWidget::hit(vec2 p) {
+	mat4 transform = translate(vec3(_position, 0.0f)) * rotate(_angle, vec3(0.0f, 0.0f, 1.0f));
+	auto ttp = inverse(transform) * vec4(p, 0, 1);
+	vec2 tp = vec2(ttp);
 	return (_boundingBox * _scale).contains(tp)
 			|| (_playIcon * _scale).contains(tp)
 			|| (_inletIcon * _scale).contains(tp)
 			|| (_outletIcon * _scale).contains(tp);
 }
 
-bool SecondStudy::MeasureWidget::hitInlet(Vec2f p) {
-	Matrix44f transform;
-	transform.translate(Vec3f(_position));
-	transform.rotate(Vec3f(0.0f, 0.0f, _angle));
-    
-	Vec3f tp3 = transform.inverted().transformPoint(Vec3f(p));
-	Vec2f tp(tp3.x, tp3.y);
+bool SecondStudy::MeasureWidget::hitInlet(vec2 p) {
+	mat4 transform = translate(vec3(_position, 0)) * rotate(_angle, vec3(0,0,1));
+	vec2 tp(inverse(transform) * vec4(p, 0, 1));
 	return (_inletIcon * _scale).contains(tp);
 }
 
-bool SecondStudy::MeasureWidget::hitOutlet(Vec2f p) {
-	Matrix44f transform;
-	transform.translate(Vec3f(_position));
-	transform.rotate(Vec3f(0.0f, 0.0f, _angle));
-    
-	Vec3f tp3 = transform.inverted().transformPoint(Vec3f(p));
-	Vec2f tp(tp3.x, tp3.y);
+bool SecondStudy::MeasureWidget::hitOutlet(vec2 p) {
+	mat4 transform = translate(vec3(_position, 0)) * rotate(_angle, vec3(0,0,1));
+	vec2 tp(inverse(transform) * vec4(p, 0, 1));
 	return (_outletIcon * _scale).contains(tp);
 }
 
-void SecondStudy::MeasureWidget::tap(Vec2f p) {
-	Matrix44f transform;
-	transform.translate(Vec3f(_position));
-	transform.rotate(Vec3f(0.0f, 0.0f, _angle));
-    
-	Vec3f tp3 = transform.inverted().transformPoint(Vec3f(p));
-	Vec2f tp(tp3.x, tp3.y);
+void SecondStudy::MeasureWidget::tap(vec2 p) {
+	mat4 transform = translate(vec3(_position, 0)) * rotate(_angle, vec3(0,0,1));
+	vec2 tp(inverse(transform) * vec4(p, 0, 1));
 	
 	if((_playIcon * _scale).contains(tp)) {
 		if(isPlaying) {
@@ -216,9 +198,9 @@ void SecondStudy::MeasureWidget::tap(Vec2f p) {
 }
 
 void SecondStudy::MeasureWidget::play() {
-	app::timeline().apply(&_cursorOffset, Vec2f(0.0f, 0.0f), 0);
-	app::timeline().appendTo(&_cursorOffset, Vec2f(_boundingBox.getWidth() * (1.0f - 1.0f/notes.size()), 0.0f), MEASUREWIDGET_NOTELENGTH*(notes.size()-1));
-	app::timeline().appendTo(&_cursorOffset, Vec2f(0.0f, 0.0f), MEASUREWIDGET_NOTELENGTH, EaseInOutSine());
+	app::timeline().apply(&_cursorOffset, vec2(0.0f, 0.0f), 0);
+	app::timeline().appendTo(&_cursorOffset, vec2(_boundingBox.getWidth() * (1.0f - 1.0f/notes.size()), 0.0f), MEASUREWIDGET_NOTELENGTH*(notes.size()-1));
+	app::timeline().appendTo(&_cursorOffset, vec2(0.0f, 0.0f), MEASUREWIDGET_NOTELENGTH, EaseInOutSine());
 	
 	for(int i = 0; i < notes.size(); i++) {
 		_cue = app::timeline().add( bind(&MeasureWidget::playNote, this, i), app::timeline().getCurrentTime() + MEASUREWIDGET_NOTELENGTH*i);
@@ -238,7 +220,7 @@ void SecondStudy::MeasureWidget::stop() {
 		[theApp->sampler stopPlayingNote:_midiNotes[i]];
 	}
 	app::timeline().clear();
-	app::timeline().apply(&_cursorOffset, Vec2f(0.0f, 0.0f), MEASUREWIDGET_NOTELENGTH, EaseInOutSine());
+	app::timeline().apply(&_cursorOffset, vec2(0.0f, 0.0f), MEASUREWIDGET_NOTELENGTH, EaseInOutSine());
 	_cue->create(nop);
 	isPlaying = false;
 }
@@ -266,7 +248,7 @@ void SecondStudy::MeasureWidget::finishedPlaying() {
 	theApp->measureHasFinishedPlaying(_id);
 }
 
-void SecondStudy::MeasureWidget::moveBy(Vec2f v) {
+void SecondStudy::MeasureWidget::moveBy(vec2 v) {
 	_position += v;
 }
 
@@ -291,21 +273,16 @@ void SecondStudy::MeasureWidget::toggle(pair<int, int> note) {
 	}
 }
 
-void SecondStudy::MeasureWidget::processStroke(const TouchTrace &trace) {
-	Matrix44f transform;
-	transform.translate(Vec3f(_position));
-	transform.rotate(Vec3f(0.0f, 0.0f, _angle));
-    
+void SecondStudy::MeasureWidget::processStroke(const TouchTrace trace) {
+	mat4 transform = translate(vec3(_position, 0)) * rotate(_angle, vec3(0,0,1));
 	set<pair<int, int>> noteSet;
 	for(auto& q : trace.touchPoints) {
-		Vec2f p(q.getPos());
-		Vec3f tp3 = transform.inverted().transformPoint(Vec3f(p));
-		Vec2f tp(tp3.x, tp3.y);
+		vec2 tp(inverse(transform) * vec4(q.getPos(), 0, 1));
 		if((_boundingBox * _scale).contains(tp)) {
 			tp += _boundingBox.getLowerRight();
 			tp /= _boundingBox.getSize();
-			tp *= Vec2f(notes.size(), notes[0].size());
-			Vec2i n = Vec2i(tp.x, tp.y);
+			tp *= vec2(notes.size(), notes[0].size());
+			ivec2 n = ivec2(tp);
 			noteSet.insert(pair<int, int>(n.x, n.y));
 		}
 	}

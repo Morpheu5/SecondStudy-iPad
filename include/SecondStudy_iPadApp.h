@@ -1,6 +1,6 @@
 #pragma once
 
-#include "cinder/app/AppCocoaTouch.h"
+#include "cinder/app/App.h"
 #include "cinder/gl/gl.h"
 
 //#import <objc/objc-runtime.h>
@@ -69,7 +69,7 @@ namespace SecondStudy {
 		void gestureEngine();
 		void gestureProcessor();
 		
-		void measureHasFinishedPlaying(int);
+		void measureHasFinishedPlaying(unsigned long);
 		
 		virtual void touchesBegan( TouchEvent event);
 		virtual void touchesMoved( TouchEvent event);
@@ -77,7 +77,7 @@ namespace SecondStudy {
 		
 		int findGroupForTrace(shared_ptr<TouchTrace> trace);
 		
-		int numberOfTraces() { return _traces.size(); }
+		int numberOfTraces() { return (int)_traces.size(); }
 		
 		list<shared_ptr<Widget>>& widgets() { return _widgets; }
 		mutex& widgetsMutex() { return _widgetsMutex; }

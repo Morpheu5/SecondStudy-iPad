@@ -21,14 +21,14 @@ SecondStudy::MusicStrokeGestureRecognizer::MusicStrokeGestureRecognizer(shared_p
 void SecondStudy::MusicStrokeGestureRecognizer::processGroup(list<shared_ptr<TouchTrace>> group) {
 	if(group.size() == 1) {
 		auto trace = group.front();
-		TheApp *theApp = (TheApp *)App::get();
+		auto theApp = static_cast<TheApp*>(App::get());
 		TouchPoint a = trace->touchPoints.front();
 		TouchPoint b = trace->touchPoints.back();
 		
-		Vec2f bp = b.getPos();
+		vec2 bp = b.getPos();
 		
-		int startWid = trace->widgetId;
-		int endWid = -1;
+		unsigned long startWid = trace->widgetId;
+		unsigned long endWid = -1;
 		theApp->widgetsMutex().lock();
 		for(auto w : theApp->widgets()) {
 			if(w->hit(bp)) {

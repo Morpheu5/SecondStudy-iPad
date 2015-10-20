@@ -9,7 +9,7 @@ namespace SecondStudy {
 
 	protected:
 		float _scale;
-		Vec2f _position;
+		vec2 _position;
 		float _angle;
 		unsigned long _id;
 
@@ -18,17 +18,17 @@ namespace SecondStudy {
 
 		const unsigned long id() const { return _id; }
 		const float scale() const { return _scale; }
-		const Vec2f position() const { return _position; }
+		const vec2 position() const { return _position; }
 		const float angle() const { return _angle; }
 		
-		void position(Vec2f p) { _position = p; }
+		void position(vec2 p) { _position = p; }
 		void angle(float a) { _angle = a; }
 
 		virtual void draw() = 0;
-		virtual bool hit(ci::Vec2f p) = 0;
+		virtual bool hit(vec2 p) = 0;
 
-		virtual void tap(ci::Vec2f p) = 0;
-		virtual void moveBy(ci::Vec2f v) = 0;
+		virtual void tap(vec2 p) = 0;
+		virtual void moveBy(vec2 v) = 0;
         virtual void zoomBy(float s) = 0;
         virtual void rotateBy(float a) = 0;
 	};

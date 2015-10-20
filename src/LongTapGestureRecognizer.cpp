@@ -21,10 +21,10 @@ void SecondStudy::LongTapGestureRecognizer::processGroup(list<shared_ptr<TouchTr
 		TouchPoint a = trace->touchPoints.front();
 		TouchPoint b = trace->touchPoints.back();
 		
-		Vec2f ap = a.getPos();
-		Vec2f bp = b.getPos();
+		vec2 ap = a.getPos();
+		vec2 bp = b.getPos();
 		
-		if(ap.distance(bp) < 5.0f && b.timestamp - a.timestamp >= 0.5f) {
+		if(distance(ap, bp) < 5.0f && b.timestamp - a.timestamp >= 0.5f) {
 			shared_ptr<LongTapGesture> tap = make_shared<LongTapGesture>(bp, trace->widgetId);
 			_gesturesMutex->lock();
 			_gestures->push_back(tap);

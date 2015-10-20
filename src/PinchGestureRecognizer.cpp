@@ -24,22 +24,22 @@ void SecondStudy::PinchGestureRecognizer::processGroup(list<shared_ptr<TouchTrac
 
 		TheApp *theApp = (TheApp *)App::get();
 
-        Vec2f startA = tA->touchPoints.front().getPos();
-		Vec2f prevA = tA->previousPosition();
-		Vec2f currA = tA->currentPosition();
-        Vec2f startB = tB->touchPoints.front().getPos();
-		Vec2f prevB = tB->previousPosition();
-		Vec2f currB = tB->currentPosition();
+        vec2 startA = tA->touchPoints.front().getPos();
+		vec2 prevA = tA->previousPosition();
+		vec2 currA = tA->currentPosition();
+        vec2 startB = tB->touchPoints.front().getPos();
+		vec2 prevB = tB->previousPosition();
+		vec2 currB = tB->currentPosition();
 
-		Vec2f prevPos = (prevA + prevB) / 2.0f;
-		Vec2f currPos = (currA + currB) / 2.0f;
+		vec2 prevPos = (prevA + prevB) / 2.0f;
+		vec2 currPos = (currA + currB) / 2.0f;
 
         // Divided by the number of traces. This is a silly workaround
-		Vec2f distanceDelta = (currPos - prevPos) / (float)theApp->numberOfTraces();
+		vec2 distanceDelta = (currPos - prevPos) / (float)theApp->numberOfTraces();
 
-		float startD = startA.distance(startB);
-        float prevD = prevA.distance(prevB);
-		float currD = currA.distance(currB);
+		float startD = distance(startA, startB);
+        float prevD = distance(prevA, prevB);
+		float currD = distance(currA, currB);
         
         float prevZD = (prevD / startD) / 2.0f;
         float currZD = (currD / startD) / 2.0f;

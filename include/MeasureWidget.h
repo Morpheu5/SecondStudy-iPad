@@ -21,7 +21,7 @@ namespace SecondStudy {
 		Rectf _outletIcon;
 		
 		Rectf _cursor;
-		Anim<Vec2f> _cursorOffset;
+		Anim<vec2> _cursorOffset;
 		
 		CueRef _cue;
 
@@ -39,24 +39,24 @@ namespace SecondStudy {
 		bool isPlaying;
 		
 		MeasureWidget();
-		MeasureWidget(Vec2f center, int rows, int columns);
+		MeasureWidget(vec2 center, int rows, int columns);
         
 		void draw();
-		bool hit(Vec2f p);
-		void tap(Vec2f p);
-		void moveBy(Vec2f v);
+		bool hit(vec2 p);
+		void tap(vec2 p);
+		void moveBy(vec2 v);
         void zoomBy(float s);
         void rotateBy(float a);
 		
-		bool hitInlet(Vec2f p);
-		bool hitOutlet(Vec2f p);
+		bool hitInlet(vec2 p);
+		bool hitOutlet(vec2 p);
 		
 		const pair<int, int>& measureSize() const { return _measureSize; }
 		const Rectf& inletIcon() const { return _inletIcon; }
 		const Rectf& outletIcon() const { return _outletIcon; }
 		
 		void toggle(pair<int, int> note);
-		void processStroke(const TouchTrace &trace);
+		void processStroke(const TouchTrace trace);
 		
 		void play();
 		void stop();

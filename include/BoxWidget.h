@@ -11,12 +11,12 @@ namespace SecondStudy {
 
 	public:
 		BoxWidget();
-		BoxWidget(Vec2f center);
+		BoxWidget(vec2 center);
 
 		void draw();
-		bool hit(Vec2f p);
-		void tap(Vec2f p);
-		void moveBy(Vec2f v);
+		bool hit(vec2 p);
+		void tap(vec2 p);
+		void moveBy(vec2 v);
         void zoomBy(float s);
         void rotateBy(float a);
 	};

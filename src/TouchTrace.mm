@@ -26,11 +26,11 @@ int SecondStudy::TouchTrace::getSessionId() {
 	return touchPoints.back().getId();
 }
 
-Vec2f SecondStudy::TouchTrace::currentPosition() {
+vec2 SecondStudy::TouchTrace::currentPosition() {
 	return touchPoints.back().getPos();
 }
 
-Vec2f SecondStudy::TouchTrace::previousPosition() {
+vec2 SecondStudy::TouchTrace::previousPosition() {
 	if(touchPoints.size() > 1) {
 		return prev(touchPoints.end(), 2)->getPos();
 	} else {
@@ -69,12 +69,7 @@ void SecondStudy::TouchTrace::addCursorDown(SecondStudy::TouchPoint p) {
 
 void SecondStudy::TouchTrace::cursorMove(SecondStudy::TouchPoint p) {
 	touchPoints.push_back(p);
-	UITouch *t = (UITouch *)p.getNative();
-	if(t.phase == UITouchPhaseMoved) {
-		state = State::TOUCH_MOVING;
-	} else if(t.phase == UITouchPhaseStationary) {
-		state = State::TOUCH_STILL;
-	}
+	state = State::TOUCH_MOVING; // This is crude... but then it's not like I'm using it, really.
 }
 
 void SecondStudy::TouchTrace::addCursorUp(SecondStudy::TouchPoint p) {

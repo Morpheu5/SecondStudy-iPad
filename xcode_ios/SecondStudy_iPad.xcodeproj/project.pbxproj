@@ -23,7 +23,7 @@
 		78A6E337B0DC49EB86567E6B /* OscReceivedElements.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D9F2084FB75744E28C0F8AA0 /* OscReceivedElements.cpp */; };
 		797D7158219C42CDA17E8054 /* IpEndpointName.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 144113E09CD74CD8ADD7FDD7 /* IpEndpointName.cpp */; };
 		8A4DEE70F0144AFCBE57B78A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 994D2A5C02B54079AD35FF77 /* Default-568h@2x.png */; };
-		A36639D019B39EB700472CE4 /* TouchPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A36639CE19B39EB700472CE4 /* TouchPoint.cpp */; };
+		A36639D019B39EB700472CE4 /* TouchPoint.mm in Sources */ = {isa = PBXBuildFile; fileRef = A36639CE19B39EB700472CE4 /* TouchPoint.mm */; };
 		A36639D119B39EB700472CE4 /* TouchTrace.mm in Sources */ = {isa = PBXBuildFile; fileRef = A36639CF19B39EB700472CE4 /* TouchTrace.mm */; };
 		A36639E619B3C09100472CE4 /* ConnectionGesture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A36639E019B3C09100472CE4 /* ConnectionGesture.cpp */; };
 		A36639E719B3C09100472CE4 /* DisconnectionGesture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A36639E119B3C09100472CE4 /* DisconnectionGesture.cpp */; };
@@ -94,7 +94,7 @@
 		A36639A819B390F700472CE4 /* Logger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Logger.h; path = ../include/Logger.h; sourceTree = "<group>"; };
 		A36639CC19B39D0300472CE4 /* TouchPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TouchPoint.h; path = ../include/TouchPoint.h; sourceTree = "<group>"; };
 		A36639CD19B39D0300472CE4 /* TouchTrace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TouchTrace.h; path = ../include/TouchTrace.h; sourceTree = "<group>"; };
-		A36639CE19B39EB700472CE4 /* TouchPoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TouchPoint.cpp; path = ../src/TouchPoint.cpp; sourceTree = "<group>"; };
+		A36639CE19B39EB700472CE4 /* TouchPoint.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = TouchPoint.mm; path = ../src/TouchPoint.mm; sourceTree = "<group>"; };
 		A36639CF19B39EB700472CE4 /* TouchTrace.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = TouchTrace.mm; path = ../src/TouchTrace.mm; sourceTree = "<group>"; };
 		A36639D219B3C07000472CE4 /* ConnectionGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectionGesture.h; path = ../include/ConnectionGesture.h; sourceTree = "<group>"; };
 		A36639D319B3C07000472CE4 /* DisconnectionGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DisconnectionGesture.h; path = ../include/DisconnectionGesture.h; sourceTree = "<group>"; };
@@ -224,7 +224,7 @@
 				A366399E19B390C300472CE4 /* GRs */,
 				A366399C19B390A700472CE4 /* Gestures */,
 				A38BD44119AE78DC00E7DFA1 /* Widgets */,
-				A36639CE19B39EB700472CE4 /* TouchPoint.cpp */,
+				A36639CE19B39EB700472CE4 /* TouchPoint.mm */,
 				A36639CF19B39EB700472CE4 /* TouchTrace.mm */,
 				2BFAE858FFFD4FF7BA6DD411 /* SecondStudy_iPadApp.mm */,
 				A366399A19B3909600472CE4 /* SecondStudyApp.cpp */,
@@ -438,6 +438,7 @@
 		00692BC614FF149000D0A05E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0700;
 			};
 			buildConfigurationList = 00692BC914FF149000D0A05E /* Build configuration list for PBXProject "SecondStudy_iPad" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -503,7 +504,7 @@
 				A36639E819B3C09100472CE4 /* LongTapGesture.cpp in Sources */,
 				A36639F719B3C09B00472CE4 /* TapGestureRecognizer.cpp in Sources */,
 				F0856D1CC5CF48ACB51328E0 /* UdpSocket.cpp in Sources */,
-				A36639D019B39EB700472CE4 /* TouchPoint.cpp in Sources */,
+				A36639D019B39EB700472CE4 /* TouchPoint.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -514,15 +515,25 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CINDER_PATH = ../../cinder_0.8.6_mac;
+				CINDER_PATH = ../../cinder_0.9.0_mac;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
+				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -530,11 +541,16 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/boost\"";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" ../include ../blocks/OSC/src";
@@ -545,21 +561,34 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CINDER_PATH = ../../cinder_0.8.6_mac;
+				CINDER_PATH = ../../cinder_0.9.0_mac;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
+				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"NDEBUG=1",
 					"$(inherited)",
 				);
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/boost\"";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
@@ -576,7 +605,9 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = SecondStudy_iPad_Prefix.pch;
+				HEADER_SEARCH_PATHS = "$(CINDER_PATH)/include";
 				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				"OTHER_LDFLAGS[sdk=iphoneos*][arch=*]" = (
 					"\"$(CINDER_PATH)/lib/libcinder-iphone_d.a\"",
 					"-lz",
@@ -585,6 +616,7 @@
 					"\"$(CINDER_PATH)/lib/libcinder-iphone-sim_d.a\"",
 					"-lz",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.libcinder.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -595,7 +627,9 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = SecondStudy_iPad_Prefix.pch;
+				HEADER_SEARCH_PATHS = "$(CINDER_PATH)/include";
 				INFOPLIST_FILE = Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				"OTHER_LDFLAGS[sdk=iphoneos*][arch=*]" = (
 					"\"$(CINDER_PATH)/lib/libcinder-iphone.a\"",
 					"-lz",
@@ -604,6 +638,7 @@
 					"\"$(CINDER_PATH)/lib/libcinder-iphone-sim.a\"",
 					"-lz",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "org.libcinder.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

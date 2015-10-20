@@ -25,11 +25,11 @@ void SecondStudy::ConnectionGestureRecognizer::processGroup(list<shared_ptr<Touc
 		TouchPoint a = trace->touchPoints.front();
 		TouchPoint b = trace->touchPoints.back();
 		
-		Vec2f ap = a.getPos();
-		Vec2f bp = b.getPos();
+		vec2 ap = a.getPos();
+		vec2 bp = b.getPos();
 		
 		theApp->widgetsMutex().lock();
-		int fromWid = 0;
+		unsigned long fromWid = 0;
 		for(auto w : theApp->widgets()) {
 			if(w->id() == trace->widgetId) {
 				if(dynamic_pointer_cast<MeasureWidget>(w)) {
@@ -43,7 +43,7 @@ void SecondStudy::ConnectionGestureRecognizer::processGroup(list<shared_ptr<Touc
 			}
 		}
 		
-		int toWid = 0;
+		unsigned long toWid = 0;
 		for(auto w : theApp->widgets()) {
 			if(dynamic_pointer_cast<MeasureWidget>(w)) {
 				shared_ptr<MeasureWidget> tmp = dynamic_pointer_cast<MeasureWidget>(w);

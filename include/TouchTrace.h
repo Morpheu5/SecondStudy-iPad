@@ -29,8 +29,8 @@ namespace SecondStudy {
 
 		int getId();
 		int getSessionId();
-		Vec2f currentPosition();
-		Vec2f previousPosition();
+		vec2 currentPosition();
+		vec2 previousPosition();
 
 		int lifespan();
 		bool isDead();

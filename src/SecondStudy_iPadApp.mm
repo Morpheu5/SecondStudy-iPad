@@ -1,4 +1,5 @@
 #include <iostream>
+#include "cinder/app/RendererGl.h"
 #include "SecondStudy_iPadApp.h"
 
 #include "BoxWidget.h"
@@ -31,11 +32,6 @@ using namespace SecondStudy;
 void SecondStudy::TheApp::setup() {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	
-	auto renderer = std::static_pointer_cast<RendererGl>(getRenderer());
-	renderer->setAntiAliasing(0);
-	
-	setFrameRate(FPS);
 	
 	NSURL *presetUrl = [[NSBundle mainBundle] URLForResource:@"assets/Vibraphone" withExtension:@"aupreset"];
 	sampler = [[EPSSampler alloc] initWithPresetURL:presetUrl];
@@ -86,7 +82,7 @@ void SecondStudy::TheApp::update() {
 	
 	_tracesMutex.lock();
 	for(auto t : _traces) {
-		t.second->update();
+//		t.second->update();
 	}
 	for(auto i = _traces.begin(); i != _traces.end(); ) {
 		if(!i->second->isVisible && i->second->isDead()) {
@@ -97,10 +93,12 @@ void SecondStudy::TheApp::update() {
 	}
 	_tracesMutex.unlock();
 	
+	_removedGroupsMutex.lock();
 	_groupsMutex.lock();
 	for(auto &g : _groups) {
 		bool r = [g]() {
 			for(auto t : g) {
+				t->update();
 				if(!t->isDead()) {
 					return false;
 				}
@@ -108,9 +106,7 @@ void SecondStudy::TheApp::update() {
 			return true;
 		}();
 		if(r) {
-			_removedGroupsMutex.lock();
 			_removedGroups.push_back(g);
-			_removedGroupsMutex.unlock();
 			g.clear();
 		}
 	}
@@ -118,26 +114,15 @@ void SecondStudy::TheApp::update() {
 							[](list<shared_ptr<TouchTrace>> l) {
 								return l.empty();
 							}), _groups.end()); // This is not much intuitive, maybe. It has to do with re-sorting stuff in a range.
-	
-    /*
-	 if(true) {
-	 for(auto &g : _groups) {
-	 for(auto pgr : _progressiveGRs) {
-	 pgr->processGroup(g);
-	 }
-	 }
-	 go = false;
-	 }
-     */
 	_groupsMutex.unlock();
+	_removedGroupsMutex.unlock();
 }
 
 void SecondStudy::TheApp::draw() {
 	// clear out the window with black
-	gl::clear( Color( 0, 0, 0 ) );
+	gl::clear(ColorAf(0.0f, 0.0f, 0.0f, 1.0f));
 	
 	gl::pushModelView();
-	
 	_sequencesMutex.lock();
 	for(auto& s : _sequences) {
 		if(s.size() > 1) {
@@ -145,19 +130,10 @@ void SecondStudy::TheApp::draw() {
 				shared_ptr<MeasureWidget> a = *it;
 				shared_ptr<MeasureWidget> b = *(next(it));
 				
-				Matrix44f at;
-				at.translate(Vec3f(a->position()));
-				at.rotate(Vec3f(0.0f, 0.0f, a->angle()));
-				
-				Matrix44f bt;
-				bt.translate(Vec3f(b->position()));
-				bt.rotate(Vec3f(0.0f, 0.0f, b->angle()));
-				
-				Vec3f ap3 = at.transformPoint(Vec3f(a->outletIcon().getCenter()));
-				Vec3f bp3 = bt.transformPoint(Vec3f(b->inletIcon().getCenter()));
-				
-				Vec2f ap(ap3.x, ap3.y);
-				Vec2f bp(bp3.x, bp3.y);
+				mat4 at = translate(vec3(a->position(), 0)) * rotate(a->angle(), vec3(0,0,1));
+				vec2 ap = vec2(at * vec4(a->outletIcon().getCenter(), 0, 1));
+				mat4 bt = translate(vec3(b->position(), 0)) * rotate(b->angle(), vec3(0,0,1));
+				vec2 bp = vec2(bt * vec4(b->inletIcon().getCenter(), 0, 1));
 				
 				gl::drawLine(ap, bp);
 			}
@@ -185,8 +161,8 @@ void SecondStudy::TheApp::draw() {
 			}
 			if(trace->touchPoints.size() > 1) {
 				for(auto cursorIt = trace->touchPoints.begin(); cursorIt != prev(trace->touchPoints.end()); ++cursorIt) {
-					Vec2f a = cursorIt->getPos();
-					Vec2f b = next(cursorIt)->getPos();
+					vec2 a = cursorIt->getPos();
+					vec2 b = next(cursorIt)->getPos();
 					gl::lineWidth(2.0f);
 					gl::drawLine(a, b);
 				}
@@ -269,18 +245,11 @@ void SecondStudy::TheApp::gestureProcessor() {
                         w->rotateBy(pinch->angleDelta());
 					}
 					_widgetsMutex.unlock();
-					
-//					stringstream ss;
-//					ss << "TheApp::gestureProcessor PinchGesture (distance_delta:" << pinch->distanceDelta() << ", zoom_delta:" << pinch->zoomDelta() << ", angle_delta:" << pinch->angleDelta() << ", widget_id:" << pinch->widgetId() << ")";
-//					Logger::instance().log(ss.str());
-//				} else {
-//					_screenZoom += pinch->zoomDelta();
-//					_screenOffset += pinch->distanceDelta();
 				}
 			}
 			
 			if(dynamic_pointer_cast<MusicStrokeGesture>(unknownGesture)) {
-				shared_ptr<MusicStrokeGesture> stroke = dynamic_pointer_cast<MusicStrokeGesture>(unknownGesture);
+				shared_ptr<MusicStrokeGesture> stroke = static_pointer_cast<MusicStrokeGesture>(unknownGesture);
 				shared_ptr<MeasureWidget> measure = nullptr;
 				_widgetsMutex.lock();
 				shared_ptr<Widget> w = *find_if(_widgets.begin(), _widgets.end(),
@@ -293,14 +262,6 @@ void SecondStudy::TheApp::gestureProcessor() {
 				_widgetsMutex.unlock();
 				if(measure != nullptr) {
 					measure->processStroke(stroke->stroke());
-					
-//					stringstream ss;
-//					ss << "TheApp::gestureProcessor MusicStrokeGesture (points:[";
-//					for(auto p : stroke->stroke().touchPoints) {
-//						ss << "(" << p.getPos().x << "," << p.getPos().y << ")";
-//					}
-//					ss << "])";
-//					Logger::instance().log(ss.str());
 				}
 			}
 			
@@ -313,7 +274,7 @@ void SecondStudy::TheApp::gestureProcessor() {
 				bool doTheSplice = true;
 				list<list<shared_ptr<MeasureWidget>>>::iterator fsIt;
 				list<shared_ptr<MeasureWidget>>::iterator fwIt;
-				[&,this]() {
+				[&, this]() {
 					for(auto sit = _sequences.begin(); sit != _sequences.end(); ++sit) {
 						for(auto wit = sit->begin(); wit != sit->end(); ++wit) {
 							if((*wit)->id() == fromWid) {
@@ -395,9 +356,9 @@ void SecondStudy::TheApp::gestureProcessor() {
 				shared_ptr<LongTapGesture> longtap = dynamic_pointer_cast<LongTapGesture>(unknownGesture);
 				if(!longtap->isOnWidget()) {
 					_widgetsMutex.lock();
-					Vec2f p = longtap->position();
+					vec2 p = longtap->position();
 					auto w = make_shared<MeasureWidget>(p, 5, 8);
-					Vec2f c = getWindowCenter();
+					vec2 c = getWindowCenter();
 					float a = atan2(p.y-c.y, p.x-c.x);
 					w->angle(a - M_PI_2);
 					_widgets.push_back(w);
@@ -420,7 +381,7 @@ void SecondStudy::TheApp::gestureProcessor() {
 	}
 }
 
-void SecondStudy::TheApp::measureHasFinishedPlaying(int id) {
+void SecondStudy::TheApp::measureHasFinishedPlaying(unsigned long id) {
 	_sequencesMutex.lock();
 	for(auto sit = _sequences.begin(); sit != _sequences.end(); ++sit) {
 		for(auto wit = sit->begin(); wit != sit->end(); ++wit) {
@@ -435,78 +396,46 @@ void SecondStudy::TheApp::measureHasFinishedPlaying(int id) {
 }
 
 void SecondStudy::TheApp::touchesBegan(cinder::app::TouchEvent event) {
+	_tracesMutex.lock();
 	for(auto touch : event.getTouches()) {
-//		UITouch *nTouch = (UITouch *)touch.getNative();
-		bool continued = false;
-		int joined = -1;
-		_tracesMutex.lock();
-		for(auto pair : _traces) {
-			auto trace = pair.second;
-			if(!trace->isVisible && !trace->isDead() && trace->currentPosition().distance(touch.getPos()) <= 50.0f) {
-				_traces[touch.getId()] = _traces[trace->getId()];
-				joined = trace->getId(); // the old session id (therefore the old trace that has been resurrected)
-				_traces[touch.getId()]->resurrect();
-				_traces[touch.getId()]->cursorMove(touch);
-				continued = true;
+		// This is a brand new trace, we have to do stuff!
+		_traces[touch.getId()] = make_shared<TouchTrace>();
+		_traces[touch.getId()]->addCursorDown(touch);
+		
+		// Check if it's on a widget
+		_widgetsMutex.lock();
+		// This is done in reverse order because I say so.
+		for(auto it = _widgets.rbegin(); it != _widgets.rend(); ++it) {
+			auto w = *it;
+			if(w->hit(touch.getPos())) {
+				_traces[touch.getId()]->widgetId = w->id();
 				break;
 			}
 		}
-		if(continued) {
-			if(joined > 0) {
-				_traces.erase(joined);
-			}
+		_widgetsMutex.unlock();
+		
+		_groupsMutex.lock();
+		int g = findGroupForTrace(_traces[touch.getId()]);
+		if(g == -1) {
+			list<shared_ptr<TouchTrace>> l;
+			l.push_back(_traces[touch.getId()]);
+			_groups.push_back(l);
 		} else {
-			// This is a brand new trace, we have to do stuff!
-			_traces[touch.getId()] = make_shared<TouchTrace>();
-			_traces[touch.getId()]->addCursorDown(touch);
-			
-			// Check if it's on a widget
-			_widgetsMutex.lock();
-			// This is done in reverse order because I say so.
-			for(auto it = _widgets.rbegin(); it != _widgets.rend(); ++it) {
-				auto w = *it;
-				if(w->hit(touch.getPos())) {
-					_traces[touch.getId()]->widgetId = w->id();
-					break;
-				}
-			}
-			_widgetsMutex.unlock();
-			
-			_groupsMutex.lock();
-			int g = findGroupForTrace(_traces[touch.getId()]);
-			if(g == -1) {
-				list<shared_ptr<TouchTrace>> l;
-				l.push_back(_traces[touch.getId()]);
-				_groups.push_back(l);
-			} else {
-				_groups[g].push_back(_traces[touch.getId()]);
-			}
-			_groupsMutex.unlock();
+			_groups[g].push_back(_traces[touch.getId()]);
 		}
-		_tracesMutex.unlock();
+		_groupsMutex.unlock();
 		
 		for(auto &g : _groups) {
 			for(auto pgr : _progressiveGRs) {
 				pgr->processGroup(g);
 			}
 		}
-		
-//		stringstream ss;
-//		ss	<< "TheApp::cursorAdded "
-//		<< "(x:" << cursor.getPos().x
-//		<< " y:" << cursor.getPos().y
-//		<< " session_id:" << cursor.getSessionId()
-//		<< " widget_id:" << _traces[cursor.getSessionId()]->widgetId
-//		<< " new_trace:" << (continued ? "n" : "y")
-//		<< " joined_trace:" << joined
-//		<< ")";
-//		Logger::instance().log(ss.str());
 	}
+	_tracesMutex.unlock();
 }
 
 void SecondStudy::TheApp::touchesMoved(cinder::app::TouchEvent event) {
 	for(auto touch : event.getTouches()) {
-//		UITouch *nTouch = (UITouch *)touch.getNative();
 		_go = true;
 		_tracesMutex.lock();
 		_traces[touch.getId()]->cursorMove(touch);
@@ -517,41 +446,16 @@ void SecondStudy::TheApp::touchesMoved(cinder::app::TouchEvent event) {
 				pgr->processGroup(g);
 			}
 		}
-		
-//		stringstream ss;
-//		ss	<< "TheApp::cursorUpdated "
-//		<< "(x:" << cursor.getPos().x
-//		<< " y:" << cursor.getPos().y
-//		<< " session_id:" << cursor.getSessionId()
-//		<< " widget_id:" << _traces[cursor.getSessionId()]->widgetId
-//		<< ")";
-//		Logger::instance().log(ss.str());
 	}
 }
 
 void SecondStudy::TheApp::touchesEnded(cinder::app::TouchEvent event) {
 	for(auto touch : event.getTouches()) {
-//		UITouch *nTouch = (UITouch *)touch.getNative();
 		_go = true;
 		_tracesMutex.lock();
 		_traces[touch.getId()]->addCursorUp(touch);
 		_traces[touch.getId()]->isVisible = false;
 		_tracesMutex.unlock();
-		
-		for(auto &g : _groups) {
-			for(auto pgr : _progressiveGRs) {
-				pgr->processGroup(g);
-			}
-		}
-		
-//		stringstream ss;
-//		ss	<< "TheApp::cursorRemoved "
-//		<< "(x:" << cursor.getPos().x
-//		<< " y:" << cursor.getPos().y
-//		<< " session_id:" << cursor.getSessionId()
-//		<< " widget_id:" << _traces[cursor.getSessionId()]->widgetId
-//		<< ")";
-//		Logger::instance().log(ss.str());
 	}
 }
 
@@ -564,19 +468,11 @@ int SecondStudy::TheApp::findGroupForTrace(shared_ptr<TouchTrace> trace) {
 			}
 		}
 	}
-	
-	// Second: if that failed, group with nearby traces
-	for(int i = 0; i < _groups.size(); i++) {
-		auto traces = _groups[i];
-		for(auto otherTrace : traces) {
-			if(otherTrace->currentPosition().distance(trace->currentPosition()) < 50.0f) {
-				return i;
-			}
-		}
-	}
-	
-	// Last: if all previous grouping attempts failed, just give up
 	return -1;
 }
 
-CINDER_APP_COCOA_TOUCH( SecondStudy::TheApp, RendererGl )
+CINDER_APP( SecondStudy::TheApp, RendererGl(RendererGl::Options().msaa(0)),
+[](App::Settings *settings){
+	settings->setHighDensityDisplayEnabled(true);
+	settings->setFrameRate(FPS);
+});

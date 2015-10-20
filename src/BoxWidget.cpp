@@ -5,11 +5,11 @@ using namespace ci;
 SecondStudy::BoxWidget::BoxWidget() : SecondStudy::Widget() {
 	_scale = 1.0f;
 	_board = Rectf(-80.0f, -60.0f, 80.0f, 60.0f);
-	_position = Vec2f(0.0f, 0.0f);
+	_position = vec2(0.0f, 0.0f);
 	_angle = 0.0f;
 }
 
-SecondStudy::BoxWidget::BoxWidget(Vec2f center) : SecondStudy::Widget() {
+SecondStudy::BoxWidget::BoxWidget(vec2 center) : SecondStudy::Widget() {
 	_scale = 1.0f;
 	_board = Rectf(-80.0f, -60.0f, 80.0f, 60.0f);
 	_angle = 0.0f;
@@ -19,11 +19,8 @@ SecondStudy::BoxWidget::BoxWidget(Vec2f center) : SecondStudy::Widget() {
 void SecondStudy::BoxWidget::draw() {
 	gl::pushModelView();
 
-	Matrix44f transform;
-	transform.translate(Vec3f(_position));
-	transform.rotate(Vec3f(0.0f, 0.0f, _angle));
-
-	gl::multModelView(transform);
+	mat4 transform = translate(vec3(_position, 0)) * rotate(_angle, vec3(0,0,1));
+	gl::multModelMatrix(transform);
 
 	gl::color(1.0f, 1.0f, 1.0f, 0.25f);
 	gl::drawSolidRect(_board * _scale);
@@ -35,21 +32,18 @@ void SecondStudy::BoxWidget::draw() {
 	gl::popModelView();
 }
 
-bool SecondStudy::BoxWidget::hit(Vec2f p) {
-	Matrix44f transform;
-	transform.translate(Vec3f(_position));
-	transform.rotate(Vec3f(0.0f, 0.0f, _angle));
+bool SecondStudy::BoxWidget::hit(vec2 p) {
+	mat4 transform = translate(vec3(_position, 0)) * rotate(_angle, vec3(0,0,1));
 
-	Vec3f tp3 = transform.inverted().transformPoint(Vec3f(p));
-	Vec2f tp(tp3.x, tp3.y);
+	vec2 tp = vec2(inverse(transform) * vec4(p, 0, 0));
 	return (_board * _scale).contains(tp);
 }
 
-void SecondStudy::BoxWidget::tap(Vec2f p) {
+void SecondStudy::BoxWidget::tap(vec2 p) {
 	//_scale += 0.1f;
 }
 
-void SecondStudy::BoxWidget::moveBy(Vec2f v) {
+void SecondStudy::BoxWidget::moveBy(vec2 v) {
 	_position += v;
 }
 
