@@ -11,7 +11,7 @@ SecondStudy::TouchTrace::TouchTrace() {
 	state = State::TOUCH_DOWN;
 	isVisible = true;
 	widgetId = 0;
-	_lifespan = FPS/6;
+	_lifespan = 1; //FPS/6;
 }
 
 SecondStudy::TouchTrace::~TouchTrace() {
@@ -53,7 +53,7 @@ void SecondStudy::TouchTrace::update() {
 }
 
 void SecondStudy::TouchTrace::resurrect() {
-	_lifespan = FPS/6;
+	_lifespan = 1;//FPS/6;
 	isVisible = true;
 }
 
