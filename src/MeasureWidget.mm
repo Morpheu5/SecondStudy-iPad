@@ -119,9 +119,9 @@ void SecondStudy::MeasureWidget::draw() {
 	mat4 transform = translate(vec3(_position, 0)) * rotate(_angle, vec3(0,0,1));
 	gl::multModelMatrix(transform);
 	
-	gl::lineWidth(_scale);
-	gl::color(1.0f, 1.0f, 1.0f, 0.25f);
-	gl::drawSolidRect(_boundingBox);
+	gl::lineWidth(2.0f * _scale);
+//	gl::color(1.0f, 1.0f, 1.0f, 0.25f);
+//	gl::drawSolidRect(_boundingBox);
 
 	unsigned long cols = notes.size();
 	unsigned long rows = notes[0].size();
@@ -130,29 +130,29 @@ void SecondStudy::MeasureWidget::draw() {
 		for(int row = 0; row < rows; row++) {
 			Rectf box = _noteBox + origin + vec2(col, row) * _noteBox.getSize();
 			if(notes[col][row]) {
-				gl::color(1.0f, 1.0f, 1.0f, 0.5f);
+				gl::color(0.75f, 0.75f, 0.75f);
 			} else {
-				gl::color(1.0f, 1.0f, 1.0f, 0.0f);
+				gl::color(0.25f, 0.25f, 0.25f);
 			}
 			gl::drawSolidRect(box);
-			gl::color(1.0f, 1.0f, 1.0f, 1.0f);
+			gl::color(0.75f, 0.75f, 0.75f);
 			gl::drawStrokedRect(box);
 		}
 	}
 	
 	if(isPlaying) {
-		gl::color(1.0f, 0.5f, 0.0f, 0.5f);
+		gl::color(0.604f, 0.329f, 0.039f, 0.5f);
 		gl::drawSolidRect(Rectf(_playIcon.getUpperLeft() + vec2(7.5f, 7.5f), _playIcon.getLowerRight() - vec2(7.5f, 7.5f)));
 	} else {
-		gl::color(0.0f, 1.0f, 0.0f, 0.5f);
+		gl::color(0.329f, 0.604f, 0.039f, 0.5f);
 		gl::drawSolidTriangle(_playIcon.getUpperLeft() + vec2(10.0f, 7.5f), _playIcon.getLowerLeft() + vec2(10.0f, -7.5f), _playIcon.getCenter() + vec2(10.0f, 0.0f));
 	}
 	gl::drawSolidRect(_playIcon);
 
-	gl::color(0.5f, 0.75f, 1.0f, 0.5f);
+	gl::color(0.039f, 0.329f, 0.604f);
 	gl::drawSolidCircle(_inletIcon.getCenter(), _inletIcon.getWidth()/2.0f);
 	
-	gl::color(1.0f, 0.75f, 0.5f, 0.5f);
+	gl::color(0.604f, 0.329f, 0.039f);
 	gl::drawSolidCircle(_outletIcon.getCenter(), _outletIcon.getWidth()/2.0f);
 
 	gl::color(1.0f, 1.0f, 1.0f, 0.5f);

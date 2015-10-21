@@ -57,7 +57,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		00692BCF14FF149000D0A05E /* SecondStudy_iPad.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SecondStudy_iPad.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		00692BCF14FF149000D0A05E /* SketchMusic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SketchMusic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		00748057165D41390024B57A /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../assets; sourceTree = "<group>"; };
 		0087D25412CD809F002CD69F /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		00A66A351965AC8800B17EB3 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
@@ -89,8 +89,6 @@
 		994D2A5C02B54079AD35FF77 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		A366399619B3453C00472CE4 /* MeasureWidget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MeasureWidget.h; path = ../include/MeasureWidget.h; sourceTree = "<group>"; };
 		A366399719B3454600472CE4 /* MeasureWidget.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MeasureWidget.mm; path = ../src/MeasureWidget.mm; sourceTree = "<group>"; };
-		A366399919B3908B00472CE4 /* SecondStudyApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SecondStudyApp.h; path = ../include/SecondStudyApp.h; sourceTree = "<group>"; };
-		A366399A19B3909600472CE4 /* SecondStudyApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SecondStudyApp.cpp; path = ../src/SecondStudyApp.cpp; sourceTree = "<group>"; };
 		A36639A819B390F700472CE4 /* Logger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Logger.h; path = ../include/Logger.h; sourceTree = "<group>"; };
 		A36639CC19B39D0300472CE4 /* TouchPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TouchPoint.h; path = ../include/TouchPoint.h; sourceTree = "<group>"; };
 		A36639CD19B39D0300472CE4 /* TouchTrace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TouchTrace.h; path = ../include/TouchTrace.h; sourceTree = "<group>"; };
@@ -192,7 +190,7 @@
 		00692BD014FF149000D0A05E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				00692BCF14FF149000D0A05E /* SecondStudy_iPad.app */,
+				00692BCF14FF149000D0A05E /* SketchMusic.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -227,7 +225,6 @@
 				A36639CE19B39EB700472CE4 /* TouchPoint.mm */,
 				A36639CF19B39EB700472CE4 /* TouchTrace.mm */,
 				2BFAE858FFFD4FF7BA6DD411 /* SecondStudy_iPadApp.mm */,
-				A366399A19B3909600472CE4 /* SecondStudyApp.cpp */,
 				A3C51D5A19C0E23D005AE335 /* EPSSampler.m */,
 			);
 			name = Source;
@@ -302,7 +299,6 @@
 				A36639CC19B39D0300472CE4 /* TouchPoint.h */,
 				A36639CD19B39D0300472CE4 /* TouchTrace.h */,
 				A38BD44819AE7A0600E7DFA1 /* SecondStudy_iPadApp.h */,
-				A366399919B3908B00472CE4 /* SecondStudyApp.h */,
 				A36639A819B390F700472CE4 /* Logger.h */,
 				CBD108495BCD40A68BC0BBEE /* SecondStudy_iPad_Prefix.pch */,
 				0C6EA6682B2C4B69B3562399 /* Resources.h */,
@@ -415,9 +411,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00692BCE14FF149000D0A05E /* SecondStudy_iPad */ = {
+		00692BCE14FF149000D0A05E /* SketchMusic */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00692BF514FF149000D0A05E /* Build configuration list for PBXNativeTarget "SecondStudy_iPad" */;
+			buildConfigurationList = 00692BF514FF149000D0A05E /* Build configuration list for PBXNativeTarget "SketchMusic" */;
 			buildPhases = (
 				00692BCB14FF149000D0A05E /* Sources */,
 				00692BCC14FF149000D0A05E /* Frameworks */,
@@ -427,9 +423,9 @@
 			);
 			dependencies = (
 			);
-			name = SecondStudy_iPad;
+			name = SketchMusic;
 			productName = SecondStudy_iPad;
-			productReference = 00692BCF14FF149000D0A05E /* SecondStudy_iPad.app */;
+			productReference = 00692BCF14FF149000D0A05E /* SketchMusic.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -452,7 +448,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				00692BCE14FF149000D0A05E /* SecondStudy_iPad */,
+				00692BCE14FF149000D0A05E /* SketchMusic */,
 			);
 		};
 /* End PBXProject section */
@@ -616,7 +612,7 @@
 					"\"$(CINDER_PATH)/lib/libcinder-iphone-sim_d.a\"",
 					"-lz",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.libcinder.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = net.morpheu5.SketchMusic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -638,7 +634,7 @@
 					"\"$(CINDER_PATH)/lib/libcinder-iphone-sim.a\"",
 					"-lz",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.libcinder.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = net.morpheu5.SketchMusic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -656,7 +652,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		00692BF514FF149000D0A05E /* Build configuration list for PBXNativeTarget "SecondStudy_iPad" */ = {
+		00692BF514FF149000D0A05E /* Build configuration list for PBXNativeTarget "SketchMusic" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00692BF614FF149000D0A05E /* Debug */,

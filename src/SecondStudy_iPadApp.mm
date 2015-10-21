@@ -122,32 +122,36 @@ void SecondStudy::TheApp::draw() {
 	// clear out the window with black
 	gl::clear(ColorAf(0.0f, 0.0f, 0.0f, 1.0f));
 	
-	gl::pushModelView();
-	_sequencesMutex.lock();
-	for(auto& s : _sequences) {
-		if(s.size() > 1) {
-			for(auto it = s.begin(); it != prev(s.end()); ++it) {
-				shared_ptr<MeasureWidget> a = *it;
-				shared_ptr<MeasureWidget> b = *(next(it));
-				
-				mat4 at = translate(vec3(a->position(), 0)) * rotate(a->angle(), vec3(0,0,1));
-				vec2 ap = vec2(at * vec4(a->outletIcon().getCenter(), 0, 1));
-				mat4 bt = translate(vec3(b->position(), 0)) * rotate(b->angle(), vec3(0,0,1));
-				vec2 bp = vec2(bt * vec4(b->inletIcon().getCenter(), 0, 1));
-				
-				gl::drawLine(ap, bp);
+	{
+		gl::ScopedModelMatrix smm;
+		gl::lineWidth(4.0f);
+		gl::color(1,1,1,1);
+		_sequencesMutex.lock();
+		for(auto& s : _sequences) {
+			if(s.size() > 1) {
+				for(auto it = s.begin(); it != prev(s.end()); ++it) {
+					shared_ptr<MeasureWidget> a = *it;
+					shared_ptr<MeasureWidget> b = *(next(it));
+					
+					mat4 at = translate(vec3(a->position(), 0)) * rotate(a->angle(), vec3(0,0,1));
+					vec2 ap = vec2(at * vec4(a->outletIcon().getCenter(), 0, 1));
+					mat4 bt = translate(vec3(b->position(), 0)) * rotate(b->angle(), vec3(0,0,1));
+					vec2 bp = vec2(bt * vec4(b->inletIcon().getCenter(), 0, 1));
+					
+					gl::drawLine(ap, bp);
+				}
 			}
 		}
+		_sequencesMutex.unlock();
+		gl::lineWidth(2.0f);
+		
+		_widgetsMutex.lock();
+		for(auto w : _widgets) {
+			w->draw();
+		}
+		_widgetsMutex.unlock();
 	}
-	_sequencesMutex.unlock();
-	
-	_widgetsMutex.lock();
-	for(auto w : _widgets) {
-		w->draw();
-	}
-	_widgetsMutex.unlock();
-	gl::popModelView();
-	
+
 	// Let's draw the traces as they are being created
 	_tracesMutex.lock();
 	_groupsMutex.lock();
@@ -163,7 +167,7 @@ void SecondStudy::TheApp::draw() {
 				for(auto cursorIt = trace->touchPoints.begin(); cursorIt != prev(trace->touchPoints.end()); ++cursorIt) {
 					vec2 a = cursorIt->getPos();
 					vec2 b = next(cursorIt)->getPos();
-					gl::lineWidth(2.0f);
+					gl::ScopedLineWidth slw(2.0f);
 					gl::drawLine(a, b);
 				}
 			}

@@ -27,8 +27,8 @@ namespace SecondStudy {
 		TouchTrace();
 		~TouchTrace();
 
-		int getId();
-		int getSessionId();
+		unsigned long getId();
+		unsigned long getSessionId();
 		vec2 currentPosition();
 		vec2 previousPosition();
 

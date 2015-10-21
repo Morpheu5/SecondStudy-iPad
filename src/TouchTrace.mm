@@ -18,11 +18,11 @@ SecondStudy::TouchTrace::~TouchTrace() {
 	touchPoints.clear();
 }
 
-int SecondStudy::TouchTrace::getId() {
+unsigned long SecondStudy::TouchTrace::getId() {
 	return touchPoints.back().getId();
 }
 
-int SecondStudy::TouchTrace::getSessionId() {
+unsigned long SecondStudy::TouchTrace::getSessionId() {
 	return touchPoints.back().getId();
 }
 
