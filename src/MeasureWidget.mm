@@ -26,12 +26,12 @@ SecondStudy::MeasureWidget::MeasureWidget() : Widget() {
 	
 	_playIcon = Rectf(0.0f, 0.0f, _noteBox.getWidth()-10, _noteBox.getHeight()-10);
 	_playIcon += _boundingBox.getUpperLeft() - vec2(0.0f, _noteBox.getHeight());
-	
+
 	_inletIcon = Rectf(0.0f, 0.0f, _noteBox.getWidth(), _noteBox.getHeight());
-	_inletIcon += vec2(-_inletIcon.getWidth()-10.0f, _boundingBox.getCenter().y);
+	_inletIcon += vec2(-_inletIcon.getWidth()+10.0f, _boundingBox.getCenter().y);
 	
 	_outletIcon = Rectf(0.0f, 0.0f, _noteBox.getWidth(), _noteBox.getHeight());
-	_outletIcon += vec2(-_boundingBox.getWidth()+10.0f, _boundingBox.getCenter().y);
+	_outletIcon += vec2(-_boundingBox.getWidth()-10.0f, _boundingBox.getCenter().y);
 	
 	_cursorOffset = vec2(0.0f, 0.0f);
 	_cursor = Rectf(vec2(0.0f, 0.0f), vec2(_noteBox.getWidth(), 10.0f));
@@ -49,19 +49,9 @@ SecondStudy::MeasureWidget::MeasureWidget() : Widget() {
 	_midiNotes.push_back(62);
 	_midiNotes.push_back(60);
 
-
 	notes = vector<vector<bool>>(1, vector<bool>(1, false));
 	
 	isPlaying = false;
-	
-//	stringstream ss;
-//	ss << "MeasureWidget::MeasureWidget (x:" << _position.x << " y:" << _position.y << " angle:" << _angle << " notes:[";
-//	for(int n : _midiNotes) {
-//		ss << n << ",";
-//	}
-//	ss.seekp(1, ios_base::end);
-//	ss << "])";
-//	Logger::instance().log(ss.str());
 }
 
 SecondStudy::MeasureWidget::MeasureWidget(vec2 center, int rows, int columns) : Widget(),
@@ -76,16 +66,25 @@ _measureSize(pair<int, int>(columns, rows)) {
 	
 	_playIcon = Rectf(0.0f, 0.0f, _noteBox.getWidth(), _noteBox.getHeight());
 	_playIcon += _boundingBox.getUpperLeft() - vec2(0.0f, _noteBox.getHeight() + 10.0f);
-	
+	_playColorBg = ColorAf(ColorModel::CM_HSV, 90.0f/360.0f, 0.88f, 0.5f);
+	_playColorFg = ColorAf(ColorModel::CM_HSV, 90.0f/360.0f, 0.88f, 0.75f);
+	_stopColorBg = ColorAf(ColorModel::CM_HSV, 30.0f/360.0f, 0.88f, 0.5f);
+	_stopColorFg = ColorAf(ColorModel::CM_HSV, 30.0f/360.0f, 0.88f, 0.75f);
+
 	_inletIcon = Rectf(0.0f, 0.0f, _noteBox.getWidth(), _noteBox.getHeight());
-	_inletIcon += vec2(_boundingBox.getUpperLeft().x - _inletIcon.getWidth() - 10.0f, -_inletIcon.getWidth()/2.0f);
+	_inletIcon += vec2(_boundingBox.getUpperLeft().x - _inletIcon.getWidth() + 10.0f, -_inletIcon.getWidth()/2.0f);
+	_inletColor = ColorAf(ColorModel::CM_HSV, 210.0f/360.0f, 0.88f, 1.0f);
 
 	_outletIcon = Rectf(0.0f, 0.0f, _noteBox.getWidth(), _noteBox.getHeight());
-	_outletIcon += vec2(_boundingBox.getUpperRight().x + 10.0f, -_outletIcon.getWidth()/2.0f);
-	
+	_outletIcon += vec2(_boundingBox.getUpperRight().x - 10.0f, -_outletIcon.getWidth()/2.0f);
+	_outletColor = ColorAf(ColorModel::CM_HSV, 30.0f/360.0f, 0.88f, 1.0f);
+
 	_cursorOffset = vec2(0.0f, 0.0f);
 	_cursor = Rectf(vec2(0.0f, 0.0f), vec2(_noteBox.getWidth(), 5.0f));
 	_cursor += _boundingBox.getLowerLeft();
+
+//	_noteOnTex = gl::Texture::create(loadImage(loadAsset("note-on.png")));
+//	_noteOffTex = gl::Texture::create(loadImage(loadAsset("note-off.png")));
 
 	// C major pentatonic
 	_midiNotes.push_back(81);
@@ -102,64 +101,63 @@ _measureSize(pair<int, int>(columns, rows)) {
 	notes = vector<vector<bool>>(columns, vector<bool>(rows, false));
 	
 	isPlaying = false;
-	
-//	stringstream ss;
-//	ss << "MeasureWidget::MeasureWidget (x:" << _position.x << " y:" << _position.y << " angle:" << _angle << " notes:[";
-//	for(auto it = _midiNotes.rbegin(); it != _midiNotes.rend(); ++it) {
-//		ss << *it << ",";
-//	}
-//	ss.seekp(-1, ios_base::end);
-//	ss << "])";
-//	Logger::instance().log(ss.str());
 }
 
 void SecondStudy::MeasureWidget::draw() {
+	// inlet:   0.118f, 0.565f, 1.0f, 1.0f
+	// outlet:  0.882f, 0.435f, 0.0f, 1.0f
+	// stop bg: 0.659f, 0.329f, 0.0f, 1.0f
+	// stop fg: 0.882f, 0.435f, 0.0f, 1.0f
+	// play bg: 0.329f, 0.659f, 0.0f, 1.0f
+	// play fg: 0.435f, 0.882f, 0.0f, 1.0f
+
 	gl::pushModelView();
-    
+
 	mat4 transform = translate(vec3(_position, 0)) * rotate(_angle, vec3(0,0,1));
 	gl::multModelMatrix(transform);
-	
-	gl::lineWidth(2.0f * _scale);
-//	gl::color(1.0f, 1.0f, 1.0f, 0.25f);
-//	gl::drawSolidRect(_boundingBox);
 
+	gl::color(0.118f, 0.565f, 1.0f, 1.0f);
+	gl::drawSolidCircle(_inletIcon.getCenter(), _inletIcon.getWidth()/2.0f);
+
+	gl::color(0.882f, 0.435f, 0.0f, 1.0f);
+	gl::drawSolidCircle(_outletIcon.getCenter(), _outletIcon.getWidth()/2.0f);
+
+	gl::color(0.25f, 0.25f, 0.25f);
+	gl::drawSolidRect(_boundingBox);
+
+	gl::color(1,1,1);
+	gl::lineWidth(2.0f);
 	unsigned long cols = notes.size();
 	unsigned long rows = notes[0].size();
 	vec2 origin = _boundingBox.getUpperLeft();
-	for(int col = 0; col < cols; col++) {
-		for(int row = 0; row < rows; row++) {
-			Rectf box = _noteBox + origin + vec2(col, row) * _noteBox.getSize();
+	for(unsigned long col = 0; col < cols; col++) {
+		for(unsigned long row = 0; row < rows; row++) {
+			mat4 boxt = translate(vec3(origin, 0.0f)) * translate(vec3(col*30.0f, row*30.0f, 0.0f));
+			gl::ScopedModelMatrix boxScopedMatrix;
+			gl::multModelMatrix(boxt);
 			if(notes[col][row]) {
-				gl::color(0.75f, 0.75f, 0.75f);
-			} else {
-				gl::color(0.25f, 0.25f, 0.25f);
+				gl::drawSolidRect(_noteBox);
 			}
-			gl::drawSolidRect(box);
-			gl::color(0.75f, 0.75f, 0.75f);
-			gl::drawStrokedRect(box);
 		}
 	}
-	
+
 	if(isPlaying) {
-		gl::color(0.604f, 0.329f, 0.039f, 0.5f);
+		gl::color(0.659f, 0.329f, 0.0f, 1.0f);
+		gl::drawSolidRect(_playIcon);
+		gl::color(0.882f, 0.435f, 0.0f, 1.0f);
 		gl::drawSolidRect(Rectf(_playIcon.getUpperLeft() + vec2(7.5f, 7.5f), _playIcon.getLowerRight() - vec2(7.5f, 7.5f)));
 	} else {
-		gl::color(0.329f, 0.604f, 0.039f, 0.5f);
+		gl::color(0.329f, 0.659f, 0.0f, 1.0f);
+		gl::drawSolidRect(_playIcon);
+		gl::color(0.435f, 0.882f, 0.0f, 1.0f);
 		gl::drawSolidTriangle(_playIcon.getUpperLeft() + vec2(10.0f, 7.5f), _playIcon.getLowerLeft() + vec2(10.0f, -7.5f), _playIcon.getCenter() + vec2(10.0f, 0.0f));
 	}
-	gl::drawSolidRect(_playIcon);
-
-	gl::color(0.039f, 0.329f, 0.604f);
-	gl::drawSolidCircle(_inletIcon.getCenter(), _inletIcon.getWidth()/2.0f);
-	
-	gl::color(0.604f, 0.329f, 0.039f);
-	gl::drawSolidCircle(_outletIcon.getCenter(), _outletIcon.getWidth()/2.0f);
 
 	gl::color(1.0f, 1.0f, 1.0f, 0.5f);
 	gl::drawSolidRect(_cursor + _cursorOffset);
-    
+
 	gl::popModelView();
-	gl::color(1.0f, 1.0f, 1.0f, 1.0f);
+	gl::color(1,1,1);
 }
 
 bool SecondStudy::MeasureWidget::hit(vec2 p) {

@@ -5,7 +5,7 @@
 
 //#import <objc/objc-runtime.h>
 
-#define FPS 60
+#define FPS 30
 
 #ifdef __OBJC__
 @class EPSSampler;

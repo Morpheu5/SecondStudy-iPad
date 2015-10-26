@@ -36,13 +36,13 @@ void SecondStudy::TheApp::setup() {
 	NSURL *presetUrl = [[NSBundle mainBundle] URLForResource:@"assets/Vibraphone" withExtension:@"aupreset"];
 	sampler = [[EPSSampler alloc] initWithPresetURL:presetUrl];
 
-	shared_ptr<MeasureWidget> measure = make_shared<MeasureWidget>(getWindowCenter(), 5, 8);
+	shared_ptr<MeasureWidget> measure = make_shared<MeasureWidget>(getWindowCenter(), 8, 8);
 	_widgets.push_back(measure);
-	
+
 	list<shared_ptr<MeasureWidget>> sequence;
 	sequence.push_back(measure);
 	_sequences.push_back(sequence);
-	
+
 	_gesturesMutex = make_shared<mutex>();
 	_gestures = make_shared<list<shared_ptr<Gesture>>>();
 	
@@ -60,15 +60,13 @@ void SecondStudy::TheApp::setup() {
 	// ... and the gesture processor.
 	_gestureProcessorShouldStop = false;
 	_gestureProcessor = thread(bind(&SecondStudy::TheApp::gestureProcessor, this));
-	
+
 	_go = false;
 }
 
 void SecondStudy::TheApp::shutdown() {
 	_gestureEngineShouldStop = true;
 	_gestureProcessorShouldStop = true;
-//	Logger::instance().stop();
-//	_loggerThread.join();
 	_gestureProcessor.join();
 	_gestureEngine.join();
 }
@@ -81,9 +79,6 @@ void SecondStudy::TheApp::update() {
 	_sequencesMutex.unlock();
 	
 	_tracesMutex.lock();
-	for(auto t : _traces) {
-//		t.second->update();
-	}
 	for(auto i = _traces.begin(); i != _traces.end(); ) {
 		if(!i->second->isVisible && i->second->isDead()) {
 			i = _traces.erase(i);
@@ -97,12 +92,13 @@ void SecondStudy::TheApp::update() {
 	_groupsMutex.lock();
 	for(auto &g : _groups) {
 		bool r = [g]() {
-			for(auto t : g) {
+			for(auto t : g) { // if at least one trace is still alive, keep the group alive
 				t->update();
 				if(!t->isDead()) {
 					return false;
 				}
 			}
+			// if all traces are dead, mark the group for removal
 			return true;
 		}();
 		if(r) {
@@ -119,68 +115,57 @@ void SecondStudy::TheApp::update() {
 }
 
 void SecondStudy::TheApp::draw() {
+	console() << getAverageFps() << endl;
 	// clear out the window with black
-	gl::clear(ColorAf(0.0f, 0.0f, 0.0f, 1.0f));
-	
-	{
-		gl::ScopedModelMatrix smm;
-		gl::lineWidth(4.0f);
-		gl::color(1,1,1,1);
-		_sequencesMutex.lock();
-		for(auto& s : _sequences) {
-			if(s.size() > 1) {
-				for(auto it = s.begin(); it != prev(s.end()); ++it) {
-					shared_ptr<MeasureWidget> a = *it;
-					shared_ptr<MeasureWidget> b = *(next(it));
-					
-					mat4 at = translate(vec3(a->position(), 0)) * rotate(a->angle(), vec3(0,0,1));
-					vec2 ap = vec2(at * vec4(a->outletIcon().getCenter(), 0, 1));
-					mat4 bt = translate(vec3(b->position(), 0)) * rotate(b->angle(), vec3(0,0,1));
-					vec2 bp = vec2(bt * vec4(b->inletIcon().getCenter(), 0, 1));
-					
-					gl::drawLine(ap, bp);
-				}
+	gl::clear(Colorf(0.0f, 0.0f, 0.0f));
+
+	gl::pushModelView();
+	gl::lineWidth(4.0f);
+	gl::color(1.0f, 1.0f, 1.0f, 1.0f);
+	_sequencesMutex.lock();
+	for(auto& s : _sequences) {
+		if(s.size() > 1) {
+			for(auto it = s.begin(); it != prev(s.end()); ++it) {
+				shared_ptr<MeasureWidget> a = *it;
+				shared_ptr<MeasureWidget> b = *(next(it));
+				
+				mat4 at = translate(vec3(a->position(), 0)) * rotate(a->angle(), vec3(0,0,1));
+				vec2 ap = vec2(at * vec4(a->outletIcon().getCenter(), 0, 1));
+				mat4 bt = translate(vec3(b->position(), 0)) * rotate(b->angle(), vec3(0,0,1));
+				vec2 bp = vec2(bt * vec4(b->inletIcon().getCenter(), 0, 1));
+				
+				gl::drawLine(ap, bp);
 			}
 		}
-		_sequencesMutex.unlock();
-		gl::lineWidth(2.0f);
-		
-		_widgetsMutex.lock();
-		for(auto w : _widgets) {
-			w->draw();
-		}
-		_widgetsMutex.unlock();
 	}
+	_sequencesMutex.unlock();
+	gl::lineWidth(2.0f);
+
+	_widgetsMutex.lock();
+	for(auto w : _widgets) {
+		w->draw();
+	}
+	_widgetsMutex.unlock();
+	gl::popModelView();
 
 	// Let's draw the traces as they are being created
-	_tracesMutex.lock();
-	_groupsMutex.lock();
-	for(int i = 0; i < _groups.size(); i++) {
-		for(auto trace : _groups[i]) {
-			if(trace->isVisible) {
-				gl::color(1.0f, 1.0f, 1.0f, 0.25f);
-			} else {
-				float c = (trace->lifespan() / 10.0f) * 0.25f;
-				gl::color(1.0f, 1.0f, 1.0f, c);
-			}
-			if(trace->touchPoints.size() > 1) {
-				for(auto cursorIt = trace->touchPoints.begin(); cursorIt != prev(trace->touchPoints.end()); ++cursorIt) {
-					vec2 a = cursorIt->getPos();
-					vec2 b = next(cursorIt)->getPos();
-					gl::ScopedLineWidth slw(2.0f);
-					gl::drawLine(a, b);
-				}
-			}
-			if(trace->isVisible) {
-				gl::drawSolidCircle(trace->currentPosition(), 8.0f);
-				gl::drawSolidCircle(trace->currentPosition(), 50.0f);
-			} else {
-				gl::drawSolidCircle(trace->currentPosition(), 4.0f);
-			}
-		}
-	}
-	_groupsMutex.unlock();
-	_tracesMutex.unlock();
+//	gl::lineWidth(2.0f);
+//	_tracesMutex.lock();
+//	for(auto trace : _traces) {
+//		if(trace.second->isVisible) {
+//			gl::color(1.0f, 1.0f, 1.0f, 0.25f);
+//			gl::drawSolidCircle(trace.second->currentPosition(), 8.0f);
+//		} else {
+//			gl::color(1.0f, 1.0f, 1.0f, trace.second->lifespan()/40.0f);
+//		}
+//
+//		if(trace.second->touchPoints.size() > 1) {
+//			for(auto cursorIt = trace.second->touchPoints.begin(); cursorIt != prev(trace.second->touchPoints.end()); ++cursorIt) {
+//				gl::drawLine(cursorIt->getPos(), next(cursorIt)->getPos());
+//			}
+//		}
+//	}
+//	_tracesMutex.unlock();
 }
 
 void SecondStudy::TheApp::gestureEngine() {
@@ -228,10 +213,6 @@ void SecondStudy::TheApp::gestureProcessor() {
 					}
 					_widgetsMutex.unlock();
 				}
-				
-//				stringstream ss;
-//				ss << "TheApp::gestureProcessor TapGesture (x:" << tap->position().x << ", y:" << tap->position().y << ", widget_id:" << tap->widgetId() << ")";
-//				Logger::instance().log(ss.str());
 			}
 			
 			if(dynamic_pointer_cast<PinchGesture>(unknownGesture)) {
@@ -320,12 +301,6 @@ void SecondStudy::TheApp::gestureProcessor() {
 					tsIt->splice(twIt, *fsIt, fsIt->begin(), next(fwIt));
 				}
 				_sequencesMutex.unlock();
-				
-				if(doTheSplice) {
-//					stringstream ss;
-//					ss << "TheApp::gestureProcessor ConnectionGesture (from:" << connection->fromWid() << " to:" << connection->toWid() << ")";
-//					Logger::instance().log(ss.str());
-				}
 			}
 			
 			if(dynamic_pointer_cast<DisconnectionGesture>(unknownGesture)) {
@@ -348,12 +323,6 @@ void SecondStudy::TheApp::gestureProcessor() {
 					}
 				}();
 				_sequencesMutex.unlock();
-				
-				if(log) {
-//					stringstream ss;
-//					ss << "TheApp::gestureProcessor DisconnectionGesture (from:" << disc->fromWid() << " to:" << disc->toWid() << ")";
-//					Logger::instance().log(ss.str());
-				}
 			}
 			
 			if(dynamic_pointer_cast<LongTapGesture>(unknownGesture)) {
@@ -361,7 +330,7 @@ void SecondStudy::TheApp::gestureProcessor() {
 				if(!longtap->isOnWidget()) {
 					_widgetsMutex.lock();
 					vec2 p = longtap->position();
-					auto w = make_shared<MeasureWidget>(p, 5, 8);
+					auto w = make_shared<MeasureWidget>(p, 8, 8);
 					vec2 c = getWindowCenter();
 					float a = atan2(p.y-c.y, p.x-c.x);
 					w->angle(a - M_PI_2);
@@ -374,13 +343,7 @@ void SecondStudy::TheApp::gestureProcessor() {
 					_sequences.push_back(s);
 					_sequencesMutex.unlock();
 				}
-				
-//				stringstream ss;
-//				ss << "TheApp::gestureProcessor LongTapGesture (x:" << longtap->position().x << " y:" << longtap->position().y << " widget_id:" << longtap->widgetId() << ")";
-//				Logger::instance().log(ss.str());
 			}
-			
-			//console() << "unknownGesture.use_count() == " << unknownGesture.use_count() << endl;
 		}
 	}
 }
@@ -478,5 +441,6 @@ int SecondStudy::TheApp::findGroupForTrace(shared_ptr<TouchTrace> trace) {
 CINDER_APP( SecondStudy::TheApp, RendererGl(RendererGl::Options().msaa(0)),
 [](App::Settings *settings){
 	settings->setHighDensityDisplayEnabled(true);
-	settings->setFrameRate(FPS);
+//	settings->setFrameRate(FPS);
+	settings->disableFrameRate();
 });

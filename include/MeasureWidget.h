@@ -1,5 +1,6 @@
 #pragma once
 
+#include "cinder/gl/Texture.h"
 #include "Widget.h"
 #include "cinder/Timeline.h"
 
@@ -17,11 +18,20 @@ namespace SecondStudy {
 		Rectf _boundingBox;
 		
 		Rectf _playIcon;
+		ColorAf _playColorBg, _playColorFg;
+		ColorAf _stopColorBg, _stopColorFg;
+
 		Rectf _inletIcon;
+		ColorAf _inletColor;
+
 		Rectf _outletIcon;
+		ColorAf _outletColor;
 		
 		Rectf _cursor;
 		Anim<vec2> _cursorOffset;
+
+		gl::TextureRef _noteOnTex;
+		gl::TextureRef _noteOffTex;
 		
 		CueRef _cue;
 
