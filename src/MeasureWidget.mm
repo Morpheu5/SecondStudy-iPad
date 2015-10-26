@@ -101,6 +101,9 @@ _measureSize(pair<int, int>(columns, rows)) {
 	notes = vector<vector<bool>>(columns, vector<bool>(rows, false));
 	
 	isPlaying = false;
+
+	_noteBoxShader = gl::getStockShader(gl::ShaderDef().color());
+	_noteBoxBatch = gl::Batch::create(geom::Rect().rect(_noteBox).colors(ColorAf::white(), ColorAf::white(), ColorAf::white(), ColorAf::white()), _noteBoxShader);
 }
 
 void SecondStudy::MeasureWidget::draw() {
@@ -122,10 +125,10 @@ void SecondStudy::MeasureWidget::draw() {
 	gl::color(0.882f, 0.435f, 0.0f, 1.0f);
 	gl::drawSolidCircle(_outletIcon.getCenter(), _outletIcon.getWidth()/2.0f);
 
-	gl::color(0.25f, 0.25f, 0.25f);
+	gl::color(1,1,1,0.333f);
 	gl::drawSolidRect(_boundingBox);
 
-	gl::color(1,1,1);
+	gl::color(1,1,10.667f);
 	gl::lineWidth(2.0f);
 	unsigned long cols = notes.size();
 	unsigned long rows = notes[0].size();
@@ -136,7 +139,7 @@ void SecondStudy::MeasureWidget::draw() {
 			gl::ScopedModelMatrix boxScopedMatrix;
 			gl::multModelMatrix(boxt);
 			if(notes[col][row]) {
-				gl::draw(_noteOnTex);
+				_noteBoxBatch->draw();
 			}
 		}
 	}

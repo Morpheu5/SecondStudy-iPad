@@ -43,7 +43,7 @@ int SecondStudy::TouchTrace::lifespan() {
 }
 
 bool SecondStudy::TouchTrace::isDead() {
-	return _lifespan == 0;
+	return (_lifespan <= 0) && (state == State::TOUCH_UP);
 }
 
 void SecondStudy::TouchTrace::update() {

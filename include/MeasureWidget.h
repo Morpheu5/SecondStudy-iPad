@@ -16,6 +16,9 @@ namespace SecondStudy {
 	class MeasureWidget : public Widget {
 		Rectf _noteBox;
 		Rectf _boundingBox;
+
+		gl::GlslProgRef _noteBoxShader;
+		gl::BatchRef _noteBoxBatch;
 		
 		Rectf _playIcon;
 		ColorAf _playColorBg, _playColorFg;

@@ -30,8 +30,8 @@ using namespace ci::app;
 using namespace SecondStudy;
 
 void SecondStudy::TheApp::setup() {
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+//	glEnable(GL_BLEND);
+//	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	_gpContext = gl::Context::create(gl::Context::getCurrent());
 	
@@ -117,7 +117,6 @@ void SecondStudy::TheApp::update() {
 }
 
 void SecondStudy::TheApp::draw() {
-	console() << getAverageFps() << endl;
 	// clear out the window with black
 	gl::clear(Colorf(0.0f, 0.0f, 0.0f));
 
@@ -151,23 +150,26 @@ void SecondStudy::TheApp::draw() {
 	gl::popModelView();
 
 	// Let's draw the traces as they are being created
-//	gl::lineWidth(2.0f);
-//	_tracesMutex.lock();
-//	for(auto trace : _traces) {
-//		if(trace.second->isVisible) {
-//			gl::color(1.0f, 1.0f, 1.0f, 0.25f);
-//			gl::drawSolidCircle(trace.second->currentPosition(), 8.0f);
-//		} else {
-//			gl::color(1.0f, 1.0f, 1.0f, trace.second->lifespan()/40.0f);
-//		}
-//
-//		if(trace.second->touchPoints.size() > 1) {
-//			for(auto cursorIt = trace.second->touchPoints.begin(); cursorIt != prev(trace.second->touchPoints.end()); ++cursorIt) {
-//				gl::drawLine(cursorIt->getPos(), next(cursorIt)->getPos());
-//			}
-//		}
-//	}
-//	_tracesMutex.unlock();
+	gl::lineWidth(2.0f);
+	_tracesMutex.lock();
+	for(auto trace : _traces) {
+		if(trace.second->isVisible) {
+			gl::color(1.0f, 1.0f, 1.0f, 0.25f);
+			gl::drawSolidCircle(trace.second->currentPosition(), 8.0f);
+		} else {
+			gl::color(1.0f, 1.0f, 1.0f, trace.second->lifespan()/40.0f);
+		}
+
+		int n = min((size_t)10, trace.second->touchPoints.size());
+		if(trace.second->touchPoints.size() > 1) {
+			for(auto cursorIt = prev(trace.second->touchPoints.begin(), n);
+				cursorIt != prev(trace.second->touchPoints.end());
+				++cursorIt) {
+				gl::drawLine(cursorIt->getPos(), next(cursorIt)->getPos());
+			}
+		}
+	}
+	_tracesMutex.unlock();
 }
 
 void SecondStudy::TheApp::gestureEngine() {
@@ -334,9 +336,9 @@ void SecondStudy::TheApp::gestureProcessor() {
 					vec2 p = longtap->position();
 					_gpContext->makeCurrent();
 					auto w = make_shared<MeasureWidget>(p, 8, 8);
-					vec2 c = getWindowCenter();
-					float a = atan2(p.y-c.y, p.x-c.x);
-					w->angle(a - M_PI_2);
+//					vec2 c = getWindowCenter();
+//					float a = atan2(p.y-c.y, p.x-c.x);
+//					w->angle(a - M_PI_2);
 					_widgets.push_back(w);
 					_widgetsMutex.unlock();
 					
