@@ -15,44 +15,7 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
-SecondStudy::MeasureWidget::MeasureWidget() : Widget() {
-	_scale = 1.0f;
-	_position = vec2(0.0f, 0.0f);
-	_angle = 0.0f;
-    _measureSize = pair<int, int>(5, 8);
-	_noteBox = Rectf(0.0f, 0.0f, 30.0f, 30.0f);
-	_boundingBox = Rectf(0.0f, 0.0f, _noteBox.getWidth() * _measureSize.second, _noteBox.getHeight() * _measureSize.first);
-	_boundingBox -= _boundingBox.getSize() / 2.0f;
-	
-	_playIcon = Rectf(0.0f, 0.0f, _noteBox.getWidth()-10, _noteBox.getHeight()-10);
-	_playIcon += _boundingBox.getUpperLeft() - vec2(0.0f, _noteBox.getHeight());
-
-	_inletIcon = Rectf(0.0f, 0.0f, _noteBox.getWidth(), _noteBox.getHeight());
-	_inletIcon += vec2(-_inletIcon.getWidth()+10.0f, _boundingBox.getCenter().y);
-	
-	_outletIcon = Rectf(0.0f, 0.0f, _noteBox.getWidth(), _noteBox.getHeight());
-	_outletIcon += vec2(-_boundingBox.getWidth()-10.0f, _boundingBox.getCenter().y);
-	
-	_cursorOffset = vec2(0.0f, 0.0f);
-	_cursor = Rectf(vec2(0.0f, 0.0f), vec2(_noteBox.getWidth(), 10.0f));
-	_cursor += _boundingBox.getLowerLeft();
-	
-	// C major pentatonic
-	_midiNotes.push_back(81);
-	_midiNotes.push_back(79);
-	_midiNotes.push_back(76);
-	_midiNotes.push_back(74);
-	_midiNotes.push_back(72);
-	_midiNotes.push_back(69);
-	_midiNotes.push_back(67);
-	_midiNotes.push_back(64);
-	_midiNotes.push_back(62);
-	_midiNotes.push_back(60);
-
-	notes = vector<vector<bool>>(1, vector<bool>(1, false));
-	
-	isPlaying = false;
-}
+SecondStudy::MeasureWidget::MeasureWidget() : Widget() { }
 
 SecondStudy::MeasureWidget::MeasureWidget(vec2 center, int rows, int columns) : Widget(),
 _measureSize(pair<int, int>(columns, rows)) {
@@ -66,44 +29,63 @@ _measureSize(pair<int, int>(columns, rows)) {
 	
 	_playIcon = Rectf(0.0f, 0.0f, _noteBox.getWidth(), _noteBox.getHeight());
 	_playIcon += _boundingBox.getUpperLeft() - vec2(0.0f, _noteBox.getHeight() + 10.0f);
-	_playColorBg = ColorAf(ColorModel::CM_HSV, 90.0f/360.0f, 0.88f, 0.5f);
-	_playColorFg = ColorAf(ColorModel::CM_HSV, 90.0f/360.0f, 0.88f, 0.75f);
-	_stopColorBg = ColorAf(ColorModel::CM_HSV, 30.0f/360.0f, 0.88f, 0.5f);
-	_stopColorFg = ColorAf(ColorModel::CM_HSV, 30.0f/360.0f, 0.88f, 0.75f);
 
 	_inletIcon = Rectf(0.0f, 0.0f, _noteBox.getWidth(), _noteBox.getHeight());
 	_inletIcon += vec2(_boundingBox.getUpperLeft().x - _inletIcon.getWidth() + 10.0f, -_inletIcon.getWidth()/2.0f);
-	_inletColor = ColorAf(ColorModel::CM_HSV, 210.0f/360.0f, 0.88f, 1.0f);
 
 	_outletIcon = Rectf(0.0f, 0.0f, _noteBox.getWidth(), _noteBox.getHeight());
 	_outletIcon += vec2(_boundingBox.getUpperRight().x - 10.0f, -_outletIcon.getWidth()/2.0f);
-	_outletColor = ColorAf(ColorModel::CM_HSV, 30.0f/360.0f, 0.88f, 1.0f);
+
+	_clearIcon = Rectf(0.0f, 0.0f, _noteBox.getWidth(), _noteBox.getHeight());
+	_clearIcon += _boundingBox.getUpperRight() + vec2(-_noteBox.getWidth(), -_noteBox.getHeight() - 10.0f);
 
 	_cursorOffset = vec2(0.0f, 0.0f);
 	_cursor = Rectf(vec2(0.0f, 0.0f), vec2(_noteBox.getWidth(), 5.0f));
 	_cursor += _boundingBox.getLowerLeft();
 
-	_noteOnTex = gl::Texture::create(loadImage(loadAsset("note-on.png")));
-	_noteOffTex = gl::Texture::create(loadImage(loadAsset("note-off.png")));
-
-	// C major pentatonic
-	_midiNotes.push_back(81);
-	_midiNotes.push_back(79);
-	_midiNotes.push_back(76);
-	_midiNotes.push_back(74);
-	_midiNotes.push_back(72);
-	_midiNotes.push_back(69);
-	_midiNotes.push_back(67);
-	_midiNotes.push_back(64);
-	_midiNotes.push_back(62);
+	// C major diatonic
+	// CAREFUL: DO NOT push more than necessary
 	_midiNotes.push_back(60);
-	
-	notes = vector<vector<bool>>(columns, vector<bool>(rows, false));
-	
+	_midiNotes.push_back(62);
+	_midiNotes.push_back(64);
+	_midiNotes.push_back(65);
+	_midiNotes.push_back(67);
+	_midiNotes.push_back(69);
+	_midiNotes.push_back(71);
+	_midiNotes.push_back(72);
+	reverse(_midiNotes.begin(), _midiNotes.end());
+
+	notes = vector<int>((size_t)columns, -1);
+
 	isPlaying = false;
 
-	_noteBoxShader = gl::getStockShader(gl::ShaderDef().color());
-	_noteBoxBatch = gl::Batch::create(geom::Rect().rect(_noteBox).colors(ColorAf::white(), ColorAf::white(), ColorAf::white(), ColorAf::white()), _noteBoxShader);
+	_noteBoxBatch = gl::Batch::create(geom::Rect()
+									  .colors(ColorAf::white(), ColorAf::white(), ColorAf::white(), ColorAf::white()),
+									  gl::getStockShader(gl::ShaderDef().color()));
+
+	_boardBatch = gl::Batch::create(geom::Rect()
+									.colors(ColorAf(1.0f, 1.0f, 1.0f, 0.333f), ColorAf(1.0f, 1.0f, 1.0f, 0.333f), ColorAf(1.0f, 1.0f, 1.0f, 0.333f), ColorAf(1.0f, 1.0f, 1.0f, 0.333f)),
+									gl::getStockShader(gl::ShaderDef().color()));
+
+	_circleBatch = gl::Batch::create(geom::Circle().subdivisions(24), gl::getStockShader(gl::ShaderDef().color()));
+
+	_cursorBatch = gl::Batch::create(geom::Rect().rect(Rectf(0.0f, 0.0f, 30.0f, 5.0f))
+									 .colors(ColorAf(1.0f, 1.0f, 1.0f, 0.5f), ColorAf(1.0f, 1.0f, 1.0f, 0.5f), ColorAf(1.0f, 1.0f, 1.0f, 0.5f), ColorAf(1.0f, 1.0f, 1.0f, 0.5f)),
+									 gl::getStockShader(gl::ShaderDef().color()));
+
+	_playIconBatch = gl::Batch::create(geom::Rect().rect(_playIcon)
+									   .texCoords(vec2(0.0f, 0.0f), vec2(1.0f, 0.0f), vec2(1.0f, 1.0f), vec2(0.0f, 1.0f))
+									   .colors(ColorAf::white(), ColorAf::white(), ColorAf::white(), ColorAf::white()),
+									   gl::getStockShader(gl::ShaderDef().color().texture()));
+	_clearIconBatch = gl::Batch::create(geom::Rect().rect(_clearIcon)
+										.texCoords(vec2(0.0f, 0.0f), vec2(1.0f, 0.0f), vec2(1.0f, 1.0f), vec2(0.0f, 1.0f))
+										.colors(ColorAf::white(), ColorAf::white(), ColorAf::white(), ColorAf::white()),
+										gl::getStockShader(gl::ShaderDef().color().texture()));
+	gl::Texture::Format f;
+	f.loadTopDown();
+	_playIconTex = gl::Texture::create(loadImage(loadAsset("play-icon.png")), f);
+	_stopIconTex = gl::Texture::create(loadImage(loadAsset("stop-icon.png")), f);
+	_clearIconTex = gl::Texture::create(loadImage(loadAsset("clear-icon.png")), f);
 }
 
 void SecondStudy::MeasureWidget::draw() {
@@ -114,53 +96,68 @@ void SecondStudy::MeasureWidget::draw() {
 	// play bg: 0.329f, 0.659f, 0.0f, 1.0f
 	// play fg: 0.435f, 0.882f, 0.0f, 1.0f
 
-	gl::pushModelView();
+	gl::ScopedModelMatrix giantMM;
 
 	mat4 transform = translate(vec3(_position, 0)) * rotate(_angle, vec3(0,0,1));
 	gl::multModelMatrix(transform);
 
-	gl::color(0.118f, 0.565f, 1.0f, 1.0f);
-	gl::drawSolidCircle(_inletIcon.getCenter(), _inletIcon.getWidth()/2.0f);
+	{	// INLET ICON
+		gl::ScopedColor color(ColorAf(0.118f, 0.565f, 1.0f, 1.0f));
+		gl::ScopedModelMatrix scopedMM;
+		mat4 t = translate(vec3(_inletIcon.getCenter(), 0.0f)) * glm::scale(vec3(_inletIcon.getSize()/2.0f, 1.0f));
+		gl::multModelMatrix(t);
+		_circleBatch->draw();
+	}
 
-	gl::color(0.882f, 0.435f, 0.0f, 1.0f);
-	gl::drawSolidCircle(_outletIcon.getCenter(), _outletIcon.getWidth()/2.0f);
+	{	// OUTLET ICON
+		gl::ScopedColor color(ColorAf(0.882f, 0.435f, 0.0f, 1.0f));
+		gl::ScopedModelMatrix scopedMM;
+		mat4 t = translate(vec3(_outletIcon.getCenter(), 0.0f)) * glm::scale(vec3(_outletIcon.getSize()/2.0f, 1.0f));
+		gl::multModelMatrix(t);
+		_circleBatch->draw();
+	}
 
-	gl::color(1,1,1,0.333f);
-	gl::drawSolidRect(_boundingBox);
+	{	// BACKGROUND BOX
+		gl::ScopedModelMatrix scopedMM;
+		mat4 t = glm::scale(vec3(_boundingBox.getSize(), 1.0f));
+		gl::multModelMatrix(t);
+		_boardBatch->draw();
+	}
 
-	gl::color(1,1,10.667f);
-	gl::lineWidth(2.0f);
-	unsigned long cols = notes.size();
-	unsigned long rows = notes[0].size();
-	vec2 origin = _boundingBox.getUpperLeft();
-	for(unsigned long col = 0; col < cols; col++) {
-		for(unsigned long row = 0; row < rows; row++) {
-			mat4 boxt = translate(vec3(origin, 0.0f)) * translate(vec3(col*30.0f, row*30.0f, 0.0f));
+	// NOTES
+	vec2 origin = _boundingBox.getUpperLeft() + vec2(15.0f, 15.0f);
+	vec3 noteScale = vec3(30.0f, 30.0f, 1.0f);
+	for(size_t i = 0; i < notes.size(); i++) {
+		if(notes[i] >= 0) {
+			mat4 boxt = translate(vec3(origin.x + i*30.0f, origin.y + notes[i]*30.0f, 0.0f)) * glm::scale(noteScale);
 			gl::ScopedModelMatrix boxScopedMatrix;
 			gl::multModelMatrix(boxt);
-			if(notes[col][row]) {
-				_noteBoxBatch->draw();
-			}
+			_noteBoxBatch->draw();
 		}
 	}
 
+	// PLAY/STOP ICON
 	if(isPlaying) {
-		gl::color(0.659f, 0.329f, 0.0f, 1.0f);
-		gl::drawSolidRect(_playIcon);
-		gl::color(0.882f, 0.435f, 0.0f, 1.0f);
-		gl::drawSolidRect(Rectf(_playIcon.getUpperLeft() + vec2(7.5f, 7.5f), _playIcon.getLowerRight() - vec2(7.5f, 7.5f)));
+		gl::ScopedTextureBind tex(_stopIconTex);
+		_playIconBatch->draw();
 	} else {
-		gl::color(0.329f, 0.659f, 0.0f, 1.0f);
-		gl::drawSolidRect(_playIcon);
-		gl::color(0.435f, 0.882f, 0.0f, 1.0f);
-		gl::drawSolidTriangle(_playIcon.getUpperLeft() + vec2(10.0f, 7.5f), _playIcon.getLowerLeft() + vec2(10.0f, -7.5f), _playIcon.getCenter() + vec2(10.0f, 0.0f));
+		gl::ScopedTextureBind tex(_playIconTex);
+		_playIconBatch->draw();
 	}
 
-	gl::color(1.0f, 1.0f, 1.0f, 0.5f);
-	gl::drawSolidRect(_cursor + _cursorOffset);
+	{	// CLEAR ICON
+		gl::ScopedTextureBind sTex(_clearIconTex);
+		_clearIconBatch->draw();
+	}
 
-	gl::popModelView();
-	gl::color(1,1,1);
+	{	// PLAYHEAD
+		gl::ScopedModelMatrix cursorMM;
+		mat4 t = translate(vec3(_boundingBox.getLowerLeft() + _cursorOffset.value(), 0.0f));// * glm::scale(vec3(, 1.0f));
+		gl::multModelMatrix(t);
+		_cursorBatch->draw();
+	}
+
+	gl::color(Color::white());
 }
 
 bool SecondStudy::MeasureWidget::hit(vec2 p) {
@@ -170,7 +167,8 @@ bool SecondStudy::MeasureWidget::hit(vec2 p) {
 	return (_boundingBox * _scale).contains(tp)
 			|| (_playIcon * _scale).contains(tp)
 			|| (_inletIcon * _scale).contains(tp)
-			|| (_outletIcon * _scale).contains(tp);
+			|| (_outletIcon * _scale).contains(tp)
+			|| (_clearIcon * _scale).contains(tp);
 }
 
 bool SecondStudy::MeasureWidget::hitInlet(vec2 p) {
@@ -194,6 +192,10 @@ void SecondStudy::MeasureWidget::tap(vec2 p) {
 			stop();
 		} else {
 			play();
+		}
+	} else if((_clearIcon * _scale).contains(tp)) {
+		for(size_t i = 0; i < notes.size(); i++) {
+			notes[i] = -1;
 		}
 	}
 }
@@ -228,19 +230,18 @@ void SecondStudy::MeasureWidget::stop() {
 
 void SecondStudy::MeasureWidget::playNote(int n) {
 	TheApp *theApp = (TheApp *)App::get();
-	
-	for(int i = 0; i < notes[n].size(); i++) {
-		if(notes[n][i]) {
-			for(int i = 0; i < _midiNotes.size(); i++) {
-				[theApp->sampler stopPlayingNote:_midiNotes[i]];
-			}
-			[theApp->sampler startPlayingNote:_midiNotes[i] withVelocity:1];
-//			osc::Message m;
-//			m.setAddress("/playnote");
-//			m.addIntArg(_midiNotes[i]);
-//			theApp->sender()->sendMessage(m);
-		}
+
+	for(int i : _midiNotes) {
+		[theApp->sampler stopPlayingNote:i];
 	}
+	if(notes[n] >= 0) {
+		[theApp->sampler startPlayingNote:_midiNotes[notes[n]] withVelocity:0.5];
+	}
+
+//	osc::Message m;
+//	m.setAddress("/playnote");
+//	m.addIntArg(_midiNotes[i]);
+//	theApp->sender()->sendMessage(m);
 }
 
 void SecondStudy::MeasureWidget::finishedPlaying() {
@@ -262,14 +263,13 @@ void SecondStudy::MeasureWidget::rotateBy(float a) {
 }
 
 void SecondStudy::MeasureWidget::toggle(pair<int, int> note) {
-	if(note.first >= 0 && note.first < notes.size() && note.second >= 0 && note.second < notes[0].size()) {
-		if(notes[note.first][note.second]) {
-			notes[note.first][note.second] = false;
+	if(note.first >= 0 && note.first < notes.size()) {
+		if(notes[note.first] == -1) {
+			notes[note.first] = note.second;
+		} else if(notes[note.first] == note.second) {
+			notes[note.first] = -1;
 		} else {
-			for(auto a : notes[note.first]) {
-				a = false;
-			}
-			notes[note.first][note.second] = true;
+			notes[note.first] = note.second;
 		}
 	}
 }
@@ -282,7 +282,7 @@ void SecondStudy::MeasureWidget::processStroke(const TouchTrace trace) {
 		if((_boundingBox * _scale).contains(tp)) {
 			tp += _boundingBox.getLowerRight();
 			tp /= _boundingBox.getSize();
-			tp *= vec2(notes.size(), notes[0].size());
+			tp *= vec2(notes.size(), _midiNotes.size());// notes[0].size());
 			ivec2 n = ivec2(tp);
 			noteSet.insert(pair<int, int>(n.x, n.y));
 		}

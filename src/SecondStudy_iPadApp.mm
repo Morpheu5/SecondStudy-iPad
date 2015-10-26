@@ -30,8 +30,8 @@ using namespace ci::app;
 using namespace SecondStudy;
 
 void SecondStudy::TheApp::setup() {
-//	glEnable(GL_BLEND);
-//	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	_gpContext = gl::Context::create(gl::Context::getCurrent());
 	
@@ -443,7 +443,7 @@ int SecondStudy::TheApp::findGroupForTrace(shared_ptr<TouchTrace> trace) {
 	return -1;
 }
 
-CINDER_APP( SecondStudy::TheApp, RendererGl(RendererGl::Options().msaa(0)),
+CINDER_APP( SecondStudy::TheApp, RendererGl(RendererGl::Options().msaa(2)),
 [](App::Settings *settings){
 	settings->setHighDensityDisplayEnabled(true);
 //	settings->setFrameRate(FPS);

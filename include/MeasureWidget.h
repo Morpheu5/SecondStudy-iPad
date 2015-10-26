@@ -17,25 +17,27 @@ namespace SecondStudy {
 		Rectf _noteBox;
 		Rectf _boundingBox;
 
-		gl::GlslProgRef _noteBoxShader;
 		gl::BatchRef _noteBoxBatch;
-		
+		gl::BatchRef _boardBatch;
+		gl::BatchRef _circleBatch;
+		gl::BatchRef _cursorBatch;
+
+		gl::BatchRef _playIconBatch;
+		gl::BatchRef _clearIconBatch;
+
+		gl::TextureRef _playIconTex;
+		gl::TextureRef _stopIconTex;
+		gl::TextureRef _clearIconTex;
+
 		Rectf _playIcon;
-		ColorAf _playColorBg, _playColorFg;
-		ColorAf _stopColorBg, _stopColorFg;
-
 		Rectf _inletIcon;
-		ColorAf _inletColor;
-
 		Rectf _outletIcon;
-		ColorAf _outletColor;
-		
+		Rectf _clearIcon;
+		Rectf _trashIcon;
+
 		Rectf _cursor;
 		Anim<vec2> _cursorOffset;
 
-		gl::TextureRef _noteOnTex;
-		gl::TextureRef _noteOffTex;
-		
 		CueRef _cue;
 
         pair<int, int> _measureSize;
@@ -46,7 +48,7 @@ namespace SecondStudy {
 		void finishedPlaying();
 
 	public:
-		vector<vector<bool>> notes;
+		vector<int> notes;
 		mutex notesMutex;
 		
 		bool isPlaying;
