@@ -83,8 +83,8 @@ _measureSize(pair<int, int>(columns, rows)) {
 	_cursor = Rectf(vec2(0.0f, 0.0f), vec2(_noteBox.getWidth(), 5.0f));
 	_cursor += _boundingBox.getLowerLeft();
 
-//	_noteOnTex = gl::Texture::create(loadImage(loadAsset("note-on.png")));
-//	_noteOffTex = gl::Texture::create(loadImage(loadAsset("note-off.png")));
+	_noteOnTex = gl::Texture::create(loadImage(loadAsset("note-on.png")));
+	_noteOffTex = gl::Texture::create(loadImage(loadAsset("note-off.png")));
 
 	// C major pentatonic
 	_midiNotes.push_back(81);
@@ -136,7 +136,7 @@ void SecondStudy::MeasureWidget::draw() {
 			gl::ScopedModelMatrix boxScopedMatrix;
 			gl::multModelMatrix(boxt);
 			if(notes[col][row]) {
-				gl::drawSolidRect(_noteBox);
+				gl::draw(_noteOnTex);
 			}
 		}
 	}

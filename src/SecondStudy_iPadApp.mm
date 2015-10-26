@@ -32,6 +32,8 @@ using namespace SecondStudy;
 void SecondStudy::TheApp::setup() {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	_gpContext = gl::Context::create(gl::Context::getCurrent());
 	
 	NSURL *presetUrl = [[NSBundle mainBundle] URLForResource:@"assets/Vibraphone" withExtension:@"aupreset"];
 	sampler = [[EPSSampler alloc] initWithPresetURL:presetUrl];
@@ -330,6 +332,7 @@ void SecondStudy::TheApp::gestureProcessor() {
 				if(!longtap->isOnWidget()) {
 					_widgetsMutex.lock();
 					vec2 p = longtap->position();
+					_gpContext->makeCurrent();
 					auto w = make_shared<MeasureWidget>(p, 8, 8);
 					vec2 c = getWindowCenter();
 					float a = atan2(p.y-c.y, p.x-c.x);

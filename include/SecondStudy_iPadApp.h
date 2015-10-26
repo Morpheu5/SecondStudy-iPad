@@ -60,6 +60,8 @@ namespace SecondStudy {
 		
 		bool _go;
 
+		gl::ContextRef _gpContext;
+
 	public:
 		void setup();
 		void shutdown();
