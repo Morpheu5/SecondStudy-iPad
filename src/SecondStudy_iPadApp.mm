@@ -153,15 +153,15 @@ void SecondStudy::TheApp::draw() {
 	gl::lineWidth(2.0f);
 	_tracesMutex.lock();
 	for(auto trace : _traces) {
-		if(trace.second->isVisible) {
-			gl::color(1.0f, 1.0f, 1.0f, 0.25f);
-			gl::drawSolidCircle(trace.second->currentPosition(), 8.0f);
-		} else {
-			gl::color(1.0f, 1.0f, 1.0f, trace.second->lifespan()/40.0f);
-		}
-
-		int n = min((size_t)10, trace.second->touchPoints.size());
-		if(trace.second->touchPoints.size() > 1) {
+//		if(trace.second->isVisible) {
+//			gl::color(1.0f, 1.0f, 1.0f, 0.25f);
+////			gl::drawSolidCircle(trace.second->currentPosition(), 8.0f);
+//		} else {
+//			gl::color(1.0f, 1.0f, 1.0f, trace.second->lifespan()/40.0f);
+//		}
+		gl::color(ColorAf(1,1,1,0.25f));
+		size_t n = min((size_t)10, trace.second->touchPoints.size());
+		if(n > 1) {
 			for(auto cursorIt = prev(trace.second->touchPoints.begin(), n);
 				cursorIt != prev(trace.second->touchPoints.end());
 				++cursorIt) {
@@ -336,9 +336,6 @@ void SecondStudy::TheApp::gestureProcessor() {
 					vec2 p = longtap->position();
 					_gpContext->makeCurrent();
 					auto w = make_shared<MeasureWidget>(p, 8, 8);
-//					vec2 c = getWindowCenter();
-//					float a = atan2(p.y-c.y, p.x-c.x);
-//					w->angle(a - M_PI_2);
 					_widgets.push_back(w);
 					_widgetsMutex.unlock();
 					

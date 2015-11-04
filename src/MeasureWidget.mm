@@ -19,7 +19,20 @@ SecondStudy::MeasureWidget::MeasureWidget() : Widget() { }
 
 SecondStudy::MeasureWidget::MeasureWidget(vec2 center, int rows, int columns) : Widget(),
 _measureSize(pair<int, int>(columns, rows)) {
-	
+	// C major diatonic
+	// CAREFUL: DO NOT push more than necessary
+	_midiNotes.push_back(60);
+	_midiNotes.push_back(62);
+	_midiNotes.push_back(64);
+	_midiNotes.push_back(65);
+	_midiNotes.push_back(67);
+	_midiNotes.push_back(69);
+	_midiNotes.push_back(71);
+	_midiNotes.push_back(72);
+	reverse(_midiNotes.begin(), _midiNotes.end());
+
+	notes = vector<int>((size_t)columns, -1);
+
     _scale = 1.0f;
 	_angle = 0.0f;
 	_position = center;
@@ -42,20 +55,6 @@ _measureSize(pair<int, int>(columns, rows)) {
 	_cursorOffset = vec2(0.0f, 0.0f);
 	_cursor = Rectf(vec2(0.0f, 0.0f), vec2(_noteBox.getWidth(), 5.0f));
 	_cursor += _boundingBox.getLowerLeft();
-
-	// C major diatonic
-	// CAREFUL: DO NOT push more than necessary
-	_midiNotes.push_back(60);
-	_midiNotes.push_back(62);
-	_midiNotes.push_back(64);
-	_midiNotes.push_back(65);
-	_midiNotes.push_back(67);
-	_midiNotes.push_back(69);
-	_midiNotes.push_back(71);
-	_midiNotes.push_back(72);
-	reverse(_midiNotes.begin(), _midiNotes.end());
-
-	notes = vector<int>((size_t)columns, -1);
 
 	isPlaying = false;
 
@@ -89,13 +88,6 @@ _measureSize(pair<int, int>(columns, rows)) {
 }
 
 void SecondStudy::MeasureWidget::draw() {
-	// inlet:   0.118f, 0.565f, 1.0f, 1.0f
-	// outlet:  0.882f, 0.435f, 0.0f, 1.0f
-	// stop bg: 0.659f, 0.329f, 0.0f, 1.0f
-	// stop fg: 0.882f, 0.435f, 0.0f, 1.0f
-	// play bg: 0.329f, 0.659f, 0.0f, 1.0f
-	// play fg: 0.435f, 0.882f, 0.0f, 1.0f
-
 	gl::ScopedModelMatrix giantMM;
 
 	mat4 transform = translate(vec3(_position, 0)) * rotate(_angle, vec3(0,0,1));
@@ -152,7 +144,7 @@ void SecondStudy::MeasureWidget::draw() {
 
 	{	// PLAYHEAD
 		gl::ScopedModelMatrix cursorMM;
-		mat4 t = translate(vec3(_boundingBox.getLowerLeft() + _cursorOffset.value(), 0.0f));// * glm::scale(vec3(, 1.0f));
+		mat4 t = translate(vec3(_boundingBox.getLowerLeft() + _cursorOffset.value(), 0.0f));
 		gl::multModelMatrix(t);
 		_cursorBatch->draw();
 	}
