@@ -50,6 +50,10 @@ namespace SecondStudy {
 		
 		list<list<shared_ptr<MeasureWidget>>> _sequences;
 		mutex _sequencesMutex;
+		
+		list<unsigned long> _measuresToRemove;
+		
+		void removeMeasures();
 		/* ^^^^^^^^^^^^^^^^^^^^^^^^^^^ */
 		
 		thread _gestureEngine;
@@ -74,6 +78,7 @@ namespace SecondStudy {
 		void gestureProcessor();
 		
 		void measureHasFinishedPlaying(unsigned long);
+		void measureWantsToDisappear(unsigned long);
 		
 		virtual void touchesBegan( TouchEvent event);
 		virtual void touchesMoved( TouchEvent event);

@@ -25,16 +25,18 @@ namespace SecondStudy {
 		gl::BatchRef _cursorBatch;
 
 		gl::BatchRef _playIconBatch;
-		gl::BatchRef _clearIconBatch;
+		gl::BatchRef _closeIconBatch;
+		gl::BatchRef _trashIconBatch;
 
 		gl::TextureRef _playIconTex;
 		gl::TextureRef _stopIconTex;
-		gl::TextureRef _clearIconTex;
+		gl::TextureRef _closeIconTex;
+		gl::TextureRef _trashIconTex;
 
 		Rectf _playIcon;
 		Rectf _inletIcon;
 		Rectf _outletIcon;
-		Rectf _clearIcon;
+		Rectf _closeIcon;
 		Rectf _trashIcon;
 
 		Rectf _cursor;

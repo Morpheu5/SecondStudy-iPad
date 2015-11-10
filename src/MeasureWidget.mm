@@ -41,7 +41,7 @@ _measureSize(pair<int, int>(columns, rows)) {
 	_boundingBox -= _boundingBox.getSize() / 2.0f;
 	
 	_playIcon = Rectf(0.0f, 0.0f, _noteBox.getWidth(), _noteBox.getHeight());
-	_playIcon += _boundingBox.getUpperLeft() - vec2(0.0f, _noteBox.getHeight() + 10.0f);
+	_playIcon += _boundingBox.getUpperLeft() - vec2(0.0f, _noteBox.getHeight() + 1.0f);
 
 	_inletIcon = Rectf(0.0f, 0.0f, _noteBox.getWidth(), _noteBox.getHeight());
 	_inletIcon += vec2(_boundingBox.getUpperLeft().x - _inletIcon.getWidth() + 10.0f, -_inletIcon.getWidth()/2.0f);
@@ -49,8 +49,11 @@ _measureSize(pair<int, int>(columns, rows)) {
 	_outletIcon = Rectf(0.0f, 0.0f, _noteBox.getWidth(), _noteBox.getHeight());
 	_outletIcon += vec2(_boundingBox.getUpperRight().x - 10.0f, -_outletIcon.getWidth()/2.0f);
 
-	_clearIcon = Rectf(0.0f, 0.0f, _noteBox.getWidth(), _noteBox.getHeight());
-	_clearIcon += _boundingBox.getUpperRight() + vec2(-_noteBox.getWidth(), -_noteBox.getHeight() - 10.0f);
+	_closeIcon = Rectf(0.0f, 0.0f, _noteBox.getWidth(), _noteBox.getHeight());
+	_closeIcon += _boundingBox.getUpperRight() + vec2(-_noteBox.getWidth(), -_noteBox.getHeight() - 1.0f);
+
+	_trashIcon = Rectf(0.0f, 0.0f, _noteBox.getWidth(), _noteBox.getHeight());
+	_trashIcon += _closeIcon.getUpperLeft() + vec2(-_noteBox.getWidth(), 0.0f);
 
 	_cursorOffset = vec2(0.0f, 0.0f);
 	_cursor = Rectf(vec2(0.0f, 0.0f), vec2(_noteBox.getWidth(), 5.0f));
@@ -76,7 +79,7 @@ _measureSize(pair<int, int>(columns, rows)) {
 		lines.vertex(vec2(x * _noteBox.getWidth(), 0.0f) + offset);
 	}
 	for(int y = 0; y < 9; ++y) {
-		lines.color(ColorAf(1, 1, 1, 0.75));
+		lines.color(ColorAf(1, 1, 1, 0.667));
 		lines.vertex(vec2(-2.0f * offset.x, y * _noteBox.getHeight()) + offset);
 		lines.vertex(vec2(0.0f, y * _noteBox.getWidth()) + offset);
 	}
@@ -92,7 +95,11 @@ _measureSize(pair<int, int>(columns, rows)) {
 									   .texCoords(vec2(0.0f, 0.0f), vec2(1.0f, 0.0f), vec2(1.0f, 1.0f), vec2(0.0f, 1.0f))
 									   .colors(ColorAf::white(), ColorAf::white(), ColorAf::white(), ColorAf::white()),
 									   gl::getStockShader(gl::ShaderDef().color().texture()));
-	_clearIconBatch = gl::Batch::create(geom::Rect().rect(_clearIcon)
+	_closeIconBatch = gl::Batch::create(geom::Rect().rect(_closeIcon)
+										.texCoords(vec2(0.0f, 0.0f), vec2(1.0f, 0.0f), vec2(1.0f, 1.0f), vec2(0.0f, 1.0f))
+										.colors(ColorAf::white(), ColorAf::white(), ColorAf::white(), ColorAf::white()),
+										gl::getStockShader(gl::ShaderDef().color().texture()));
+	_trashIconBatch = gl::Batch::create(geom::Rect().rect(_trashIcon)
 										.texCoords(vec2(0.0f, 0.0f), vec2(1.0f, 0.0f), vec2(1.0f, 1.0f), vec2(0.0f, 1.0f))
 										.colors(ColorAf::white(), ColorAf::white(), ColorAf::white(), ColorAf::white()),
 										gl::getStockShader(gl::ShaderDef().color().texture()));
@@ -100,7 +107,8 @@ _measureSize(pair<int, int>(columns, rows)) {
 	f.loadTopDown();
 	_playIconTex = gl::Texture::create(loadImage(loadAsset("play-icon.png")), f);
 	_stopIconTex = gl::Texture::create(loadImage(loadAsset("stop-icon.png")), f);
-	_clearIconTex = gl::Texture::create(loadImage(loadAsset("clear-icon.png")), f);
+	_closeIconTex = gl::Texture::create(loadImage(loadAsset("clear-icon.png")), f);
+	_trashIconTex = gl::Texture::create(loadImage(loadAsset("trash-icon.png")), f);
 }
 
 void SecondStudy::MeasureWidget::draw() {
@@ -125,15 +133,6 @@ void SecondStudy::MeasureWidget::draw() {
 		_circleBatch->draw();
 	}
 
-	{	// BACKGROUND BOX
-//		_boardShader->uniform("gridSize", vec2(8.0f, 8.0f));
-		_boardBatch->draw();
-	}
-	
-	{
-		_gridlinesBatch->draw();
-	}
-
 	// NOTES
 	vec2 origin = _boundingBox.getUpperLeft() + vec2(15.0f, 15.0f);
 	for(size_t i = 0; i < notes.size(); i++) {
@@ -154,16 +153,30 @@ void SecondStudy::MeasureWidget::draw() {
 		_playIconBatch->draw();
 	}
 
-	{	// CLEAR ICON
-		gl::ScopedTextureBind sTex(_clearIconTex);
-		_clearIconBatch->draw();
+	{	// CLOSE ICON
+		gl::ScopedTextureBind sTex(_closeIconTex);
+		_closeIconBatch->draw();
+	}
+	
+	{	// TRASH ICON
+		gl::ScopedTextureBind sTex(_trashIconTex);
+		_trashIconBatch->draw();
 	}
 
-	{	// PLAYHEAD
+	// PLAYHEAD
+	if(isPlaying) {
 		gl::ScopedModelMatrix cursorMM;
 		mat4 t = translate(vec3(_boundingBox.getLowerLeft() + _cursorOffset.value(), 0.0f));
 		gl::multModelMatrix(t);
 		_cursorBatch->draw();
+	}
+	
+	{	// BACKGROUND BOX
+		_boardBatch->draw();
+	}
+	
+	{
+		_gridlinesBatch->draw();
 	}
 
 	gl::color(Color::white());
@@ -177,7 +190,8 @@ bool SecondStudy::MeasureWidget::hit(vec2 p) {
 			|| (_playIcon * _scale).contains(tp)
 			|| (_inletIcon * _scale).contains(tp)
 			|| (_outletIcon * _scale).contains(tp)
-			|| (_clearIcon * _scale).contains(tp);
+			|| (_closeIcon * _scale).contains(tp)
+			|| (_trashIcon * _scale).contains(tp);
 }
 
 bool SecondStudy::MeasureWidget::hitInlet(vec2 p) {
@@ -202,7 +216,10 @@ void SecondStudy::MeasureWidget::tap(vec2 p) {
 		} else {
 			play();
 		}
-	} else if((_clearIcon * _scale).contains(tp)) {
+	} else if((_closeIcon * _scale).contains(tp)) {
+		TheApp *theApp = (TheApp *)App::get();
+		theApp->measureWantsToDisappear(_id);
+	} else if((_trashIcon * _scale).contains(tp)) {
 		for(size_t i = 0; i < notes.size(); i++) {
 			notes[i] = -1;
 		}
@@ -246,11 +263,6 @@ void SecondStudy::MeasureWidget::playNote(int n) {
 	if(notes[n] >= 0) {
 		[theApp->sampler startPlayingNote:_midiNotes[notes[n]] withVelocity:0.5];
 	}
-
-//	osc::Message m;
-//	m.setAddress("/playnote");
-//	m.addIntArg(_midiNotes[i]);
-//	theApp->sender()->sendMessage(m);
 }
 
 void SecondStudy::MeasureWidget::finishedPlaying() {
@@ -264,7 +276,7 @@ void SecondStudy::MeasureWidget::moveBy(vec2 v) {
 }
 
 void SecondStudy::MeasureWidget::zoomBy(float s) {
-    // _scale += s;
+//     _scale += s;
 }
 
 void SecondStudy::MeasureWidget::rotateBy(float a) {

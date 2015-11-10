@@ -74,6 +74,8 @@ void SecondStudy::TheApp::shutdown() {
 }
 
 void SecondStudy::TheApp::update() {
+	removeMeasures();
+	
 	_sequencesMutex.lock();
 	_sequences.remove_if( [](list<shared_ptr<MeasureWidget>> l) {
 		return l.empty();
@@ -359,6 +361,38 @@ void SecondStudy::TheApp::measureHasFinishedPlaying(unsigned long id) {
 			}
 		}
 	}
+	_sequencesMutex.unlock();
+}
+
+void SecondStudy::TheApp::measureWantsToDisappear(unsigned long id) {
+	_measuresToRemove.push_back(id);
+}
+
+void SecondStudy::TheApp::removeMeasures() {
+	_sequencesMutex.lock();
+	_widgetsMutex.lock();
+	for(auto id : _measuresToRemove) {
+		for(auto sit = _sequences.begin(); sit != _sequences.end(); ++sit) {
+			for(auto wit = sit->begin(); wit != sit->end(); ) {
+				if((*wit)->id() == id) {
+					if((*wit)->isPlaying) {
+						(*wit)->stop();
+					}
+					wit = sit->erase(wit);
+				} else {
+					++wit;
+				}
+			}
+		}
+		for(auto wit = _widgets.begin(); wit != _widgets.end(); ) {
+			if((*wit)->id() == id) {
+				wit = _widgets.erase(wit);
+			} else {
+				++wit;
+			}
+		}
+	}
+	_widgetsMutex.unlock();
 	_sequencesMutex.unlock();
 }
 
