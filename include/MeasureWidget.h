@@ -19,6 +19,8 @@ namespace SecondStudy {
 
 		gl::BatchRef _noteBoxBatch;
 		gl::BatchRef _boardBatch;
+		gl::GlslProgRef _boardShader;
+		gl::BatchRef _gridlinesBatch;
 		gl::BatchRef _circleBatch;
 		gl::BatchRef _cursorBatch;
 

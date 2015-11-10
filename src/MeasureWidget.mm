@@ -58,15 +58,31 @@ _measureSize(pair<int, int>(columns, rows)) {
 
 	isPlaying = false;
 
-	_noteBoxBatch = gl::Batch::create(geom::Rect()
+	_noteBoxBatch = gl::Batch::create(geom::Rect().rect(_noteBox - _noteBox.getSize()/2.0f)
 									  .colors(ColorAf::white(), ColorAf::white(), ColorAf::white(), ColorAf::white()),
 									  gl::getStockShader(gl::ShaderDef().color()));
 
-	_boardBatch = gl::Batch::create(geom::Rect()
+	_boardShader = gl::GlslProg::create(gl::GlslProg::Format().vertex(loadAsset("passthrough.vert")).fragment(loadAsset("grid.frag")));
+	
+	_boardBatch = gl::Batch::create(geom::Rect().rect(_boundingBox)
 									.colors(ColorAf(1.0f, 1.0f, 1.0f, 0.333f), ColorAf(1.0f, 1.0f, 1.0f, 0.333f), ColorAf(1.0f, 1.0f, 1.0f, 0.333f), ColorAf(1.0f, 1.0f, 1.0f, 0.333f)),
-									gl::getStockShader(gl::ShaderDef().color()));
+									_boardShader);
+	
+	gl::VertBatch lines(GL_LINES);
+	vec2 offset = _boundingBox.getUpperLeft();
+	for(int x = 0; x < 9; ++x) {
+		lines.color(ColorAf(1, 1, 1, 0.75));
+		lines.vertex(vec2(x * _noteBox.getWidth(), -2.0f * offset.y) + offset);
+		lines.vertex(vec2(x * _noteBox.getWidth(), 0.0f) + offset);
+	}
+	for(int y = 0; y < 9; ++y) {
+		lines.color(ColorAf(1, 1, 1, 0.75));
+		lines.vertex(vec2(-2.0f * offset.x, y * _noteBox.getHeight()) + offset);
+		lines.vertex(vec2(0.0f, y * _noteBox.getWidth()) + offset);
+	}
+	_gridlinesBatch = gl::Batch::create(lines, gl::getStockShader(gl::ShaderDef().color()));
 
-	_circleBatch = gl::Batch::create(geom::Circle().subdivisions(24), gl::getStockShader(gl::ShaderDef().color()));
+	_circleBatch = gl::Batch::create(geom::Circle().subdivisions(24).radius(_inletIcon.getWidth()/2.0f), gl::getStockShader(gl::ShaderDef().color()));
 
 	_cursorBatch = gl::Batch::create(geom::Rect().rect(Rectf(0.0f, 0.0f, 30.0f, 5.0f))
 									 .colors(ColorAf(1.0f, 1.0f, 1.0f, 0.5f), ColorAf(1.0f, 1.0f, 1.0f, 0.5f), ColorAf(1.0f, 1.0f, 1.0f, 0.5f), ColorAf(1.0f, 1.0f, 1.0f, 0.5f)),
@@ -90,13 +106,13 @@ _measureSize(pair<int, int>(columns, rows)) {
 void SecondStudy::MeasureWidget::draw() {
 	gl::ScopedModelMatrix giantMM;
 
-	mat4 transform = translate(vec3(_position, 0)) * rotate(_angle, vec3(0,0,1));
+	mat4 transform = translate(vec3(_position, 0)) * rotate(_angle, vec3(0.f, 0.f , 1.f));
 	gl::multModelMatrix(transform);
 
 	{	// INLET ICON
 		gl::ScopedColor color(ColorAf(0.118f, 0.565f, 1.0f, 1.0f));
 		gl::ScopedModelMatrix scopedMM;
-		mat4 t = translate(vec3(_inletIcon.getCenter(), 0.0f)) * glm::scale(vec3(_inletIcon.getSize()/2.0f, 1.0f));
+		mat4 t = translate(vec3(_inletIcon.getCenter(), 0.0f));
 		gl::multModelMatrix(t);
 		_circleBatch->draw();
 	}
@@ -104,24 +120,25 @@ void SecondStudy::MeasureWidget::draw() {
 	{	// OUTLET ICON
 		gl::ScopedColor color(ColorAf(0.882f, 0.435f, 0.0f, 1.0f));
 		gl::ScopedModelMatrix scopedMM;
-		mat4 t = translate(vec3(_outletIcon.getCenter(), 0.0f)) * glm::scale(vec3(_outletIcon.getSize()/2.0f, 1.0f));
+		mat4 t = translate(vec3(_outletIcon.getCenter(), 0.0f));
 		gl::multModelMatrix(t);
 		_circleBatch->draw();
 	}
 
 	{	// BACKGROUND BOX
-		gl::ScopedModelMatrix scopedMM;
-		mat4 t = glm::scale(vec3(_boundingBox.getSize(), 1.0f));
-		gl::multModelMatrix(t);
+//		_boardShader->uniform("gridSize", vec2(8.0f, 8.0f));
 		_boardBatch->draw();
+	}
+	
+	{
+		_gridlinesBatch->draw();
 	}
 
 	// NOTES
 	vec2 origin = _boundingBox.getUpperLeft() + vec2(15.0f, 15.0f);
-	vec3 noteScale = vec3(30.0f, 30.0f, 1.0f);
 	for(size_t i = 0; i < notes.size(); i++) {
 		if(notes[i] >= 0) {
-			mat4 boxt = translate(vec3(origin.x + i*30.0f, origin.y + notes[i]*30.0f, 0.0f)) * glm::scale(noteScale);
+			mat4 boxt = translate(vec3(origin.x + i*30.0f, origin.y + notes[i]*30.0f, 0.0f));
 			gl::ScopedModelMatrix boxScopedMatrix;
 			gl::multModelMatrix(boxt);
 			_noteBoxBatch->draw();

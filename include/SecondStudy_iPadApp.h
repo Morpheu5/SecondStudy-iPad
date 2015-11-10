@@ -61,6 +61,8 @@ namespace SecondStudy {
 		bool _go;
 
 		gl::ContextRef _gpContext;
+		
+		gl::BatchRef _lineBatch;
 
 	public:
 		void setup();

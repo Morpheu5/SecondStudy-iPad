@@ -153,21 +153,19 @@ void SecondStudy::TheApp::draw() {
 	gl::lineWidth(2.0f);
 	_tracesMutex.lock();
 	for(auto trace : _traces) {
-//		if(trace.second->isVisible) {
-//			gl::color(1.0f, 1.0f, 1.0f, 0.25f);
-////			gl::drawSolidCircle(trace.second->currentPosition(), 8.0f);
-//		} else {
-//			gl::color(1.0f, 1.0f, 1.0f, trace.second->lifespan()/40.0f);
-//		}
-		gl::color(ColorAf(1,1,1,0.25f));
+		gl::color(ColorAf(1,1,1,1));
 		size_t n = min((size_t)10, trace.second->touchPoints.size());
+		
+		gl::VertBatch vl(GL_LINE_STRIP);
 		if(n > 1) {
 			for(auto cursorIt = prev(trace.second->touchPoints.begin(), n);
 				cursorIt != prev(trace.second->touchPoints.end());
 				++cursorIt) {
-				gl::drawLine(cursorIt->getPos(), next(cursorIt)->getPos());
+				vl.vertex(vec4(cursorIt->getPos(), 0, 1), ColorAf(1,1,1,0.25f));
 			}
 		}
+		auto lineBatch = gl::Batch::create(vl, gl::getStockShader(gl::ShaderDef().color()));
+		lineBatch->draw();
 	}
 	_tracesMutex.unlock();
 }
